@@ -13,7 +13,7 @@ QUESTIONS = [
     },
     {
         "text": "How is the role of each player determined?",
-        "options": ["A) Players choose their roles", "B) Roles are assigned based on age", "C) Roles are randomly assigned", "D) Roles are based on previous round performance"],
+        "options": ["A) Players choose their roles", "B) Roles are assigned based on performance", "C) Roles are randomly assigned", "D) Roles are based on previous round performance"],
         "correct_answer": "C) Roles are randomly assigned",
         "explanation": "Each player is randomly assigned as either Player 1 or Player 2 at the beginning of the game."
     },
@@ -37,7 +37,7 @@ QUESTIONS = [
     },
     {
         "text": "What happens if the sum of the amounts proposed by both players does not equal the total pie size?",
-        "options": ["A) The offer is automatically accepted", "B) The offer is automatically rejected", "C) The players are penalized", "D) The game continues until a valid offer is made"],
+        "options": ["A) The offer is automatically accepted", "B) The offer is automatically rejected", "C) The players are penalized", "D) The offer is not sent and a new offer can be proposed"],
         "correct_answer": "D) The game continues until a valid offer is made",
         "explanation": "Offers where the combined total does not equal the total pie size are considered invalid, and players must make a valid offer."
     },

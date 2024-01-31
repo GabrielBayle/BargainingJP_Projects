@@ -495,7 +495,7 @@ class PDDecisionPage(Page):
     def is_displayed(player: Player):
         group = player.group
         return ((player.session.config.get('treatment') == C.TEST and player.round_number == 2) or
-            player.session.config.get('treatment') == C.PD) and (group.is_stopped or player.timeout_occurred)
+            player.session.config.get('treatment') == C.PD) and (player.stopped_by_player_id != 0 or player.timeout_occurred)
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -515,7 +515,7 @@ class PDWaitForGroup(WaitPage):
     def is_displayed(player: Player):
         group = player.group
         return ((player.session.config.get('treatment') == C.TEST and player.round_number == 2) or
-            player.session.config.get('treatment') == C.PD) and (group.is_stopped or player.timeout_occurred)
+            player.session.config.get('treatment') == C.PD) and (player.stopped_by_player_id != 0 or player.timeout_occurred)
 
     @staticmethod
     def after_all_players_arrive(group: Group):
@@ -567,7 +567,7 @@ class PDResultsPage(Page):
     def is_displayed(player: Player):
         group = player.group
         return ((player.session.config.get('treatment') == C.TEST and player.round_number == 2) or
-            player.session.config.get('treatment') == C.PD) and (group.is_stopped or player.timeout_occurred)
+            player.session.config.get('treatment') == C.PD) and (player.stopped_by_player_id != 0 or player.timeout_occurred)
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -590,7 +590,7 @@ class SHDecisionPage(Page):
     def is_displayed(player: Player):
         group = player.group
         return ((player.session.config.get('treatment') == C.TEST and player.round_number == 3) or
-            player.session.config.get('treatment') == C.SH) and (group.is_stopped or player.timeout_occurred)
+            player.session.config.get('treatment') == C.SH) and (player.stopped_by_player_id != 0 or player.timeout_occurred)
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -609,7 +609,7 @@ class SHWaitForGroup(WaitPage):
     def is_displayed(player: Player):
         group = player.group
         return ((player.session.config.get('treatment') == C.TEST and player.round_number == 3) or
-            player.session.config.get('treatment') == C.SH) and (group.is_stopped or player.timeout_occurred)
+            player.session.config.get('treatment') == C.SH) and (player.stopped_by_player_id != 0 or player.timeout_occurred)
 
     @staticmethod
     def after_all_players_arrive(group: Group):
@@ -661,7 +661,7 @@ class SHResultsPage(Page):
     def is_displayed(player: Player):
         group = player.group
         return ((player.session.config.get('treatment') == C.TEST and player.round_number == 3) or
-            player.session.config.get('treatment') == C.SH) and (group.is_stopped or player.timeout_occurred)
+            player.session.config.get('treatment') == C.SH) and (player.stopped_by_player_id != 0 or player.timeout_occurred)
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -685,7 +685,7 @@ class UGPropositionPage(Page):
         return (player.role == C.PLAYER2_ROLE and \
                 ((player.session.config.get('treatment') == C.TEST and player.round_number == 4) or
                  player.session.config.get('treatment') == C.UG) and \
-                (group.is_stopped or player.timeout_occurred))
+                (player.stopped_by_player_id != 0 or player.timeout_occurred))
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -702,7 +702,7 @@ class UGPropositionWaitPage(WaitPage):
         return (player.role == C.PLAYER1_ROLE and \
                 ((player.session.config.get('treatment') == C.TEST and player.round_number == 4) or
                  player.session.config.get('treatment') == C.UG) and \
-                (group.is_stopped or player.timeout_occurred))
+                (player.stopped_by_player_id != 0 or player.timeout_occurred))
 
 class UGResponsePage(Page):
     form_model = 'player'
@@ -714,7 +714,7 @@ class UGResponsePage(Page):
         return (player.role == C.PLAYER1_ROLE and \
                 ((player.session.config.get('treatment') == C.TEST and player.round_number == 4) or
                  player.session.config.get('treatment') == C.UG) and \
-                (group.is_stopped or player.timeout_occurred))
+                (player.stopped_by_player_id != 0 or player.timeout_occurred))
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -733,7 +733,7 @@ class UGResponseWaitPage(WaitPage):
         return (player.role == C.PLAYER2_ROLE and \
                 ((player.session.config.get('treatment') == C.TEST and player.round_number == 4) or
                  player.session.config.get('treatment') == C.UG) and \
-                (group.is_stopped or player.timeout_occurred))
+                (player.stopped_by_player_id != 0 or player.timeout_occurred))
 
 class UGWaitForGroup(WaitPage):
     @staticmethod
@@ -741,7 +741,7 @@ class UGWaitForGroup(WaitPage):
         group = player.group
         return ((player.session.config.get('treatment') == C.TEST and player.round_number == 4) or
                  player.session.config.get('treatment') == C.UG) and \
-                (group.is_stopped or player.timeout_occurred)
+                (player.stopped_by_player_id != 0 or player.timeout_occurred)
 
     @staticmethod
     def after_all_players_arrive(group: Group):
@@ -789,7 +789,7 @@ class UGResultsPage(Page):
         group = player.group
         return ((player.session.config.get('treatment') == C.TEST and player.round_number == 4) or
                  player.session.config.get('treatment') == C.UG) and \
-                (group.is_stopped or player.timeout_occurred)
+                (player.stopped_by_player_id != 0 or player.timeout_occurred)
 
     @staticmethod
     def vars_for_template(player: Player):

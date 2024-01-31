@@ -212,12 +212,12 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td class="col-player">Player 1</td>
-                    <td><input type="number" id="my_offer_player1" class="input-field"  class="col-input"></td>
+                    <td class="col-player" {% if player.role == "Player 1" %}style="color: #007bff;"{% endif %}>Player 1</td>
+                    <td><input type="number" id="my_offer_player1" class="input-field"></td>
                     <td id="my-proposal1">(no offer)</td>
                 </tr>
                 <tr>
-                    <td class="col-player">Player 2</td>
+                    <td class="col-player" {% if player.role == "Player 2" %}style="color: #007bff;"{% endif %}>Player 2</td>
                     <td><input type="number" id="my_offer_player2" class="input-field"></td>
                     <td id="my-proposal2">(no offer)</td>
                 </tr>
@@ -243,11 +243,11 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td>Player 1</td>
+                        <td {% if player.role == "Player 1" %}style="color: #007bff;"{% endif %}>Player 1</td>
                         <td id="other-proposal1">(no offer)</td>
                     </tr>
                     <tr>
-                        <td>Player 2</td>
+                        <td {% if player.role == "Player 2" %}style="color: #007bff;"{% endif %}>Player 2</td>
                         <td id="other-proposal2">(no offer)</td>
                     </tr>
                     <tr>
