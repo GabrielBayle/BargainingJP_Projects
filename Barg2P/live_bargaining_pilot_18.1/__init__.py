@@ -1,7 +1,6 @@
 from otree.api import *
 from datetime import datetime
 import random
-from .understanding_questions import QUESTIONS
 
 
 doc = """
@@ -94,30 +93,6 @@ class Player(BasePlayer):
     participation_fee = models.CurrencyField()
     decision_making_feedback = models.LongStringField(blank=True)
     experiment_feedback = models.LongStringField(blank=True)
-
-    # UNDERSTANDING
-
-    understanding_1 = models.StringField(label=QUESTIONS[0]['text'], choices=QUESTIONS[0]['options'])
-    understanding_2 = models.StringField(label=QUESTIONS[1]['text'], choices=QUESTIONS[1]['options'])
-    understanding_3 = models.StringField(label=QUESTIONS[2]['text'], choices=QUESTIONS[2]['options'])
-    understanding_4 = models.StringField(label=QUESTIONS[3]['text'], choices=QUESTIONS[3]['options'])
-    understanding_5 = models.StringField(label=QUESTIONS[4]['text'], choices=QUESTIONS[4]['options'])
-    understanding_6 = models.StringField(label=QUESTIONS[5]['text'], choices=QUESTIONS[5]['options'])
-    understanding_7 = models.StringField(label=QUESTIONS[6]['text'], choices=QUESTIONS[6]['options'])
-    understanding_8 = models.StringField(label=QUESTIONS[7]['text'], choices=QUESTIONS[7]['options'])
-    understanding_faults = models.IntegerField(initial=0)
-
-    def calculate_faults(self):
-        self.understanding_faults = 0
-        correct_answers = [QUESTIONS[0]['correct_answer'], QUESTIONS[1]['correct_answer'],
-                           QUESTIONS[2]['correct_answer'], QUESTIONS[3]['correct_answer'],
-                           QUESTIONS[4]['correct_answer'], QUESTIONS[5]['correct_answer'],
-                           QUESTIONS[6]['correct_answer'], QUESTIONS[7]['correct_answer']]
-        responses = [self.understanding_1, self.understanding_2, self.understanding_3, self.understanding_4,
-                     self.understanding_5, self.understanding_6, self.understanding_7, self.understanding_8]
-        for response, correct_answer in zip(responses, correct_answers):
-            if response != correct_answer:
-                self.understanding_faults += 1
 
     # PRISONER DILEMMA
 
@@ -373,49 +348,6 @@ class InstructionsWaitMonitor(Page):
     @staticmethod
     def is_displayed(player: Player):
         return player.round_number == 1 and player.session.config.get("instructions_relues", True)
-
-class UnderstandingTestPage(Page):
-    form_model = 'player'
-    form_fields = ['understanding_1', 'understanding_2', 'understanding_3',
-                   'understanding_4', 'understanding_5', 'understanding_6',
-                   'understanding_7', 'understanding_8']
-
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.round_number == 1 and player.session.config.get("instructions_relues", True)
-
-    @staticmethod
-    def before_next_page(player, timeout_happened):
-        # Calculate faults before moving to the next page
-        player.calculate_faults()
-
-class UnderstandingReviewPage(Page):
-    @staticmethod
-    def vars_for_template(player: Player):
-        # Prepare data for template
-        questions = QUESTIONS
-        answers = [
-            player.understanding_1, player.understanding_2, player.understanding_3,
-            player.understanding_4, player.understanding_5, player.understanding_6,
-            player.understanding_7, player.understanding_8
-        ]
-        results = []
-        for i, q in enumerate(questions):
-            result = {
-                'question': q['text'],
-                'selected': answers[i],
-                'correct': q['correct_answer'],
-                'explanation': q['explanation'],
-                'is_correct': answers[i] == q['correct_answer']
-            }
-            results.append(result)
-
-        return {'results': results}
-
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.round_number == 1 and player.session.config.get("instructions_relues", True)
-
 
 class InstructionsWaitForAll(WaitPage):
     wait_for_all_groups = True
@@ -844,7 +776,7 @@ class UGResultsPage(Page):
 
 
 
-page_sequence = [Introduction, Instructions, UnderstandingTestPage, UnderstandingReviewPage, InstructionsWaitMonitor, InstructionsWaitForAll,
+page_sequence = [Introduction, Instructions, InstructionsWaitMonitor, InstructionsWaitForAll,
                  Bargain2, BLWaitForGroup, Results, WaitForGroup,
                  PDDecisionPage, PDWaitForGroup, PDResultsPage, WaitForGroup,
                  SHDecisionPage, SHWaitForGroup, SHResultsPage, WaitForGroup,

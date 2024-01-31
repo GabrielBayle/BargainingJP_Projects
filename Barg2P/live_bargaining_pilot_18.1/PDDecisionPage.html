@@ -1,0 +1,133 @@
+{{ block content }}
+
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: Arial, sans-serif;
+    }
+
+    .instructions {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    .decision-table {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .clickable-cell {
+        cursor: pointer;
+        background-color: #f0f0f0;
+    }
+
+    .clickable-cell:hover {
+        background-color: #e0e0e0;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+
+    th {
+        background-color: #e0e0e0;
+    }
+
+    .bg-info {
+        background-color: #d0f0c0;
+    }
+
+    button {
+        background-color: #6495ED;
+        color: black;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 4px;
+        margin-top: 10px;
+    }
+</style>
+
+    <div class="instructions">
+        <h2>Instructions for Prisoner's dilemma (Round {{ subsession.round_number }} on {{ C.NUM_ROUNDS }})</h2>
+        <p>
+            In this game, you and your partner from the bargaining game must independently decide whether to play choice
+            1 or choice 2.
+            Your payoff depends on both your decision and the other player's decision. Here are the possible outcomes:
+        </p>
+        <ul>
+            <li>If both players play Choice 1, each earns {{ coop_coop_payoff }} ECU.</li>
+            <li>If one plays Choice 1 and the other Choice 2, the player choosing Choice 2 earns
+                {{ defect_coop_payoff_p1 }} ECU, and the player choosing Choice 1 earns {{ defect_coop_payoff_p2 }}
+                ECU.</li>
+            <li>If both players play Choice 2, Player 1 earns {{ defect_defect_payoff_p1 }} ECU, and Player 2 earns
+                {{ defect_defect_payoff_p2 }} ECU.</li>
+        </ul>
+        <p>Select your decision by clicking on 'Choice 1' or 'Choice 2' in the table below:</p>
+    </div>
+    <div class="decision-table">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Other Cooperates</th>
+                <th>Other Defects</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td onclick="set_decision(true)" class="clickable-cell">Cooperate</td>
+                <td><strong>{{ coop_coop_payoff }}</strong>, {{ coop_coop_payoff }}</td>
+                <td><strong>{{ coop_defect_payoff_p1 }}</strong>, {{ coop_defect_payoff_p2 }}</td>
+            </tr>
+            <tr>
+                <td onclick="set_decision(false)" class="clickable-cell">Defect</td>
+                <td><strong>{{ defect_coop_payoff_p1 }}</strong>, {{ defect_coop_payoff_p2 }}</td>
+                {% if player_id == 1 %}
+                    <td><strong>{{ defect_defect_payoff_p1 }}</strong>, {{ defect_defect_payoff_p2 }}</td>
+                {% else %}
+                    <td><strong>{{ defect_defect_payoff_p2 }}</strong>, {{ defect_defect_payoff_p1 }}</td>
+                {% endif %}
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+{{ next_button }}
+
+<input type="hidden" name="PD_decision" id="PD_decision" value="">
+
+{{ block scripts }}
+<script>
+    const btn_next = document.querySelector(".otree-btn-next");
+    const tdec = document.querySelector("table tbody");
+
+    function set_decision(decision) {
+        document.querySelector("input[name=PD_decision]").value = decision;
+        let rows = tdec.rows;
+        for (let i = 0; i < rows.length; i++) {
+            if ((decision && i === 0) || (!decision && i === 1)) {
+                rows[i].classList.add("bg-info");
+            } else {
+                rows[i].classList.remove("bg-info");
+            }
+        }
+        btn_next.disabled = false;
+    }
+
+    window.onload = function () {
+        btn_next.disabled = true;
+    }
+</script>
+{{ endblock }}
+
+{{ endblock }}
