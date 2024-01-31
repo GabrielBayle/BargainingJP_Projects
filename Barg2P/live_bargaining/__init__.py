@@ -198,7 +198,6 @@ class Player(BasePlayer):
 class Bargain2(Page):
 
     def get(self):
-        # Record the current time when the page is accessed
         self.player.bargain_start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         return super().get()
 
@@ -282,7 +281,6 @@ class Bargain2(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        """Skip this page if a deal has already been made"""
         group = player.group
         share_price = group.field_maybe_none('share_price')
         return share_price is None
@@ -291,18 +289,15 @@ class Bargain2(Page):
     def before_next_page(player: Player, timeout_happened):
         if timeout_happened:
             group = player.group
-            # If timeout occurred, set the timeout_occurred field to True
             player.timeout_occurred = True
 
-            # Assign default shares if the timer runs out
-            default_share_player1 = C.DISAGREEMENT_PAYOFF_P1  # Example value
+            default_share_player1 = C.DISAGREEMENT_PAYOFF_P1
             default_share_player2 = C.DISAGREEMENT_PAYOFF_P2
             player.amount_accepted_player1 = default_share_player1
             player.amount_accepted_player2 = default_share_player2
             player.set_accepted_shares(default_share_player1, default_share_player2)
             group.share_price = default_share_player1 + default_share_player2
         else:
-            # If timeout did not occur, ensure timeout_occurred is False
             player.timeout_occurred = False
         player.bargain_end_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -315,22 +310,18 @@ class BLWaitForGroup(WaitPage):
     def set_payoffs_bargain(group: Group):
         player1, player2 = group.get_players()
 
-        # If an agreement is reached
         if group.is_finished:
             player1.payoff = int(player1.player1_share)
             player2.payoff = int(player2.player2_share)
         else:
-            # If no agreement is reached, use disagreement payoffs
             player1.payoff = C.DISAGREEMENT_PAYOFF_P1
             player2.payoff = C.DISAGREEMENT_PAYOFF_P2
 
-        # Update accepted shares and ensure they are integers
         player1.player1_share = int(player1.payoff)
         player1.player2_share = int(player2.payoff)
         player2.player1_share = int(player1.payoff)
         player2.player2_share = int(player2.payoff)
 
-        # Update accepted shares string representation
         player1.set_accepted_shares(player1.player1_share, player1.player2_share)
         player2.set_accepted_shares(player2.player1_share, player2.player2_share)
 
@@ -338,12 +329,10 @@ class BLWaitForGroup(WaitPage):
 class Results(Page):
     @staticmethod
     def vars_for_template(player: Player):
-        # Parse the accepted_shares string
         if player.accepted_shares:
             accepted_shares = eval(player.accepted_shares)
             player1_share, player2_share = accepted_shares[0], accepted_shares[1]
         else:
-            # Default values in case accepted_shares is empty
             player1_share, player2_share = 0, 0
 
         return {
@@ -386,13 +375,11 @@ class UnderstandingTestPage(Page):
 
     @staticmethod
     def before_next_page(player, timeout_happened):
-        # Calculate faults before moving to the next page
         player.calculate_faults()
 
 class UnderstandingReviewPage(Page):
     @staticmethod
     def vars_for_template(player: Player):
-        # Prepare data for template
         questions = QUESTIONS
         answers = [
             player.understanding_1, player.understanding_2, player.understanding_3,
@@ -427,18 +414,14 @@ class WaitForGroup(WaitPage):
     def after_all_players_arrive(subsession: Subsession):
         players = subsession.get_players()
 
-        # Separate players by role
         player1s = [p for p in players if p.role == C.PLAYER1_ROLE]
         player2s = [p for p in players if p.role == C.PLAYER2_ROLE]
 
-        # Shuffle each list
         random.shuffle(player1s)
         random.shuffle(player2s)
 
-        # Pair players with different roles
         pairs = list(zip(player1s, player2s))
 
-        # Update group membership
         subsession.set_group_matrix(pairs)
 
 
@@ -458,17 +441,13 @@ class FinalResultsPage(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
-        # Randomly select a round to be paid
         player.paid_round = random.randint(1, C.NUM_ROUNDS)
 
-        # Find the corresponding payoff
         selected_round_player = player.in_round(player.paid_round)
         player.main_task_payoff = int(selected_round_player.payoff)
 
-        # Calculate the converted payoff
         player.converted_payoff = int(player.main_task_payoff * C.CONVERSION_RATE)
 
-        # Add the participant fee (assuming it's a constant or from session config)
         participation_fee = player.session.config.get('participation_fee', 0)
         player.total_payoff = player.converted_payoff + participation_fee
 
@@ -565,17 +544,14 @@ class PDWaitForGroup(WaitPage):
     def set_shares_pd(group: Group):
         player1, player2 = group.get_players()
 
-        # Set amount_accepted to 0 for both players
         player1.amount_accepted_player1 = 0
         player1.amount_accepted_player2 = 0
         player2.amount_accepted_player1 = 0
         player2.amount_accepted_player2 = 0
 
-        # Set accepted_shares to [0, 0] for both players
         player1.accepted_shares = str([0, 0])
         player2.accepted_shares = str([0, 0])
 
-        # Convert payoffs to int and set player1_share and player2_share based on payoffs
         player1_payoff_as_int = int(player1.payoff)
         player2_payoff_as_int = int(player2.payoff)
 
@@ -584,7 +560,6 @@ class PDWaitForGroup(WaitPage):
         player1.player2_share = player2_payoff_as_int
         player2.player2_share = player1_payoff_as_int
 
-        # Set group.share_price as the sum of player shares
         group.share_price = player1.player1_share + player1.player2_share
 
 class PDResultsPage(Page):
@@ -663,17 +638,14 @@ class SHWaitForGroup(WaitPage):
     def set_shares_sh(group: Group):
         player1, player2 = group.get_players()
 
-        # Set amount_accepted to 0 for both players
         player1.amount_accepted_player1 = 0
         player1.amount_accepted_player2 = 0
         player2.amount_accepted_player1 = 0
         player2.amount_accepted_player2 = 0
 
-        # Set accepted_shares to [0, 0] for both players
         player1.accepted_shares = str([0, 0])
         player2.accepted_shares = str([0, 0])
 
-        # Convert payoffs to int and set player1_share and player2_share based on payoffs
         player1_payoff_as_int = int(player1.payoff)
         player2_payoff_as_int = int(player2.payoff)
 
@@ -682,7 +654,6 @@ class SHWaitForGroup(WaitPage):
         player1.player2_share = player2_payoff_as_int
         player2.player2_share = player1_payoff_as_int
 
-        # Set group.share_price as the sum of player shares
         group.share_price = player1.player1_share + player1.player2_share
 
 class SHResultsPage(Page):
@@ -779,15 +750,13 @@ class UGWaitForGroup(WaitPage):
 
     @staticmethod
     def set_payoffs_ug(group: Group):
-        player1 = group.get_player_by_id(1)  # Responder
-        player2 = group.get_player_by_id(2)  # Proposer
+        player1 = group.get_player_by_id(1)
+        player2 = group.get_player_by_id(2)
 
-        # If the responder accepts the offer
         if player1.UG_responder_decision:
-            player1.payoff = player2.UG_proposer_decision  # Amount offered to Player 1
-            player2.payoff = C.PIE_SIZE - player2.UG_proposer_decision  # Remaining amount
+            player1.payoff = player2.UG_proposer_decision
+            player2.payoff = C.PIE_SIZE - player2.UG_proposer_decision
         else:
-            # If the offer is rejected, both players receive disagreement payoffs
             player1.payoff = C.DISAGREEMENT_PAYOFF_P1
             player2.payoff = C.DISAGREEMENT_PAYOFF_P2
 
@@ -795,17 +764,14 @@ class UGWaitForGroup(WaitPage):
     def set_shares_ug(group: Group):
         player1, player2 = group.get_players()
 
-        # Set amount_accepted to 0 for both players
         player1.amount_accepted_player1 = 0
         player1.amount_accepted_player2 = 0
         player2.amount_accepted_player1 = 0
         player2.amount_accepted_player2 = 0
 
-        # Set accepted_shares to [0, 0] for both players
         player1.accepted_shares = str([0, 0])
         player2.accepted_shares = str([0, 0])
 
-        # Convert payoffs to int and set player1_share and player2_share based on payoffs
         player1_payoff_as_int = int(player1.payoff)
         player2_payoff_as_int = int(player2.payoff)
 
@@ -814,7 +780,6 @@ class UGWaitForGroup(WaitPage):
         player1.player2_share = player2_payoff_as_int
         player2.player2_share = player1_payoff_as_int
 
-        # Set group.share_price as the sum of player shares
         group.share_price = player1.player1_share + player1.player2_share
 
 class UGResultsPage(Page):
