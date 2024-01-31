@@ -37,11 +37,10 @@ REAL_WORLD_CURRENCY_CODE = 'JPY'
 USE_POINTS = False
 
 ADMIN_USERNAME = 'admin'
-# for security, best to set admin password in an environment variable
 #ADMIN_PASSWORD = environ.get('OTREE_ADMIN_PASSWORD')
-ADMIN_PASSWORD = 'klapp1275'
+ADMIN_PASSWORD = 'zqsdexpceem2024'
 AUTH_LEVEL = environ.get('OTREE_AUTH_LEVEL')
-DEBUG =False # to get rid of debug!
+DEBUG =False
 
 
 DEMO_PAGE_INTRO_HTML = """ """
@@ -53,18 +52,6 @@ SECRET_KEY = '4387860144726'
 # if an app is included in SESSION_CONFIGS, you don't need to list it here
 INSTALLED_APPS = ['otree']
 
-PARTICIPANT_FIELDS = [
-    'booking_time',
-    'cards',
-    'order',
-    'reaction_times',
-    'read_mind_in_eyes_score',
-    'responses',
-    'stimuli',
-    'svo_angle',
-    'svo_category',
-]
+PARTICIPANT_FIELDS = []
 
-SESSION_FIELDS = [
-     'finished_p1_list', 'iowa_costs', 'wisconsin', 'intergenerational_history'
-    ]
+SESSION_FIELDS = []
