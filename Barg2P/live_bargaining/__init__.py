@@ -58,7 +58,7 @@ class C(BaseConstants):
     both_hare_payoff_p1 = DISAGREEMENT_PAYOFF_P1
     both_hare_payoff_p2 = DISAGREEMENT_PAYOFF_P2
 
-    #### STAG HUNT
+    #### ULTIMATUM
     reject_payoff_p1 = DISAGREEMENT_PAYOFF_P1
     reject_payoff_p2 = DISAGREEMENT_PAYOFF_P2
 
@@ -626,9 +626,9 @@ class SHWaitForGroup(WaitPage):
             player2.payoff = C.both_stag_payoff
         elif player1.SH_decision and not player2.SH_decision:
             player1.payoff = C.stag_hare_payoff
-            player2.payoff = C.hare_stag_payoff_p1
+            player2.payoff = C.hare_stag_payoff_p2
         elif not player1.SH_decision and player2.SH_decision:
-            player1.payoff = C.hare_stag_payoff_p2
+            player1.payoff = C.hare_stag_payoff_p1
             player2.payoff = C.stag_hare_payoff
         else:
             player1.payoff = C.both_hare_payoff_p1
