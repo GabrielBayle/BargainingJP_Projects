@@ -1,0 +1,32 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+<style>
+.otree-btn-next {
+                 text-align: right;
+                }
+
+</style>
+
+
+
+<div class="card bg-light ">
+
+       <div class="card-header">
+         <h4><center>
+ <b style="color: gray"> Practice Rounds </b> — The next {{practice_num_rounds}} rounds are for practice purposes only
+         </center></h4>
+           <center>
+               <span style="color:red">Remember</span>: Your <b style="color:gray">Practice Rounds</b> will not count towards your compensation
+           </center>
+       </div></div>
+<br><p></p>
+    {% next_button %}
+
+
+{% endblock %}

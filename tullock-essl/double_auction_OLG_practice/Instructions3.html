@@ -1,0 +1,282 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+   <b style="color:grey"> Summary of Instructions: Trading</b>
+{% endblock %}
+
+{% block app_styles %}
+<style type="text/css">
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slidecontainer2 {
+  width: 100%;
+}
+
+.slider2 {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider2:hover {
+  opacity: 1;
+}
+
+.slider2::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider2::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.center {
+border: 5px solid #FFFF00;
+text-align: center;
+}
+
+.display {
+    border: 10px solid red;
+}
+
+.important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+th {
+    border: 1px solid black;
+    font-size: 10pt;
+    width: 200px;
+    text-align: center;
+    font-weight:bold;
+    background-color: lightgray;
+    }
+
+td {
+    font-size: 10pt;
+    border: 1px solid black;
+    text-align: center;
+    }
+
+table {
+    table-layout: fixed;
+    width: 200px;
+    }
+
+.history td {
+    font-size: 16pt;
+    }
+
+.history th {
+    font-size: 12pt;
+    width: 100px;
+    text-align: center;
+    }
+.frac {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    letter-spacing: 0.001em;
+    text-align: center;
+}
+.frac > span {
+    display: block;
+    padding: 0.1em;
+}
+.frac span.bottom {
+    border-top: thin solid black;
+}
+.frac span.symbol {
+    display: none;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+
+    <p>  </p>
+    <li> Trading will take place trough a <b>double auction market</b> (figure below): </b>
+      <br><br>
+      
+      {{ if info_acquisition == 1}}      
+      <center><img src="https://i.imgur.com/qHICTWB.png" width="85%"/> </center>    {#   State is either A or B #}
+      {{else}}
+
+        {{ if public_information == 1}}      
+        <center><img src="https://i.imgur.com/prqkgLb.png" width="85%"/> </center>    {#   State is  B #}
+        {{ endif }}
+
+        {{ if public_information == 0}}
+
+        <center><img src="https://i.imgur.com/prqkgLb.png" width="85%"/> </center>    {#   State is B #}
+        {{ endif }}
+      {{ endif }}
+   
+{{ if info_acquisition == 1}}
+      <ul> <li>When entering the market you'll be able to request to purchase information about the <b>State of the World</b>:   </li>
+      <ul>  <p></p>
+        <li> Up to 3 participants in each generation may acquire this information.  If more participants request the information, only 3 per generation will randomly  be selected.  </li>
+        <p></p>
+        <li>  If selected among requesters, a <b>L${{info_cost}}</b> cost will be deducted from a separate information endowment of L${{info_endowment}} which impacts your sequence payoff  but won't affect the amount of money you have for trading.</li>
+        <p></p>
+        
+        <li> Your screen will show the <b>State of the World</b> (see figure above) and this information will be available to you throughout the entire sequence.</li>
+        <p></p>
+        <li> While trading, other participants won't know if you purchased this information or not. </li>
+       
+        <p></p>
+        <li>If you  decide not to request this information (or are not selected among requesters), you'll keep your entire L${{info_endowment}} information endowment and only your <b>Type</b> will be displayed plus a message reminding you that the <b>State of the World</b> is either <b>A or B</b></li>
+      </ul>
+      
+      </ul>
+{{else}}
+
+{{ if public_information == 1}}
+<ul> <li>In each periods's trading screen you will see information about your <b>Type</b> and possibly the <b>State of the World</b> for the sequence:   </li>
+  <ul>  <p></p>
+    <li>Six out of the twelve trading participants in each period are informed about the <b>State of the World</b>, if you are among them your screen will show that information (see figure above).  </li>
+    <p></p>
+    <li> While trading, other participants won't know if you are informed or not. </li>
+    <p></p>
+    <li> Otherwise, only your <b>Type</b> will be displayed and a message reminding you that the <b>State of the World</b> is either <b>A or B</b> </li>
+      
+      
+      </ul>
+      
+      </ul>
+{{ endif }}
+
+
+
+{{ endif }}
+
+      <p></p>
+       
+
+      <ul> <li> While trading, you can select to act as a <b>Buyer</b> or a <b>Seller</b> by clicking on the corresponding button</b>:</li>
+      </ul>
+      <p></p>
+     <ul> <ul> <li> As a <b>Buyer</b> you can submit one bid at the time for a single share, provided that you have enough cash to pay if your bid is accepted.</li>
+        </ul>
+
+         <p></p>
+
+        <ul> <li>Similarly, as a <b>Seller</b>, you can submit offer prices (ask prices) at which you are willing to sell each of the shares you own.</li>
+        </ul> 
+          
+           <p></p>
+         
+              <ul> <li> If a new bid is greater than an outstanding ask then a transaction occurs and the purchase price is the new bid price . </li>
+   
+        
+                   <p></p>
+                  </ul>
+                
+                <p></p>  
+                  <ul> <li> If a new ask is lower than an outstanding bid then the transaction occurs and the purchase price is the new ask price. </li>
+       
+            
+                       <p></p>
+                      </ul>
+                      
+                      <ul>
+                        <li>Buying a share reduces your cash balance by the purchase price, while selling a share increases your cash balance by the purchase price. </li>
+                                
+                         </ul>
+                        <p></p>  
+
+                  <p></p>  
+                  <ul> <li>   Note that neither your share nor cash inventories are allowed to fall below zero (no borrowing or short-selling). </li>
+       
+            
+                       <p></p>
+                      </ul>
+
+
+                  
+                  <p></p>  
+                  <ul> <li> Prices are determined only by the bids and asks submitted by the "active" investors in the market.</li>
+       
+            
+                       <p></p>
+                      </ul>
+                      <p></p>  
+                      <ul> <li>  All outstanding bids and asks are automatically canceled at the end of a period.
+                        </li>
+           
+                
+                           <p></p>
+                          </ul>
+                
+                
+                </ul>
+          
+          </li>
+
+
+          
+          
+
+
+
+<p></p><br>
+{% next_button %}
+
+
+{% endblock %}

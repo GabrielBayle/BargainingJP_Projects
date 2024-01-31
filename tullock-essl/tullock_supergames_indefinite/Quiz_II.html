@@ -1,0 +1,1087 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+   <b style="color:grey"> Instructions Quiz Part II</b>
+{% endblock %}
+
+
+
+{% block app_styles %}
+<style type="text/css">
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slidecontainer2 {
+  width: 100%;
+}
+
+.slider2 {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider2:hover {
+  opacity: 1;
+}
+
+.slider2::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider2::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.center {
+border: 5px solid #FFFF00;
+text-align: center;
+}
+
+.display {
+    border: 10px solid red;
+}
+
+.important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+th {
+    border: 1px solid black;
+    font-size: 12pt;
+
+    text-align: right;
+    font-weight:normal;
+    }
+
+td {
+    font-size: 12pt;
+    border: 1px solid black;
+    text-align: center;
+    }
+
+table {
+    table-layout: auto;
+    width: 100%;
+    }
+
+.history th {
+    font-size: 8pt;
+    text-align: center;
+    background: lightgray;
+    height: 20px;
+    }
+
+
+.history td {
+    font-size: 9pt;
+    text-align: center;
+     height: 20px;
+    }
+
+
+
+</style>
+
+<style type="text/css">
+  .slidecontainer {
+    width: 100%;
+  
+  
+  }
+  
+  div.a {
+    text-align: center;
+  }
+  
+  div.b {
+    text-align: left;
+  }
+  
+  div.c {
+    text-align: right;
+  }
+  
+  .important {
+          font-size: 14pt;
+          font-weight: bold;
+      }
+  
+  .slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 15px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
+  
+  .slider:hover {
+    opacity: 1;
+  }
+  
+  
+  
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+  
+  }
+  
+  .slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+  }
+  
+  .slidecontainer2 {
+    width: 80%;
+  }
+  
+  .slider2 {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 15px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
+  
+  .slider2:hover {
+    opacity: 1;
+  }
+  
+  .slider2::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+    visibility:hidden;
+  }
+  
+  .slider2::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+  }
+  
+  .center {
+  border: 5px solid #FFFF00;
+  text-align: center;
+  }
+  
+  .display {
+      border: 10px solid red;
+  }
+  
+  .important {
+          font-size: 14pt;
+          font-weight: bold;
+      }
+  
+  th {
+      border: 1px solid black;
+      font-size: 12pt;
+      width: 650px;
+      text-align: right;
+      font-weight:normal;
+      }
+  
+  td {
+      font-size: 12pt;
+      border: 1px solid black;
+      text-align: center;
+      }
+  
+  table {
+      table-layout: fixed;
+      width: 800px;
+      }
+  
+  .history td {
+      font-size: 12pt;
+      }
+  
+  .history th {
+      font-size: 12pt;
+      width: 100px;
+      text-align: center;
+      }
+  
+  .hide {
+    display: none;
+  }
+  
+  .myDIV:hover + .hide {
+    display: block;
+    color: black;
+  background: #f3f3f3;
+  position: relative;
+  z-index: 103;
+  padding: 15px 35px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px #000;
+  }
+  
+  .blink_me {
+    animation: blinker 1s linear infinite;
+  }
+  
+  @keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+  }
+  
+  
+  
+  .highcharts-figure,
+  .highcharts-data-table table {
+      min-width: 300px;
+      max-width: 300px;
+      margin: 1em auto;
+  }
+  
+  .highcharts-data-table table {
+      border-collapse: collapse;
+      border: 1px solid #ebebeb;
+      margin: 1px auto;
+      text-align: center;
+      width: 100%;
+      max-width: 500px;
+  }
+  
+  .highcharts-data-table caption {
+      padding: -1em 0;
+      font-size: 5em;
+      color: #555;
+  }
+  
+  .highcharts-data-table th {
+      font-weight: 600;
+      padding: 0.5em;
+  }
+  
+  .highcharts-data-table td,
+  .highcharts-data-table th,
+  .highcharts-data-table caption {
+      padding: 0.5em;
+  }
+  
+  .highcharts-data-table thead tr,
+  .highcharts-data-table tr:nth-child(even) {
+      background: #f8f8f8;
+  }
+  
+  .highcharts-data-table tr:hover {
+      background: #f1f7ff;
+  }
+  
+  input[type="number"] {
+      min-width: 50px;
+  }
+  
+  
+  .highcharts-caption {
+  
+    font-size: 1.5em;
+  }
+  
+  
+  
+  </style>
+
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+{% endblock %}
+
+{% block content %}
+
+
+<h5>Please use the sliders or input boxes (same interface you will use in each <b style="color:gray">Contest Round </b> ) to answer the following questions regarding the instructions you just read: </h6>
+<p></p>
+    <div style="width: 100%;">
+      <div style="height: 700px; width: 100%; float: left; border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000;">
+      <div style="height: 405px; width: 50%; float: left; border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000;">
+          <br>
+          Enter your <b style="color:black"> prediction for your opponents' average investment </b> in this round: <em><b>L&dollar; <span id="prediction" hidden></span></b></em>   
+          <input id="GuessBox" value="{{slider_default_prediction}}" style="width: 4em; font-weight: bold; font-style: italic" onkeypress="return event.keyCode != 13;" step="0.001" type="number"  min="0" max="{{slider_max}}">
+                        <center>
+             <div class="slidecontainer2">
+                 <div class="c">  <small>L${{slider_max|to0}}</small></div>
+                 <input type="range"  min="0" max="{{slider_max}}"  step="0.1"   value="{{slider_default_prediction}}" class="slider" id="sliderGuess">
+                 <div class="b"><small>L${{slider_min|to0}}</small>  </div>
+               
+                 </div></center>
+      
+      <p></p>
+            <br>
+      <p></p>
+      How much  <b style="color:black">would you like  to invest</b> to increase your share of the prize: <em><b>L&dollar;<span id="investment" hidden></span></b></em>
+      <input id="BidBox" value="{{slider_default_investment
+      }}" style="width: 4em; font-weight: bold; font-style: italic" onkeypress="return event.keyCode != 13;" step="0.001" type="number"  min="0" max="{{slider_max}}">
+      
+              <div class="c">  <small>L${{slider_max|to0}}</small></div>
+          <div class="slidecontainer">
+        <input type="range"  min="0" max="{{slider_max}}"  step="0.1"    value="{{slider_default_investment}}"  class="slider" id="sliderBid">
+                 <div class="b"><small>L${{slider_min|to0}}</small>  </div>
+              </div>
+        </div>
+      
+        <div style="margin-left: 50%; height: 405px;border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000; ">  
+          <figure class="highcharts-figure" style="margin-top: -5px;">
+                <div id="container"></div>
+            </figure>
+            
+          </div>
+          
+      
+
+
+      
+      
+        <br>
+      <b style="color:gray">REMEMBER:</b>
+              <center>
+      
+                  You'll keep your <span style="color:blue"> endowment minus your investment</span>
+                and receive <span style="color:orange">  a fraction of the value of the prize, L${{V}}</span>, which depends on your and your opponents' investments.
+      
+                  <br>
+                  If no ones invests,  everyone <span style="color:blue"> keeps their  endowment </span> and the  <span style="color:orange">prize is split four ways</span>.
+      </center>
+      <p></p><br>
+      <b>Based on your prediction and investment, you expect to receive:</b>
+     <ul>
+     <ul>
+      <li>
+     <b style="color:orange"><span id='my_probability'></span>% of the prize of L${{V}}, that is L$<span id="prize_won"></span></b>  
+      </li>
+      <li>
+   <b style="color:blue"> keep L$<span id='endowment_kept'></span> from your endowment</b>
+      </li>
+  
+        <ul>
+    
+           <li>
+      
+            <span class="important">Thus, your expected payoff is L&dollar;</span><span class="important" id="payoff_expected"></span>
+              </li> 
+              <li>
+                <b>And your opponents' average, L&dollar;<span id="payoff_opponent"></span> </b>
+              </li>
+        </ul></ul></ul>
+      
+      
+      
+      
+      <p></p>
+          <input id="investment_field" type="hidden" name="investment" value="0">
+          <input id="prediction_field" type="hidden" name="prediction" value="0"/>
+      
+      </div>
+      <p></p>
+      
+     
+      
+      
+      
+          <script>
+      
+            Highcharts.setOptions({
+              plotOptions: {
+                  series: {
+                      animation: false
+                  }
+              }
+          });
+
+            window.onload = function() {
+              document.getElementById('investment_field').value = {{slider_default_investment}};
+              document.getElementById('prediction_field').value = {{slider_default_prediction}};
+              console.log("window.onload ran");
+              startTime();
+              }
+          
+          var sliderGuess1 = document.getElementById("sliderGuess");
+          var GuessBox1 = document.getElementById("GuessBox");
+          var sliderBid1 = document.getElementById("sliderBid");
+          var BidBox1 = document.getElementById("BidBox");
+          
+          
+          function getProbability(x,y) {
+            if (x == 0 && y == 0 ){
+                return 1/( {{num_others}} + 1);
+            } else if (x > 0 && y == 0){
+               return  1
+            } else{
+                return x ** {{r}} / (  x**{{r}} +{{num_others}}*y ** {{r}} ) ;
+            }}
+          
+          sliderGuess1.oninput = function () {
+              var investment = sliderBid1.value;
+              var prediction  = this.value;
+          
+          
+              document.getElementById("sliderGuess").className = "slider";
+              document.getElementById('prediction').innerHTML = this.value;
+              document.getElementById('prediction_field').value = this.value;
+              document.getElementById('GuessBox').value= this.value;
+          
+              document.getElementById('prize_won').innerHTML = (getProbability(investment, prediction)*{{V}}).toFixed(2);
+              document.getElementById('endowment_kept').innerHTML = ({{endowment}}-investment).toFixed(2);
+
+              document.getElementById('my_probability').innerHTML = (getProbability(investment, prediction)*100).toFixed(2);
+          
+              document.getElementById('payoff_expected').innerHTML = ({{endowment}}+getProbability(investment, prediction)*{{V}}-investment).toFixed(2);
+              document.getElementById('payoff_opponent').innerHTML = ({{endowment}}+(1-getProbability(investment, prediction))/3*{{V}}-prediction).toFixed(2);
+          
+              var aux_you=parseFloat((getProbability(investment, prediction)*100).toFixed(2));
+              var aux_others=parseFloat(((1- getProbability(investment, prediction))*100).toFixed(2));
+          
+              Highcharts.chart('container', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie',     
+                    margin: [0,0,0,0],
+                    spacingTop: 0,
+                    spacingRight: 0,
+                    spacingBottom: 0,
+                    spacingLeft: 0,
+                    animation: false,
+                },
+                title: {
+                    text: '',
+                },
+                    credits: {
+                    enabled: false
+                        },
+              
+                        caption: {   
+                          text: 'Expected split of the prize:',
+                          verticalAlign:'top',
+                          floating: 'true',
+                          align:'center',
+                          
+                        },
+                tooltip: {
+                    pointFormat: ' <b>{point.percentage:.2f}%</b>'
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: false,
+                            format: '<b>{point.name}</b>:</br> {point.percentage:.2f} %'
+                        },
+                        showInLegend: true
+                    }
+                },
+                series: [{
+                    name: 'Brands',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'You',
+                        y:aux_you
+              
+                     
+                    },  {
+                        name: 'Opponents',
+                        y: aux_others
+                    }]
+                }]
+              });
+          
+            }
+          
+          
+            GuessBox1.oninput = function () {
+              var investment = sliderBid1.value;
+              var prediction  = this.value;
+          
+          
+              document.getElementById("sliderGuess").className = "slider";
+              document.getElementById('prediction').innerHTML = this.value;
+              document.getElementById('prediction_field').value = this.value;
+          
+              document.getElementById('sliderGuess').value= this.value;
+          
+             
+              document.getElementById('prize_won').innerHTML = (getProbability(investment, prediction)*{{V}}).toFixed(2);
+              document.getElementById('endowment_kept').innerHTML = ({{endowment}}-investment).toFixed(2);
+          
+              document.getElementById('my_probability').innerHTML = (getProbability(investment, prediction)*100).toFixed(2);
+
+          
+              document.getElementById('payoff_expected').innerHTML = ({{endowment}}+getProbability(investment, prediction)*{{V}}-investment).toFixed(2);
+              document.getElementById('payoff_opponent').innerHTML = ({{endowment}}+(1-getProbability(investment, prediction))/3*{{V}}-prediction).toFixed(2);
+          
+              var aux_you=parseFloat((getProbability(investment, prediction)*100).toFixed(2));
+              var aux_others=parseFloat(((1- getProbability(investment, prediction))*100).toFixed(2));
+          
+              Highcharts.chart('container', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie',     
+                    margin: [0,0,0,0],
+                    spacingTop: 0,
+                    spacingRight: 0,
+                    spacingBottom: 0,
+                    spacingLeft: 0,
+                    animation: false,
+                },
+                title: {
+                    text: '',
+                },
+                    credits: {
+                    enabled: false
+                        },
+              
+                        caption: {   
+                          text: 'Expected split of the prize:',
+                          verticalAlign:'top',
+                          floating: 'true',
+                          align:'center',
+                          
+                        },
+                tooltip: {
+                    pointFormat: ' <b>{point.percentage:.2f}%</b>'
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                plotOptions: {
+                  pie: {
+                      allowPointSelect: true,
+                      cursor: 'pointer',
+                      dataLabels: {
+                          enabled: false,
+                          format: '<b>{point.name}</b>:</br> {point.percentage:.2f} %'
+                      },
+                      showInLegend: true
+                  }
+              },
+                series: [{
+                    name: 'Brands',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'You',
+                        y:aux_you
+              
+                     
+                    },  {
+                        name: 'Opponents',
+                        y: aux_others
+                    }]
+                }]
+              });
+          
+            }
+          
+          
+          
+          
+          
+          sliderBid1.oninput = function () {
+              var prediction= sliderGuess1.value;
+              var investment = this.value;
+          
+          
+              document.getElementById("sliderBid").className = "slider";
+              document.getElementById('investment').innerHTML = this.value;
+              document.getElementById('investment_field').value = this.value;
+          
+              document.getElementById('BidBox').value= this.value;
+          
+              document.getElementById('prize_won').innerHTML = (getProbability(investment, prediction)*{{V}}).toFixed(2);
+              document.getElementById('endowment_kept').innerHTML = ({{endowment}}-investment).toFixed(2);
+          
+          
+              document.getElementById('my_probability').innerHTML = (getProbability(investment, prediction)*100).toFixed(2);
+
+          
+              document.getElementById('payoff_expected').innerHTML = ({{endowment}}+getProbability(investment, prediction)*{{V}}-investment).toFixed(2);
+              document.getElementById('payoff_opponent').innerHTML = ({{endowment}}+(1-getProbability(investment, prediction))/3*{{V}}-prediction).toFixed(2);
+          
+              var aux_you=parseFloat((getProbability(investment, prediction)*100).toFixed(2));
+              var aux_others=parseFloat(((1- getProbability(investment, prediction))*100).toFixed(2));
+          
+              Highcharts.chart('container', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie',     
+                    margin: [0,0,0,0],
+                    spacingTop: 0,
+                    spacingRight: 0,
+                    spacingBottom: 0,
+                    spacingLeft: 0,
+                    animation: false,
+                },
+                title: {
+                    text: '',
+                },
+                    credits: {
+                    enabled: false
+                        },
+              
+                        caption: {   
+                          text: 'Expected split of the prize:',
+                          verticalAlign:'top',
+                          floating: 'true',
+                          align:'center',
+                          
+                        },
+                tooltip: {
+                    pointFormat: ' <b>{point.percentage:.2f}%</b>'
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                plotOptions: {
+                  pie: {
+                      allowPointSelect: true,
+                      cursor: 'pointer',
+                      dataLabels: {
+                          enabled: false,
+                          format: '<b>{point.name}</b>:</br> {point.percentage:.2f} %'
+                      },
+                      showInLegend: true
+                  }
+              },
+                series: [{
+                    name: 'Brands',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'You',
+                        y:aux_you
+              
+                     
+                    },  {
+                        name: 'Opponents',
+                        y: aux_others
+                    }]
+                }]
+              });
+          
+            }
+          
+          
+          BidBox1.oninput = function () {
+            var prediction= sliderGuess1.value;
+            var investment = this.value;
+          
+          
+            document.getElementById("sliderBid").className = "slider";
+            document.getElementById('investment').innerHTML = this.value;
+            document.getElementById('investment_field').value = this.value;
+          
+            document.getElementById('sliderBid').value= this.value;
+          
+
+            document.getElementById('prize_won').innerHTML = (getProbability(investment, prediction)*{{V}}).toFixed(2);
+            document.getElementById('endowment_kept').innerHTML = ({{endowment}}-investment).toFixed(2);
+          
+            document.getElementById('my_probability').innerHTML = (getProbability(investment, prediction)*100).toFixed(2);
+
+          
+            document.getElementById('payoff_expected').innerHTML = ({{endowment}}+getProbability(investment, prediction)*{{V}}-investment).toFixed(2);
+            document.getElementById('payoff_opponent').innerHTML = ({{endowment}}+(1-getProbability(investment, prediction))/3*{{V}}-prediction).toFixed(2);
+          
+            var aux_you=parseFloat((getProbability(investment, prediction)*100).toFixed(2));
+            var aux_others=parseFloat(((1- getProbability(investment, prediction))*100).toFixed(2));
+          
+            Highcharts.chart('container', {
+              chart: {
+                  plotBackgroundColor: null,
+                  plotBorderWidth: null,
+                  plotShadow: false,
+                  type: 'pie',     
+                  margin: [0,0,0,0],
+                  spacingTop: 0,
+                  spacingRight: 0,
+                  spacingBottom: 0,
+                  spacingLeft: 0,
+                  animation: false,
+              },
+              title: {
+                  text: '',
+              },
+                  credits: {
+                  enabled: false
+                      },
+            
+                      caption: {   
+                        text: 'Expected split of the prize:',
+                        verticalAlign:'top',
+                        floating: 'true',
+                        align:'center',
+                        
+                      },
+              tooltip: {
+                  pointFormat: ' <b>{point.percentage:.2f}%</b>'
+              },
+              accessibility: {
+                  point: {
+                      valueSuffix: '%'
+                  }
+              },
+              plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false,
+                        format: '<b>{point.name}</b>:</br> {point.percentage:.2f} %'
+                    },
+                    showInLegend: true
+                }
+            },
+              series: [{
+                  name: 'Brands',
+                  colorByPoint: true,
+                  data: [{
+                      name: 'You',
+                      y:aux_you
+            
+                   
+                  },  {
+                      name: 'Opponents',
+                      y: aux_others
+                  }]
+              }]
+            });
+          
+          }
+          
+      
+      
+      
+      </script>
+      
+
+{# ------------------------------------------------------------- #}
+<br><br>
+&nbsp;
+<p></p>
+<h5>Questions: </h5>
+
+<div id="Q7_hide" style="display:inline; ">
+    7. If you expect your opponents to invest an average of <em>L$25</em> and you invest <em>L$55</em>, then what percentage of the prize would you expect to receive?
+    
+
+    <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000;
+     width:75%;   position: relative; left: 100px;  ">
+<div>
+  <input type="radio" id="Q7_1" name="Q7_r" value="1"
+         >
+  <label for="Q7_1"> 22.56% of the prize </label>
+    &nbsp&nbsp&nbsp&nbsp <br ><span id="cost_box11"> </span>
+</div>
+
+<div>
+  <input type="radio" id="Q7_3" name="Q7_r" value="3">
+  <label for="Q7_3"> 82.25% of the prize </label>
+    &nbsp&nbsp&nbsp&nbsp <br> <span id="cost_box13"> </span>
+</div>
+
+<div>
+  <input type="radio" id="Q7_2" name="Q7_r" value="2">
+  <label for="Q7_2" > 42.31% of the prize  </label>
+    &nbsp&nbsp&nbsp&nbsp <br><span id="cost_box12"> </span>
+</div>
+
+    </div></div>
+<br>
+<script>
+document.getElementById("Q7_1").oninput = function() {
+document.getElementById("cost_box11").innerHTML='     --> That is incorrect, please try again';
+cost_box11.style.color = "red";
+document.getElementById("Q7_field").value+=1;
+document.getElementById("Q7_1").disabled=true;
+};
+
+document.getElementById("Q7_2").oninput = function() {
+document.getElementById("cost_box12").innerHTML='     --> Correct! You are using the sliders properly ';
+cost_box12.style.color = "green";
+document.getElementById('Q8_hide').style.display='inline';
+document.getElementById("Q7_field").value+=1;
+document.getElementById("Q7_1").disabled=true;
+document.getElementById("Q7_3").disabled=true;
+};
+
+document.getElementById("Q7_3").oninput = function() {
+document.getElementById("cost_box13").innerHTML='     --> That is incorrect, please try again';
+cost_box13.style.color = "red";
+document.getElementById("Q7_field").value+=1;
+document.getElementById("Q7_3").disabled=true;
+};
+
+</script>
+
+<input id="Q7_field" type="hidden" name="Q7"/>
+{# ------------------------------------------------------------- #}
+
+<div id="Q8_hide" style="display:none">
+
+    8. If you expect your opponents to invest an average of <em>L$25</em> and you invest <em>L$25</em>, then what is the payoff you would expect to receive?
+    <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000;
+     width:75%;   position: relative; left: 100px;  ">
+<div>
+  <input type="radio" id="Q8_2" name="Q8_r" value="2"
+         >
+  <label for="Q8_2"><em>L$100</em></label>&nbsp&nbsp&nbsp&nbsp <br><span id="cost_box22"> </span>
+</div>
+
+<div>
+  <input type="radio" id="Q8_1" name="Q8_r" value="1">
+  <label for="Q8_1"><em>L$125</em></label>&nbsp&nbsp&nbsp&nbsp<br><span id="cost_box21"> </span>
+</div>
+
+<div>
+  <input type="radio" id="Q8_3" name="Q8_r" value="3">
+  <label for="Q8_3"><em>L$75</em></label>&nbsp&nbsp&nbsp&nbsp<br><span id="cost_box23"> </span>
+</div>
+
+
+</div></div>
+<br>
+
+<script>
+document.getElementById("Q8_1").oninput = function() {
+document.getElementById("cost_box21").innerHTML='     --> That is incorrect, please try again';
+cost_box21.style.color = "red";
+document.getElementById("Q8_field").value+=1;
+document.getElementById("Q8_1").disabled=true;
+
+};
+
+document.getElementById("Q8_2").oninput = function() {
+document.getElementById("cost_box22").innerHTML='     --> Correct! Your payoff would be L$100: L$75 coming from your original endowment plus 25% of the prize ';
+cost_box22.style.color = "green";
+document.getElementById('Q9_hide').style.display='inline';
+document.getElementById("Q8_field").value+=1;
+document.getElementById("Q8_1").disabled=true;
+document.getElementById("Q8_3").disabled=true;
+};
+
+document.getElementById("Q8_3").oninput = function() {
+document.getElementById("cost_box23").innerHTML='     --> That is incorrect, please try again';
+cost_box23.style.color = "red";
+document.getElementById("Q8_field").value+=1;
+document.getElementById("Q8_3").disabled=true;
+};
+</script>
+
+<input id="Q8_field" type="hidden" name="Q8"/>
+{# ------------------------------------------------------------- #}
+
+
+<div id="Q9_hide" style="display:none">
+    9. If you expect your opponents to invest an average of <em>L$10</em>, which of the following investment choice would result in the highest percentage of the prize for you?
+    <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000;
+     width:75%;   position: relative; left: 100px;  ">
+<div>
+  <input type="radio" id="Q9_1" name="Q9_r" value="1"
+         >
+  <label for="Q9_1">Invest <em>L$25</em></label>&nbsp&nbsp&nbsp&nbsp <br> <span id="cost_box31"> </span>
+</div>
+
+<div>
+  <input type="radio" id="Q9_3" name="Q9_r" value="2">
+  <label for="Q9_3">Invest <em>L$50</em> </label>&nbsp&nbsp&nbsp&nbsp<br><span id="cost_box33"> </span>
+</div>
+
+<div>
+  <input type="radio" id="Q9_2" name="Q9_r" value="3">
+  <label for="Q9_2">Invest <em>L$100</em> </label>&nbsp&nbsp&nbsp&nbsp<br><span id="cost_box32"> </span>
+</div>
+
+    </div></div>
+<br>
+
+<script>
+document.getElementById("Q9_1").oninput = function() {
+document.getElementById("cost_box31").innerHTML='     --> That is incorrect, please try again';
+cost_box31.style.color = "red";
+document.getElementById("Q9_field").value+=1;
+document.getElementById("Q9_1").disabled=true;
+};
+
+document.getElementById("Q9_2").oninput = function() {
+document.getElementById("cost_box32").innerHTML='     --> Correct! Invest L$100 if you only care about maximizing your share of the prize  ';
+cost_box32.style.color = "green";
+document.getElementById('Q10_hide').style.display='inline';
+document.getElementById("Q9_field").value+=1;
+document.getElementById("Q9_1").disabled=true;
+document.getElementById("Q9_3").disabled=true;
+};
+
+document.getElementById("Q9_3").oninput = function() {
+document.getElementById("cost_box33").innerHTML='     --> That is incorrect, please try again';
+cost_box33.style.color = "red";
+document.getElementById("Q9_field").value+=1;
+document.getElementById("Q9_3").disabled=true;
+};
+</script>
+
+<input id="Q9_field" type="hidden" name="Q9"/>
+{# ------------------------------------------------------------- #}
+
+
+<div id="Q10_hide" style="display:none">
+    10. If you expect your opponents to invest an average of <em>L$27</em>,  which of the following investment choice would result in the highest payoff for you?
+    <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000;
+     width:75%;   position: relative; left: 100px;  ">
+<div>
+  <input type="radio" id="Q10_2" name="Q10_r" value="1"
+         >
+  <label for="Q10_2"> Invest <em>L$9</em>  </label>&nbsp&nbsp&nbsp&nbsp <br><span id="cost_box42"> </span>
+</div>
+
+<div>
+  <input type="radio" id="Q10_1" name="Q10_r" value="2">
+  <label for="Q10_1"> Invest <em>L$25</em> </label>&nbsp&nbsp&nbsp&nbsp<br><span id="cost_box41"> </span>
+</div>
+
+<div>
+  <input type="radio" id="Q10_3" name="Q10_r" value="3">
+  <label for="Q10_3"> Invest <em>L$60</em> </label>&nbsp&nbsp&nbsp&nbsp<br><span id="cost_box43"> </span>
+</div>
+
+    </div></div>
+<br>
+
+<script>
+document.getElementById("Q10_1").oninput = function() {
+document.getElementById("cost_box41").innerHTML='     --> That is incorrect, please try again';
+cost_box41.style.color = "red";
+document.getElementById("Q10_field").value+=1;
+document.getElementById("Q10_1").disabled=true;
+};
+
+document.getElementById("Q10_2").oninput = function() {
+document.getElementById("cost_box42").innerHTML='     --> Correct! This would maximize your payoff, which includes what you keep from your endowment'
+cost_box42.style.color = "green";
+document.getElementById('submit_hide').style.display='inline';
+document.getElementById("Q10_field").value+=1;
+document.getElementById("Q10_1").disabled=true;
+document.getElementById("Q10_3").disabled=true;
+};
+
+document.getElementById("Q10_3").oninput = function() {
+document.getElementById("cost_box43").innerHTML='     --> That is incorrect, please try again';
+cost_box43.style.color = "red";
+document.getElementById("Q10_field").value+=1;
+document.getElementById("Q10_3").disabled=true;
+};
+</script>
+<input id="Q10_field" type="hidden" name="Q10"/>
+{# ------------------------------------------------------------- #}
+
+
+
+{# ------------------------------------------------------------- #}
+
+
+
+
+
+
+
+<div id="submit_hide" style="display:none">
+
+<p></p><br>
+{% next_button %}
+
+</div>
+
+{% endblock %}

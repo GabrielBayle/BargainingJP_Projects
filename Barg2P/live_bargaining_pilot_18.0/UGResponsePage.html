@@ -1,0 +1,136 @@
+{% block content %}
+
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: Arial, sans-serif;
+    }
+
+    .top-block {
+        height: 12.5%;
+        background-color: #f0f0f0;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .main-content {
+        display: flex;
+        height: 87.5%;
+    }
+
+    .left-block, .right-block {
+        padding: 10px;
+        background-color: #e0e0e0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .left-block {
+        flex: 2;
+    }
+
+    .right-block {
+        flex: 3;
+    }
+
+    .section {
+        background-color: #f9f9f9;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .section h4 {
+        margin-top: 0;
+    }
+
+    .input-field {
+        width: 100%;  /* Adjust the width as needed */
+        padding: 5px;
+        margin: 5px 0;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+
+    .col-player {
+        width: 25%; /* Adjust as needed */
+    }
+
+    .col-input {
+        width: 35%; /* Adjust as needed */
+    }
+
+    .col-current-offer {
+        width: 40%; /* Adjust as needed */
+    }
+
+    .highlight {
+        color: #007bff;
+        font-weight: bold;
+    }
+
+    button {
+        background-color: #6495ED;
+        color: black;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 4px;
+        margin-top: 10px;
+    }
+
+    #stop-bargaining-btn {
+        background-color: #FF5733;
+    }
+
+    #btn-accept {
+        background-color: #4CBB17;
+    }
+</style>
+
+<div class="top-block">
+    <h1>Ultimatum Game: Response (Round {{ subsession.round_number }} of {{ C.NUM_ROUNDS }})</h1>
+</div>
+
+<div class="main-content">
+    <div class="left-block">
+        <div class="section">
+            <h4>Instructions</h4>
+            <p>
+                Player 2 has offered you a split of the <span class="highlight">{{ C.PIE_SIZE }}</span> ECU. You can either accept or reject this offer.
+            </p>
+            <p>
+                If you accept the offer, the ECU will be split as proposed. If you reject the offer, you receive <span class="highlight">{{ C.DISAGREEMENT_PAYOFF_P1 }}</span> ECU as Player 1 and the other player receives <span class="highlight">{{ C.DISAGREEMENT_PAYOFF_P2 }}</span> ECU as Player 2.
+            </p>
+        </div>
+    </div>
+
+    <div class="right-block">
+        <form method="post">
+            <div class="response-table section">
+                <table class="table">
+                    <tr>
+                        <td>Offer from Player 2:</td>
+                        <td><span class="highlight">{{ proposed_amount }}</span> ECU</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="radio" name="UG_responder_decision" value="True" id="accept">
+                            <label for="accept">Accept</label><br>
+                            <input type="radio" name="UG_responder_decision" value="False" id="reject">
+                            <label for="reject">Reject</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><button type="submit" class="btn btn-primary">Submit Decision</button></td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,522 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+   <b style="color:grey"> Instructions Quiz Part I</b>
+{% endblock %}
+
+
+
+{% block app_styles %}
+<style type="text/css">
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slidecontainer2 {
+  width: 100%;
+}
+
+.slider2 {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider2:hover {
+  opacity: 1;
+}
+
+.slider2::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider2::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.center {
+border: 5px solid #FFFF00;
+text-align: center;
+}
+
+.display {
+    border: 10px solid red;
+}
+
+.important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+th {
+    border: 1px solid black;
+    font-size: 12pt;
+
+    text-align: right;
+    font-weight:normal;
+    }
+
+td {
+    font-size: 12pt;
+    border: 1px solid black;
+    text-align: center;
+    }
+
+table {
+    table-layout: auto;
+    width: 100%;
+    }
+
+.history th {
+    font-size: 8pt;
+    text-align: center;
+    background: lightgray;
+    height: 20px;
+    }
+
+
+.history td {
+    font-size: 9pt;
+    text-align: center;
+     height: 20px;
+    }
+
+
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+
+<h6>Before proceeding to the study, please answer the following questions regarding the instructions you
+    just read: </h6>
+<br>
+
+{# ------------------------------------------------------------- #}
+
+<div id="Q1_hide" style="display:inline; ">
+    1.How many  <b style="color:gray">Contest Rounds</b>  are there in between <b style="color:gray">Replacement Events</b> ?
+    
+
+    <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000;
+     width:95%;   position: relative; left: 100px;  ">
+<div>
+  <input type="radio" id="Q1_1" name="Q1_r" >
+  <label for="Q1_1"> It is randomly determined and there are always the same number of rounds in between <b style="color:gray">Replacement Events</b></label>
+    &nbsp&nbsp&nbsp&nbsp <br ><span id="cost_box11"> </span>
+</div>
+
+<div>
+  <input type="radio" id="Q1_3" name="Q1_r" >
+  <label for="Q1_3">Always 4 rounds in between <b style="color:gray">Replacement Events</b> </label>
+    &nbsp&nbsp&nbsp&nbsp <br> <span id="cost_box13"> </span>
+</div>
+
+<div>
+  <input type="radio" id="Q1_2" name="Q1_r" >
+  <label for="Q1_2" > It is randomly determined and there is possibly a different number of rounds in between <b style="color:gray">Replacement Events</b> </label>
+    &nbsp&nbsp&nbsp&nbsp <br><span id="cost_box12"> </span>
+</div>
+
+    </div></div>
+<br>
+<script>
+document.getElementById("Q1_1").oninput = function() {
+document.getElementById("cost_box11").innerHTML='     --> That is incorrect, please try again';
+cost_box11.style.color = "red";
+document.getElementById("Q1_field").value+=1;
+document.getElementById("Q1_1").disabled=true;
+};
+
+document.getElementById("Q1_2").oninput = function() {
+document.getElementById("cost_box12").innerHTML='     --> Correct! After each round there is a {{continuation_prob|to0}}% probability of participating in a new round before a new Replacement Event';
+cost_box12.style.color = "green";
+document.getElementById('Q2_hide').style.display='inline';
+document.getElementById("Q1_field").value+=1;
+document.getElementById("Q1_1").disabled=true;
+document.getElementById("Q1_3").disabled=true;
+};
+
+document.getElementById("Q1_3").oninput = function() {
+document.getElementById("cost_box13").innerHTML='     --> That is incorrect, please try again';
+cost_box13.style.color = "red";
+document.getElementById("Q1_field").value+=1;
+document.getElementById("Q1_3").disabled=true;
+};
+
+</script>
+<input id="Q1_field" type="hidden" name="Q1"/>
+
+{# ------------------------------------------------------------- #}
+
+<div id="Q2_hide" style="display:none">
+
+    2. Are instructions going to be changing throughout the experiment?
+    <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000;
+     width:95%;   position: relative; left: 100px;  ">
+<div>
+  <input type="radio" id="Q2_2" name="Q2_r" value="2"
+         >
+  <label for="Q2_2">No, instructions stay the same throughout the experiment</label>&nbsp&nbsp&nbsp&nbsp <br><span id="cost_box22"> </span>
+</div>
+
+<div>
+  <input type="radio" id="Q2_1" name="Q2_r" value="1">
+  <label for="Q2_1">Yes, new instructions will be provided every other <b style="color:gray" >Replacement Event</b></label>&nbsp&nbsp&nbsp&nbsp<br><span id="cost_box21"> </span>
+</div>
+
+<div>
+  <input type="radio" id="Q2_3" name="Q2_r" value="3">
+  <label for="Q2_3">Yes, instructions change in the middle of the session</label>&nbsp&nbsp&nbsp&nbsp<br><span id="cost_box23"> </span>
+</div>
+
+
+</div></div>
+<br>
+
+<script>
+document.getElementById("Q2_1").oninput = function() {
+document.getElementById("cost_box21").innerHTML='     --> That is incorrect, please try again';
+cost_box21.style.color = "red";
+document.getElementById("Q2_field").value+=1;
+document.getElementById("Q2_1").disabled=true;
+};
+
+document.getElementById("Q2_2").oninput = function() {
+document.getElementById("cost_box22").innerHTML='     --> Correct! Instructions stay the same. A summary of the instructions is provided in the  decision screens ';
+cost_box22.style.color = "green";
+document.getElementById('Q3_hide').style.display='inline';
+document.getElementById("Q2_field").value+=1;
+document.getElementById("Q2_1").disabled=true;
+document.getElementById("Q2_3").disabled=true;
+};
+
+document.getElementById("Q2_3").oninput = function() {
+document.getElementById("cost_box23").innerHTML='     --> That is incorrect, please try again';
+cost_box23.style.color = "red";
+document.getElementById("Q2_field").value+=1;
+document.getElementById("Q2_3").disabled=true;
+};
+</script>
+
+<input id="Q2_field" type="hidden" name="Q2"/>
+{# ------------------------------------------------------------- #}
+
+
+<div id="Q3_hide" style="display:none">
+    3. If I am the only participant who invests in a <b style="color:gray">Contest Round</b>: 
+    <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000;
+     width:95%;   position: relative; left: 100px;  ">
+
+
+<div>
+  <input type="radio" id="Q3_1" name="Q3_r" value="1" >
+  <label for="Q3_1">I would take 75% of the prize.</label>&nbsp&nbsp&nbsp&nbsp <br> <span id="cost_box31"> </span>
+</div>
+<div>
+  <input type="radio" id="Q3_2" name="Q3_r" value="2">
+  <label for="Q3_2">I would take a 100% of the prize.  </label>&nbsp&nbsp&nbsp&nbsp<br><span id="cost_box32"> </span>
+</div>
+
+<div>
+  <input type="radio" id="Q3_3" name="Q3_r" value="3">
+  <label for="Q3_3">It depends on how much I invested. </label>&nbsp&nbsp&nbsp&nbsp<br><span id="cost_box33"> </span>
+</div>
+
+
+    </div></div>
+<br>
+
+<script>
+document.getElementById("Q3_1").oninput = function() {
+document.getElementById("cost_box31").innerHTML='     --> That is incorrect, please try again';
+cost_box31.style.color = "red";
+document.getElementById("Q3_field").value+=1;
+document.getElementById("Q3_1").disabled=true;
+};
+
+document.getElementById("Q3_2").oninput = function() {
+document.getElementById("cost_box32").innerHTML='     --> Correct! If you are the only participant investing you will certainly receive the whole prize ';
+cost_box32.style.color = "green";
+document.getElementById('Q4_hide').style.display='inline';
+document.getElementById("Q3_field").value+=1;
+document.getElementById("Q3_1").disabled=true;
+document.getElementById("Q3_3").disabled=true;
+};
+
+document.getElementById("Q3_3").oninput = function() {
+document.getElementById("cost_box33").innerHTML='     --> That is incorrect, please try again';
+cost_box33.style.color = "red";
+document.getElementById("Q3_field").value+=1;
+document.getElementById("Q3_3").disabled=true;
+};
+</script>
+<input id="Q3_field" type="hidden" name="Q3"/>
+{# ------------------------------------------------------------- #}
+
+
+<div id="Q4_hide" style="display:none">
+    4. What happens if I have the lowest round payoff and a <b style="color:gray">Replacement Event</b>  occurs at the end of that round?
+    <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000;
+     width:95%;   position: relative; left: 100px;  ">
+<div>
+  <input type="radio" id="Q4_1" name="Q4_r" value="1"
+         >
+  <label for="Q4_1">It will depend on my average payoff since the last  <b style="color:gray">Replacement Event</b></label>&nbsp&nbsp&nbsp&nbsp <br><span id="cost_box41"> </span>
+</div>
+
+<div>
+  <input type="radio" id="Q4_2" name="Q4_r" value="2">
+{{if pressure == 1}}
+  <label for="Q4_2">I will be asked to leave the study because of my low round payoff</label>&nbsp&nbsp&nbsp&nbsp<br><span id="cost_box42"> </span>
+{{else}}
+<label for="Q4_2">One participant is randomly selected to leave regardless of payoffs</label>&nbsp&nbsp&nbsp&nbsp<br><span id="cost_box42"> </span>
+{{endif}}
+
+</div>
+
+<div>
+  <input type="radio" id="Q4_3" name="Q4_r" value="3">
+  <label for="Q4_3">I will be able to keep playing for just one more round </label>&nbsp&nbsp&nbsp&nbsp<br><span id="cost_box43"> </span>
+</div>
+
+    </div></div>
+<br>
+
+<script>
+document.getElementById("Q4_1").oninput = function() {
+document.getElementById("cost_box41").innerHTML='     --> That is incorrect, please try again';
+cost_box41.style.color = "red";
+document.getElementById("Q4_field").value+=1;
+document.getElementById("Q4_1").disabled=true;
+};
+</script>
+{{if pressure == 1 }}
+<script>
+document.getElementById("Q4_2").oninput = function() {
+document.getElementById("cost_box42").innerHTML='     --> Correct! Whenever a Replacement Event occurs, the participant with the lowest payoff in that round must leave';
+cost_box42.style.color = "green";
+document.getElementById('Q5_hide').style.display='inline';
+document.getElementById("Q4_field").value+=1;
+document.getElementById("Q4_1").disabled=true;
+document.getElementById("Q4_3").disabled=true;
+};
+</script>
+{{ else }}
+<script>
+document.getElementById("Q4_2").oninput = function() {
+  document.getElementById("cost_box42").innerHTML='     --> Correct! Whenever a Replacement Event occurs one participant is randomly selected to leave regardless of payoffs';
+  cost_box42.style.color = "green";
+  document.getElementById('Q5_hide').style.display='inline';
+  document.getElementById("Q4_field").value+=1;
+  document.getElementById("Q4_1").disabled=true;
+  document.getElementById("Q4_3").disabled=true;
+  };
+{{endif}}
+</script>
+<script>
+document.getElementById("Q4_3").oninput = function() {
+document.getElementById("cost_box43").innerHTML='     --> That is incorrect, please try again';
+cost_box43.style.color = "red";
+document.getElementById("Q4_field").value+=1;
+document.getElementById("Q4_3").disabled=true;
+};
+</script>
+<input id="Q4_field" type="hidden" name="Q4"/>
+{# ------------------------------------------------------------- #}
+
+
+<div id="Q5_hide" style="display:none">
+    5. What are the expected round payoffs if all my opponents and I decide to invest exactly <em>L$30</em> in a <b style="color:gray">Contest Round</b>:
+    <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000;
+     width:95%;   position: relative; left: 100px;  ">
+<div>
+  <input type="radio" id="Q5_1" name="Q5_r" value="1"
+         >
+  <label for="Q5_1"> We would each receive <em>L$50</em> of the prize and keep <em>L$70</em> of our respective  endowments </label>&nbsp&nbsp&nbsp&nbsp <br><span id="cost_box51"> </span>
+</div>
+
+<div>
+  <input type="radio" id="Q5_3" name="Q5_r" value="3">
+  <label for="Q5_3"> We  would each receive <em>L$70 </em> and keep <em>L$25</em> of our respective  endowments   </label>&nbsp&nbsp&nbsp&nbsp<br><span id="cost_box53"> </span>
+</div>
+
+
+<div>
+  <input type="radio" id="Q5_2" name="Q5_r" value="2">
+  <label for="Q5_2">We would each receive <em>L$25 </em>   and keep <em>L$70</em> of our respective  endowments </label>&nbsp&nbsp&nbsp&nbsp<br><span id="cost_box52"> </span>
+</div>
+
+    </div></div>
+<br>
+
+<script>
+document.getElementById("Q5_1").oninput = function() {
+document.getElementById("cost_box51").innerHTML='     --> That is incorrect, please try again';
+cost_box51.style.color = "red";
+document.getElementById("Q5_field").value+=1;
+document.getElementById("Q5_1").disabled=true;
+};
+</script>
+
+
+<script>
+  document.getElementById("Q5_2").oninput = function() {
+  document.getElementById("cost_box52").innerHTML='     --> Correct! Each participant would get a 25% of the prize, that is L$25 each';
+  cost_box52.style.color = "green";
+  document.getElementById('Q6_hide').style.display='inline';
+  document.getElementById("Q5_field").value+=1;
+  document.getElementById("Q5_1").disabled=true;
+  document.getElementById("Q5_3").disabled=true;
+  };
+  </script>
+
+
+
+<script>
+document.getElementById("Q5_3").oninput = function() {
+document.getElementById("cost_box53").innerHTML='     --> That is incorrect, please try again';
+cost_box53.style.color = "red";
+document.getElementById("Q5_field").value+=1;
+document.getElementById("Q5_3").disabled=true;
+};
+</script>
+<input id="Q5_field" type="hidden" name="Q5"/>
+{# ------------------------------------------------------------- #}
+
+
+
+<div id="Q6_hide" style="display:none">
+
+    6.What percentage of the prize would you take if you and one other participant invest the same amount and everyone else invests zero?
+ 
+
+
+    
+    <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000;
+     width:95%;   position: relative; left: 100px;  ">
+
+
+  
+<div>
+  <input type="radio" id="Q6_2" name="Q6_r" value="2"
+         >
+  <label for="Q6_2">50%  </label>&nbsp&nbsp&nbsp&nbsp  <br><span id="cost_box62"> </span>
+</div>
+
+<div>
+  <input type="radio" id="Q6_1" name="Q6_r" value="1">
+  <label for="Q6_1">25%</label> &nbsp&nbsp&nbsp&nbsp<br><span id="cost_box61"> </span>
+</div>
+
+<div>
+  <input type="radio" id="Q6_3" name="Q6_r" value="3">
+  <label for="Q6_3">100%</label>&nbsp&nbsp&nbsp&nbsp <br><span id="cost_box63"> </span>
+</div>
+
+
+    </div></div>
+<br>
+
+
+<script>
+document.getElementById("Q6_1").oninput = function() {
+document.getElementById("cost_box61").innerHTML='     --> That is incorrect, please try again';
+cost_box61.style.color = "red";
+document.getElementById("Q6_field").value+=1;
+document.getElementById("Q6_1").disabled=true;
+};
+</script>
+
+<script>
+document.getElementById("Q6_2").oninput = function() {
+document.getElementById("cost_box62").innerHTML='     --> Correct! The prize would be equally split between the 2 participants that invest the same positive amount';
+cost_box62.style.color = "green";0
+document.getElementById('submit_hide').style.display='inline';
+document.getElementById("Q6_field").value+=1;
+document.getElementById("Q6_1").disabled=true;
+document.getElementById("Q6_3").disabled=true;
+};
+</script>
+
+
+<script>
+document.getElementById("Q6_3").oninput = function() {
+document.getElementById("cost_box63").innerHTML='     --> That is incorrect, please try again';
+cost_box63.style.color = "red";
+document.getElementById("Q6_field").value+=1;
+document.getElementById("Q6_3").disabled=true;
+};
+</script>
+
+
+
+<input id="Q6_field" type="hidden" name="Q6"/>
+{# ------------------------------------------------------------- #}
+
+
+
+
+
+
+
+<div id="submit_hide" style="display:none">
+
+<p></p><br>
+{% next_button %}
+
+</div>
+
+{% endblock %}

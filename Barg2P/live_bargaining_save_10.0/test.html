@@ -1,0 +1,48 @@
+<div class="offer-accept-table" style="display: flex;">
+
+    <!-- Sending Offers Table -->
+    <div style="flex: 1; padding: 10px;">
+        <table class="table">
+            <tr>
+                <th colspan="3">Send Offer</th>
+            </tr>
+            <tr>
+                <td>Player 1:</td>
+                <td><input type="number" id="my_offer_player1"></td>
+            </tr>
+            <tr>
+                <td>Player 2:</td>
+                <td><input type="number" id="my_offer_player2"></td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <button type="button" onclick="sendOffer()" id="btn-offer">Make new offer</button>
+                </td>
+            </tr>
+            <tr>
+                <th colspan="3">Your Current Proposal</th>
+            </tr>
+            <tr>
+                <td colspan="3" id="my-proposal">(none)</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Received Offers Table -->
+    <div style="flex: 1; padding: 10px;">
+        <table class="table">
+            <tr>
+                <th colspan="3">{{ other_role }} Proposal</th>
+            </tr>
+            <tr>
+                <td colspan="3" id="other-proposal">(none)</td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <button type="button" id="btn-accept" onclick="sendAccept(this)" style="display: none">Accept</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>

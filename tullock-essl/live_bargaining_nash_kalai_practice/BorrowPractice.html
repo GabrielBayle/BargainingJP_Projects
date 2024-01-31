@@ -1,0 +1,438 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+  <b style="color:grey">Practice Round {{ player.round_number }} of {{practice_num_rounds}}: Choose your Money Holdings </b>
+{% endblock %}
+
+{% block content %}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<style>
+
+div.a {
+  text-align: center;
+}
+
+div.b {
+  text-align: left;
+}
+
+div.c {
+  text-align: right;
+}
+
+#table {
+  border-collapse: separate;
+  border-spacing: 15px;
+}
+
+   .otree-btn-next {
+          color:white;
+          background-color: #4CAF50; //#e5e9ec;
+          border: 2px solid black;
+          border-radius: 5px;
+          padding: 10px;
+    }
+    .otree-btn-next:hover {
+  background-color:  #3d8c40;
+  color: white;
+  border: 2px solid black;
+    }
+
+
+
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+.slidecontainer2 {
+  width: 75%;
+}
+
+.slider2 {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider2:hover {
+  opacity: 1;
+}
+
+.slider2::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 10%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider2::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+ .frac {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    letter-spacing: 0.001em;
+    text-align: center;
+}
+.frac > span {
+    display: block;
+    padding: 0.1em;
+}
+.frac span.bottom {
+    border-top: thin solid black;
+}
+.frac span.symbol {
+    display: none;
+}
+
+
+
+</style>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.8.2.js"></script>
+<style type="text/css">
+#overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: #000;
+filter:alpha(opacity=70);
+-moz-opacity:0.7;
+-khtml-opacity: 0.7;
+opacity: 0.7;
+z-index: 100;
+display: none;
+}
+.cnt223 a{
+text-decoration: none;
+}
+.popup{
+width: 100%;
+margin: 0 auto;
+display: none;
+position: absolute;
+z-index: 101;
+}
+.cnt223{
+min-width: 600px;
+width: 600px;
+min-height: 150px;
+margin: 100px auto;
+background: #f3f3f3;
+position: relative;
+z-index: 103;
+padding: 15px 35px;
+border-radius: 5px;
+box-shadow: 0 2px 5px #000;
+}
+.cnt223 p{
+clear: both;
+    color: #555555;
+    /* text-align: justify; */
+    font-size: 20px;
+    font-family: sans-serif;
+    border: 5px solid black;
+}
+.cnt223 p a{
+color: #d91900;
+font-weight: bold;
+border: 2px solid black;
+
+
+
+}
+.cnt223 .x{
+float: right;
+height: 35px;
+left: 22px;
+position: relative;
+top: -25px;
+width: 34px;
+border: 5px solid black;
+}
+.cnt223 .x:hover{
+cursor: pointer;
+border: 2px solid black;
+}
+
+.cnt223.a:hover {
+  background-color:  #3d8c40;
+  color: white;
+  border: 2px solid black;
+    }
+
+
+.swal-button--confirm {
+  padding: 7px 19px;
+  border-radius: 2px;
+  background-color: #3d8c40;
+  font-size: 12px;
+  border: 1px solid #3e549a;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+}
+
+</style>
+
+ {{ if message_practice == 'yes' and player.round_number == 1 }}
+<script type='text/javascript'>
+
+$(function(){
+var overlay = $('<div id="overlay"></div>');
+overlay.show();
+overlay.appendTo(document.body);
+$('.popup').show();
+$('.close').click(function(){
+$('.popup').hide();
+overlay.appendTo(document.body).remove();
+return false;
+});
+
+
+
+$('.x').click(function(){
+$('.popup').hide();
+overlay.appendTo(document.body).remove();
+return false;
+});
+});
+
+
+</script>
+
+
+
+<div class='popup'>
+<div class='cnt223'>
+<h3 style="color:red">Remember: </h3>
+<center>
+    <b>For both practice rounds the interest rate for borrowing money will be {{r_percentage|to0}}%</b>. <br> That means, if you borrow $10, you'll have to pay back {{principal_plus_interest_example|cu|to0}}.
+</center>
+
+<br><br>
+
+    <center>
+<b><a href='' style="color:white;   padding: 7px 19px;
+  border-radius: 2px;
+  background-color: #3d8c40;
+  font-size: 12px;
+  border: 2px solid #3e549a;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+
+
+
+" class='close'> OK </a></b>
+        </center>
+</div>
+
+
+</div>
+</div>
+{{else}}
+{{endif}}
+
+You are a Buyer, for this round, you can borrow up to {{borrow_max|cu|to1}} to bring to the bargaining stage where you'll meet with a Seller.
+<br><br>
+{{if r == 0}}
+Remember, you'll have to pay the loan back using your payoff from trading plus whatever you have left from your loan after paying the seller.
+{{else }}
+Remember, you'll have to pay the loan plus interests back using your payoff from trading, whatever you have left from your loan after paying the seller and your round endowment of {{endowment|cu|to1}}, which you receive only after the meeting.
+{{endif}}
+<p></p>
+
+  <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000;">
+        Enter  the amount, <i>m</i>, you would like to borrow at an interest rate of <b>{{r_percentage|to0}}% </b>:
+      &nbsp; <em><span class="important" id="borrow"> </span></em>    <span hidden>  <span class="important" id="borrow2"></span>  </span>
+<div class="slidecontainer">
+    <div class="c">  <small>{{borrow_max|cu|to0}}</small></div>
+  <input type="range" min="0" max="{{ borrow_max }}" step="0.1"  value="0" class="slider" id="sliderSignal" name="amount_borrowed">
+     <div class="b">  <small>{{0|cu|to0}}</small></div>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total amount to payback from your after bargain with the seller would be <em><strong><span id="signal_cost_box"></span></strong></em>
+
+
+</div>
+</div>
+
+    <input id="amount_borrowed_field" type="hidden" name="amount_borrowed"  value='0'/>
+
+<p></p>
+
+
+  Given this borrowed amount:
+    <ul>
+        <li>
+             You could request to trade this amount for up to <span class="important" id="max_request"> </span> units of  <b><i style="color:blue">Output</i></b> from the seller, which, if accepted would imply a gross payoff of  <span class="important" id="payoff_box"> $</span>  for you.
+        </li> <br>
+        <li>
+            That gross payoff minus the payback of the loan would give you a <b class="important">net payoff of </b><span class="important" id="payoff_box_2">$</span>
+        </li>
+
+    </ul>
+<!--
+</p><br>
+    <button class="otree-btn-next"  onclick="sendBorrow()">
+    Submit
+</button> !-->
+<button  class="otree-btn-next" type="button" onclick="sendBorrow()"> Submit</button>
+<button id="myForm" hidden></button>
+
+<p></p>
+<small style="color:red">Note:</small><small> If you do not make a choice, you'll move to the bargaining stage without borrowing.
+</small>
+
+<script>
+
+var slider = document.getElementById("sliderSignal");
+var max_request = document.getElementById("max_request");
+var borrow_cost = document.getElementById("signal_cost_box");
+var payoff = document.getElementById("payoff_box");
+var payoff2 = document.getElementById("payoff_box_2");
+
+
+window.onload = function() {
+    document.getElementById('signal_field').value = 0;
+    console.log("window.onload ran")
+}
+
+function Y(m,r) {
+return (m)*(1+r);
+}
+
+
+function max_rq(p) {
+    return (p/{{B}})**(1/{{b}});
+}
+
+
+
+function cu(amount) {
+return `$${amount}`;
+}
+
+function percent(amount) {
+return ` ${amount}%`;
+}
+
+
+function yourPoints(q){
+       aux = {{A}}*q**{{a}};
+       return aux.toFixed(1);
+     }
+
+
+
+
+
+
+slider.oninput = function() {
+    document.getElementById("borrow").innerHTML = cu(this.value);
+    document.getElementById("borrow2").innerHTML = cu(this.value);
+    max_request.innerHTML = max_rq(this.value).toFixed(1);
+    borrow_cost.innerHTML = cu(Y(this.value, {{r}} ).toFixed(1));
+    payoff.innerHTML = cu(yourPoints(max_rq(this.value)));
+    payoff2.innerHTML = cu((yourPoints(max_rq(this.value))-Y(this.value, {{r}} )).toFixed(1));
+
+
+}
+
+function sendBorrow() {
+swal({
+  title: "Are you sure?",
+  text: "You will move to bargain with a seller with a borrowed amount of:",
+  icon: "warning",
+  buttons: true,
+  dangerMode: false,
+  content: document.getElementById("borrow2"),
+
+})
+.then((willDelete) => {
+  if (willDelete) {
+    document.getElementById("myForm").click()
+  } else {
+
+  }
+});
+}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

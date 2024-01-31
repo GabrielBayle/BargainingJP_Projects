@@ -1,0 +1,9 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}旅人のジレンマゲーム{% endblock %}
+
+{% block content %}
+{% include Constants.instructions_template %}
+{% next_button %}
+{% endblock %}

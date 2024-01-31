@@ -1,0 +1,347 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+   <b style="color:grey"> Instructions Quiz Part II</b>
+{% endblock %}
+
+
+
+{% block app_styles %}
+<style type="text/css">
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slidecontainer2 {
+  width: 100%;
+}
+
+.slider2 {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider2:hover {
+  opacity: 1;
+}
+
+.slider2::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider2::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.center {
+border: 5px solid #FFFF00;
+text-align: center;
+}
+
+.display {
+    border: 10px solid red;
+}
+
+.important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+th {
+    border: 1px solid black;
+    font-size: 12pt;
+
+    text-align: right;
+    font-weight:normal;
+    }
+
+td {
+    font-size: 12pt;
+    border: 1px solid black;
+    text-align: center;
+    }
+
+table {
+    table-layout: auto;
+    width: 100%;
+    }
+
+.history th {
+    font-size: 8pt;
+    text-align: center;
+    background: lightgray;
+    height: 20px;
+    }
+
+
+.history td {
+    font-size: 9pt;
+    text-align: center;
+     height: 20px;
+    }
+
+
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+
+<h6>Before proceeding to the <b style="color:gray">Practice Sequence</b>, please answer the following questions regarding the instructions you
+    just read: </h6>
+<br>
+
+{# ------------------------------------------------------------- #}
+
+<div id="Q7_hide" style="display:inline; ">
+    7. For how many seconds does one trading period last?
+    
+
+    <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000;
+     width:75%;   position: relative; left: 100px;  ">
+<div>
+  <input type="radio" id="Q7_1" name="Q7" value="1"
+         >
+  <label for="Q7_1"> 60 seconds </label>
+    &nbsp&nbsp&nbsp&nbsp <br ><span id="cost_box11"> </span>
+</div>
+
+<div>
+  <input type="radio" id="Q7_3" name="Q7" value="3">
+  <label for="Q7_3">90 seconds</label>
+    &nbsp&nbsp&nbsp&nbsp <br> <span id="cost_box13"> </span>
+</div>
+
+<div>
+  <input type="radio" id="Q7_2" name="Q7" value="2">
+  <label for="Q7_2" >120 seconds  </label>
+    &nbsp&nbsp&nbsp&nbsp <br><span id="cost_box12"> </span>
+</div>
+
+    </div></div>
+<br>
+<script>
+document.getElementById("Q7_1").oninput = function() {
+document.getElementById("cost_box11").innerHTML='     --> That is incorrect, please try again';
+cost_box11.style.color = "red";
+};
+
+document.getElementById("Q7_2").oninput = function() {
+document.getElementById("cost_box12").innerHTML='     --> Correct! Trading sessions last for 120 seconds ';
+cost_box12.style.color = "green";
+document.getElementById('Q8_hide').style.display='inline';
+};
+
+document.getElementById("Q7_3").oninput = function() {
+document.getElementById("cost_box13").innerHTML='     --> That is incorrect, please try again';
+cost_box13.style.color = "red";
+};
+
+</script>
+
+
+{# ------------------------------------------------------------- #}
+
+<div id="Q8_hide" style="display:none">
+
+    8. You are "inactive" so your task is to predict: You predict a price which is L$3 less than the actual average
+    price of the period. What is your payoff for that round? 
+    <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000;
+     width:75%;   position: relative; left: 100px;  ">
+<div>
+  <input type="radio" id="Q8_2" name="Q8" value="2"
+         >
+  <label for="Q8_2">L$YYYYY-L$3</label>&nbsp&nbsp&nbsp&nbsp <br><span id="cost_box22"> </span>
+</div>
+
+<div>
+  <input type="radio" id="Q8_1" name="Q8" value="1">
+  <label for="Q8_1">L$YYYYY+L$3</label>&nbsp&nbsp&nbsp&nbsp<br><span id="cost_box21"> </span>
+</div>
+
+<div>
+  <input type="radio" id="Q8_3" name="Q8" value="3">
+  <label for="Q8_3">L$YYYYY-L$9</label>&nbsp&nbsp&nbsp&nbsp<br><span id="cost_box23"> </span>
+</div>
+
+
+</div></div>
+<br>
+
+<script>
+document.getElementById("Q8_1").oninput = function() {
+document.getElementById("cost_box21").innerHTML='     --> That is incorrect, please try again';
+cost_box21.style.color = "red";
+};
+
+document.getElementById("Q8_2").oninput = function() {
+document.getElementById("cost_box22").innerHTML='     --> Correct! Your payoff when predicting corresponds to L$YYY minus your absolute prediction error ';
+cost_box22.style.color = "green";
+document.getElementById('Q9_hide').style.display='inline';
+};
+
+document.getElementById("Q8_3").oninput = function() {
+document.getElementById("cost_box23").innerHTML='     --> That is incorrect, please try again';
+cost_box23.style.color = "red";
+};
+</script>
+
+{# ------------------------------------------------------------- #}
+
+
+<div id="Q9_hide" style="display:none">
+    9. You are an "old" participant in tin <b>Period 3</b>, the "state of the world" is B and your "type" is A. What is the value of the shares you are holding at the end of the period?
+    <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000;
+     width:75%;   position: relative; left: 100px;  ">
+<div>
+  <input type="radio" id="Q9_1" name="Q9" value="1"
+         >
+  <label for="Q9_1">Shares have a value equal to the dividend payment to you </label>&nbsp&nbsp&nbsp&nbsp <br> <span id="cost_box31"> </span>
+</div>
+
+<div>
+  <input type="radio" id="Q9_2" name="Q9" value="2">
+  <label for="Q9_2">Shares have a value of zero to you  </label>&nbsp&nbsp&nbsp&nbsp<br><span id="cost_box32"> </span>
+</div>
+
+<div>
+  <input type="radio" id="Q9_3" name="Q9" value="3">
+  <label for="Q9_3">Shares have value of L$5 </label>&nbsp&nbsp&nbsp&nbsp<br><span id="cost_box33"> </span>
+</div>
+
+    </div></div>
+<br>
+
+<script>
+document.getElementById("Q9_1").oninput = function() {
+document.getElementById("cost_box31").innerHTML='     --> That is incorrect, please try again';
+cost_box31.style.color = "red";
+};
+
+document.getElementById("Q9_2").oninput = function() {
+document.getElementById("cost_box32").innerHTML='     --> Correct! Shares would be worthless to you if your "type" is different from the "state of the world" ';
+cost_box32.style.color = "green";
+document.getElementById('Q10_hide').style.display='inline';
+};
+
+document.getElementById("Q9_3").oninput = function() {
+document.getElementById("cost_box33").innerHTML='     --> That is incorrect, please try again';
+cost_box33.style.color = "red";
+};
+</script>
+{# ------------------------------------------------------------- #}
+
+
+<div id="Q10_hide" style="display:none">
+    10. You are a "young" participant in <b>Period 3</b>, the "state of the world" is B and your "type" is B. What is the value of the shares you are holding at the end of the period?
+    <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000;
+     width:75%;   position: relative; left: 100px;  ">
+<div>
+  <input type="radio" id="Q10_1" name="Q10" value="1"
+         >
+  <label for="Q10_1"> Shares have a value of zero to you   </label>&nbsp&nbsp&nbsp&nbsp <br><span id="cost_box41"> </span>
+</div>
+
+<div>
+  <input type="radio" id="Q10_2" name="Q10" value="2">
+  <label for="Q10_2"> Shares have a value equal to their dividend to you </label>&nbsp&nbsp&nbsp&nbsp<br><span id="cost_box42"> </span>
+</div>
+
+<div>
+  <input type="radio" id="Q10_3" name="Q10" value="3">
+  <label for="Q10_3">Shares have value of L$5</label>&nbsp&nbsp&nbsp&nbsp<br><span id="cost_box43"> </span>
+</div>
+
+    </div></div>
+<br>
+
+<script>
+document.getElementById("Q10_1").oninput = function() {
+document.getElementById("cost_box41").innerHTML='     --> That is incorrect, please try again';
+cost_box41.style.color = "red";
+};
+
+document.getElementById("Q10_2").oninput = function() {
+document.getElementById("cost_box42").innerHTML='     --> Correct! If your "type" matches the "state of the world" then you can collect dividends';
+cost_box42.style.color = "green";
+document.getElementById('submit_hide').style.display='inline';
+};
+
+document.getElementById("Q10_3").oninput = function() {
+document.getElementById("cost_box43").innerHTML='     --> That is incorrect, please try again';
+cost_box43.style.color = "red";
+};
+</script>
+{# ------------------------------------------------------------- #}
+
+
+
+{# ------------------------------------------------------------- #}
+
+
+
+
+
+
+
+<div id="submit_hide" style="display:none">
+
+<p></p><br>
+{% next_button %}
+
+</div>
+
+{% endblock %}

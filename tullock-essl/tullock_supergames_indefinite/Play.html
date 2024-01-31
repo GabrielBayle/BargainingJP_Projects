@@ -1,0 +1,1032 @@
+
+
+{% load otree static %}
+
+{% block title %}
+    <b style="color:gray"> Contest Round: Investment Decision</b>
+    <br><span style="color: gray;"> Sequence {{ subsession.round_number }},
+   round <span id="period"></span> </span>
+    <h5>
+        
+    </h5>
+   
+{% endblock %}
+
+{% block app_styles %}
+<style type="text/css">
+.slidecontainer {
+  width: 100%;
+
+
+}
+
+div.a {
+  text-align: center;
+}
+
+div.b {
+  text-align: left;
+}
+
+div.c {
+  text-align: right;
+}
+
+.important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slidecontainer2 {
+  width: 80%;
+}
+
+.slider2 {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider2:hover {
+  opacity: 1;
+}
+
+.slider2::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+  visibility:hidden;
+}
+
+.slider2::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.center {
+border: 5px solid #FFFF00;
+text-align: center;
+}
+
+.display {
+    border: 10px solid red;
+}
+
+.important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+
+
+table {
+    table-layout: fixed;
+    width: 800px;
+    }
+
+.history td {
+    font-size: 12pt;
+    }
+
+.history th {
+    font-size: 12pt;
+    width: 100px;
+    text-align: center;
+    }
+
+.hide {
+  display: none;
+}
+
+.myDIV:hover + .hide {
+  display: block;
+  color: black;
+background: #f3f3f3;
+position: relative;
+z-index: 103;
+padding: 15px 35px;
+border-radius: 5px;
+box-shadow: 0 2px 5px #000;
+}
+
+.blink_me {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+
+
+.highcharts-figure,
+.highcharts-data-table table {
+    min-width: 300px;
+    max-width: 300px;
+    margin: 1em auto;
+}
+
+.highcharts-data-table table {
+    border-collapse: collapse;
+    border: 1px solid #ebebeb;
+    margin: 1px auto;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.highcharts-data-table caption {
+    padding: -1em 0;
+    font-size: 5em;
+    color: #555;
+}
+
+.highcharts-data-table th {
+    font-weight: 600;
+    padding: 0.5em;
+}
+
+.highcharts-data-table td,
+.highcharts-data-table th,
+.highcharts-data-table caption {
+    padding: 0.5em;
+}
+
+.highcharts-data-table thead tr,
+.highcharts-data-table tr:nth-child(even) {
+    background: #f8f8f8;
+}
+
+.highcharts-data-table tr:hover {
+    background: #f1f7ff;
+}
+
+input[type="number"] {
+    min-width: 50px;
+}
+
+
+.highcharts-caption {
+
+  font-size: 1.5em;
+}
+
+
+
+</style>
+{% endblock %}
+{{ block content }}
+
+<script>
+    //Soft timer; red color if less than 1 minute, flashing display if less than 10 seconds left
+    var starttime=new Date(); hs=starttime.getHours(); ms=starttime.getMinutes(); ss=starttime.getSeconds();
+    
+    
+    function startTime() {
+      var today=new Date();
+      var h=today.getHours()-hs;
+        //hours immediately settled against minutes
+      var m=today.getMinutes()+h*60-ms;
+      var s=today.getSeconds()-ss;
+      var timer = document.getElementById('id_time_left');
+      var timer_title =  document.getElementById('time_title');
+      m=0-m;
+      s=60*{{ tlimit }}-s;
+      if (s<0)
+      {
+      s=s+60;
+      m=m-1;
+      }
+        //time remaining
+      if (m>=0) {
+            // generate display, adding zeros where necessary
+          mdisp=timeDisp(m);
+          sdisp=timeDisp(s);
+            timer.innerHTML=mdisp+":"+sdisp;
+            // red text-color if less than 1 minute left
+            if (m>=0 && s>=30){
+                timer.style.color = 'black';
+                timer_title.style.color = "black";
+                timer.classList.remove('blink_me');
+                timer_title.classList.remove('blink_me');
+          }
+            if (m<=0 && s<=20){
+                timer.style.color = "#ff0000";
+                timer_title.style.color = "#ff0000";
+          }
+            if (m<=0 && s<=10){
+                timer.classList.add('blink_me');
+                timer_title.classList.add('blink_me');
+            }
+      } else {//time is up
+            timer.innerHTML="00:00";
+        }
+        //loop ever 1/2 second 
+      t=setTimeout('startTime()',500);
+    }
+    
+    function timeDisp(i){
+          if (i<10) {
+              i="0" + i.toString();
+          } else {
+                i = i.toString();
+            }
+          return i;
+    }
+    
+    window.onload = function() {
+        startTime();
+        }
+    
+    </script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+ 
+
+
+<div id="wait" style="display: none">
+    <p>
+        Waiting for the other participants to decide...
+    </p>
+    <progress></progress>
+</div>
+
+
+
+<div id="decide" style="display: none">
+    <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000; width: 15%;">
+        <span id='time_title'style="font-size: 16px; vertical-align: middle; margin:0; padding: 0;"> &nbsp; &nbsp;TIME: </span><span id="id_time_left" style="font-size: 16px; vertical-align: middle; margin:0; padding: 0;">00:00</span>
+          </div>
+    <center>
+    <div id="results" style="display: none; width: 80%; border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000;">
+        
+        <p>
+
+            
+        </p>
+    
+        <table class="table">
+            Here are the results of the last contest:
+            <tr>
+                <th>Participant</th>
+                <th>Investment</th>
+                <th>Round Payoff</th>
+            </tr>
+            {{ if player.position == 1 }} 
+            <tr style="font-size:large ;font-weight: bold; color: green;">
+                <td> &rarr; You  </td>
+                <td> L$<span id="decision1"> </td>
+                <td> L$<span id="payoff1"></td>
+            </tr>
+
+            <tr hidden>
+                <td> Opponent</td>
+                <td> L$<span id="decision2"></td>
+                <td> L$<span id="payoff2"></td>
+            </tr>
+            <tr hidden>
+                <td>Opponent </td>
+                <td> L$<span  id="decision3"></td>
+                <td> L$<span  id="payoff3"></td>
+            </tr>
+
+            {{ if num_active_participants == 4 }}
+            <tr hidden>
+                <td>Opponent </td>
+                <td> L$<span  id="decision4"></td>
+                <td> L$<span  id="payoff4"></td>
+            </tr>
+            {{endif}}
+    
+          {{endif}}
+
+          {{ if player.position == 2 }} 
+          <tr style="font-size:large ;font-weight: bold; color: green;">
+              <td><b style="color:green"> &rarr; You </b> </td>
+              <td> L$<span id="decision2">L$</td>
+              <td> L$<span id="payoff2">L$</td>
+          </tr>
+
+
+          <tr hidden>
+            <td> Opponent</td>
+            <td> L$<span id="decision1"></td>
+            <td> L$<span id="payoff1"></td>
+        </tr>
+        <tr hidden>
+            <td>Opponent </td>
+            <td> L$<span id="decision3"></td>
+            <td> L$<span id="payoff3"></td>
+        </tr>
+
+        {{ if num_active_participants == 4 }}
+        <tr hidden>
+            <td>Opponent </td>
+            <td> L$<span id="decision4"></td>
+            <td> L$<span id="payoff4"></td>
+        </tr>
+        {{endif}}
+
+            {{endif}}
+        
+            {{ if player.position == 3 }} 
+            <tr style="font-size:large ;font-weight: bold; color: green;">
+                <td><b style="color:green"> &rarr; You </b> </td>
+                <td> L$<span id="decision3"></td>
+                <td> L$<span id="payoff3"></td>
+            </tr>
+  
+  
+            <tr hidden>
+              <td> Opponent</td>
+              <td> L$<span id="decision1"></td>
+              <td> L$<span id="payoff1"></td>
+          </tr>
+          <tr hidden>
+              <td>Opponent </td>
+              <td> L$<span id="decision2"></td>
+              <td> L$<span id="payoff2"></td>
+          </tr>
+
+          {{ if num_active_participants == 4 }}
+          <tr hidden>
+              <td> Opponent </td>
+              <td> L$<span id="decision4"></td>
+              <td> L$<span id="payoff4"></td>
+          </tr>
+          {{endif}}
+  
+              {{endif}}
+        
+
+              {{ if player.position == 4 }} 
+              <tr style="font-size:large ;font-weight: bold; color: green;">
+                  <td><b style="color:green"> &rarr; You </b> </td>
+                  <td> L$<span id="decision4"></td>
+                  <td> L$<span id="payoff4"></td>
+              </tr>
+    
+    
+              <tr hidden >
+                <td> Opponent</td>
+                <td> L$<span id="decision1"></td>
+                <td> L$<span  id="payoff1"></td>
+            </tr>
+            <tr hidden>
+                <td>Opponent </td>
+                <td> L$<span id="decision2"></td>
+                <td> L$<span id="payoff2"></td>
+            </tr>
+       
+            <tr hidden>
+                <td>Opponent </td>
+                <td> L$<span id="decision3"></td>
+                <td> L$<span id="payoff3"></td>
+            </tr>
+    
+                {{endif}}
+            <tr>
+                <td> Average</td>
+                <td> L$<span id="decision_av">L$</td>
+                <td> L$<span id="payoff_av">L$</td>
+            </tr>
+      
+
+        
+        
+        </table>
+
+
+
+    
+    </div>
+</center>
+
+    <br>
+
+        <li> You are endowed with <em>L&dollar;{{endowment}}</em> to use completely or partially to invest in increasing your share of the prize. 
+        </li><p></p>
+    
+        <li>
+            You can  make a prediction about the average investment of your opponents, <!-- <em>&theta;<sub>p</sub></em>,--> which will help inform your decision. 
+            The better your prediction, the more accurate the predicted result will be.
+        </li>
+    
+    
+    </ul>
+    
+    <p></p>
+    <div style="width: 100%;">
+    
+    <div style="height: 405px; width: 50%; float: left; border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000;">
+        <br>
+     Enter your <b>prediction for your opponents' average investment</b> in this round: <em><b>L&dollar; <span id="prediction" hidden></span></b></em>   
+     <input id="GuessBox" value="{{slider_default_prediction}}" style="width: 4em; font-weight: bold; font-style: italic" onkeypress="return event.keyCode != 13;" step="0.001" type="number" min="0" max="{{slider_max}}">
+                   <center>
+        <div class="slidecontainer2">
+            <div class="c">  <small>L${{slider_max|to0}}</small></div>
+            <input type="range"  min="0" max="{{slider_max}}"  step="0.1"   value="{{slider_default_prediction}}" class="slider" id="sliderGuess">
+            <div class="b"><small>L${{slider_min|to0}}</small>  </div>
+          
+            </div></center>
+    
+    <p></p>
+          <br>
+    <p></p>
+        How much <b>would you like  to invest </b> to increase your share of the prize: <em><b>L&dollar;<span id="investment" hidden></span></b></em>
+        <input id="BidBox" value="{{slider_default_investment}}" style="width: 4em; font-weight: bold; font-style: italic" onkeypress="return event.keyCode != 13;" step="0.001" type="number" min="0" max="{{slider_max}}">
+    
+            <div class="c">  <small>L${{slider_max|to0}}</small></div>
+        <div class="slidecontainer">
+      <input type="range"  min="0" max="{{slider_max}}"  step="0.1"    value="{{slider_default_investment}}"  class="slider" id="sliderBid">
+               <div class="b"><small>L${{slider_min|to0}}</small>  </div>
+            </div>
+      </div>
+    
+      <div style="margin-left: 50%; height: 405px;border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000; ">  
+        <figure class="highcharts-figure" style="margin-top: -5px;">
+              <div id="container"></div>
+          </figure>
+          
+        </div>
+        
+    
+    </div>
+  <p></p>
+
+    
+    <br>
+    <b style="color:gray">REMEMBER:</b>
+            <center>
+    
+                You'll keep your <span style="color:blue"> endowment minus your investment</span>
+              and receive <span style="color:orange">  a fraction of the value of the prize, L${{V}}</span>, which depends on your and your opponents' investments.
+    
+                <br>
+                If no ones invests,  everyone <span style="color:blue"> keeps their  endowment </span> and the  <span style="color:orange">prize is split four ways</span>.
+    </center>
+    <p></p><br>
+    <b>Based on your prediction and investment, you expect to receive:</b>
+    <ul>
+    <ul>
+    <li>
+    <b style="color:orange"><span id='my_probability'></span>% of the prize of L${{V}}, that is L$<span id="prize_won"></span></b>  
+    </li>
+    <li>
+    <b style="color:blue"> keep L$<span id='endowment_kept'></span> from your endowment</b>
+    </li>
+    
+      <ul>
+    
+         <li>
+    
+          <span class="important">Thus, your expected payoff is L&dollar;</span><span class="important" id="payoff_expected"></span>
+            </li> 
+            <li>
+              <b>And your opponents' average, L&dollar;<span id="payoff_opponent"></span> </b> 
+            </li>
+      </ul></ul></ul>
+    <p></p>
+      <label>
+        <button type="button" class="btn btn-primary btn-large" onclick="cooperate()">
+            Send bid
+        </button>
+    </label>
+
+    </div>
+
+
+</div>
+
+<script>
+    
+
+    var sliderGuess1 = document.getElementById("sliderGuess");
+    var GuessBox1 = document.getElementById("GuessBox");
+    var sliderBid1 = document.getElementById("sliderBid");
+    var BidBox1 = document.getElementById("BidBox");
+    
+    let waitDiv = document.getElementById('wait');
+    let decideDiv = document.getElementById('decide');
+    let resultsDiv = document.getElementById('results');
+
+    let playerCells = [
+        document.getElementById('decision1'),
+        document.getElementById('decision2'),
+        document.getElementById('decision3'),
+        document.getElementById('decision4')
+
+    ];
+    let playerCells2 = [
+        document.getElementById('payoff1'),
+        document.getElementById('payoff2'),
+        document.getElementById('payoff3'),
+        document.getElementById('payoff4')         
+       
+        
+    ];
+
+
+    function show(ele) {
+        for (let div of [waitDiv, decideDiv]) {
+            div.style.display = (div === ele) ? 'block' : 'none';
+        }
+    }
+
+    function showResults(results) {
+        let bids_total = 0;
+        let payoffs_total = 0;
+        for (let i = 0; i < results.bids.length; i++) {
+
+            playerCells[i].innerText = results.bids[i] ;
+            playerCells2[i].innerText = results.payoffs[i];
+            bids_total+=results.bids[i];
+            payoffs_total+=results.payoffs[i];
+        }
+        document.getElementById('payoff_av').innerText = (payoffs_total/results.bids.length).toFixed(2);
+        document.getElementById('decision_av').innerText = (bids_total/results.bids.length).toFixed(2);
+
+        // it's only hidden in the first period
+        resultsDiv.style.display = 'block';
+        resultsDiv.style.backgroundColor = 'lightgreen';
+        resultsDiv.classList.add('blink_me');
+
+        setTimeout(function (event) {
+            resultsDiv.style.backgroundColor = '';
+        }, 7500);
+
+        setTimeout(function (event) {
+            resultsDiv.classList.remove('blink_me');
+        }, 3000);
+        
+    }
+
+    function liveRecv(data) {
+        console.log('liveRecv', JSON.stringify(data));
+     
+        if (data.finished_sg) {
+            document.getElementById('form').submit();
+            return;
+        }
+        document.getElementById('period').innerText = data.iteration + 1;
+        let is_waiting = data.should_wait;
+        if (is_waiting) {
+            show(waitDiv);
+        } else {
+            show(decideDiv);
+        }
+        if (data.last_results) {
+            showResults(data.last_results);
+        }
+
+        var starttime=new Date(); hs=starttime.getHours(); ms=starttime.getMinutes(); ss=starttime.getSeconds();
+        startTime();
+    }
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+        liveSend({'type': 'load'});
+    });
+
+
+
+
+function getProbability(x,y) {
+  if (x == 0 && y == 0 ){
+      return 1/( {{num_others}} + 1);
+  } else if (x > 0 && y == 0){
+     return  1
+  } else{
+      return x ** {{r}} / (  x**{{r}} + {{num_others}}*y ** {{r}} ) ;
+  }};
+
+
+sliderGuess1.oninput = function () {
+  var investment = sliderBid1.value;
+  var prediction  = this.value;
+
+
+
+  document.getElementById("sliderGuess").className = "slider";
+  document.getElementById('prediction').innerHTML = this.value;
+
+  document.getElementById('GuessBox').value= this.value;
+
+  document.getElementById('prize_won').innerHTML = (getProbability(investment, prediction)*{{V}}).toFixed(2);
+  document.getElementById('endowment_kept').innerHTML = ({{endowment}}-investment).toFixed(2);
+
+  document.getElementById('my_probability').innerHTML = (getProbability(investment, prediction)*100).toFixed(2);
+
+
+  document.getElementById('payoff_expected').innerHTML = ({{endowment}}+getProbability(investment, prediction)*{{V}}-investment).toFixed(2);
+  document.getElementById('payoff_opponent').innerHTML = ({{endowment}}+(1-getProbability(investment, prediction))/{{num_others}}*{{V}}-prediction).toFixed(2);
+
+  var aux_you=parseFloat((getProbability(investment, prediction)*100).toFixed(2));
+  var aux_others=parseFloat(((1- getProbability(investment, prediction))*100).toFixed(2));
+
+  Highcharts.chart('container', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie',     
+        margin: [0,0,0,0],
+        spacingTop: 0,
+        spacingRight: 0,
+        spacingBottom: 0,
+        spacingLeft: 0,
+        animation: false,
+    },
+    title: {
+        text: '',
+    },
+        credits: {
+        enabled: false
+            },
+  
+            caption: {   
+              text: 'Expected split of the prize:',
+              verticalAlign:'top',
+              floating: 'true',
+              align:'center',
+              
+            },
+    tooltip: {
+        pointFormat: ' <b>{point.percentage:.2f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+      pie: {
+          allowPointSelect: true,
+          cursor: 'pointer',
+          dataLabels: {
+              enabled: false,
+              format: '<b>{point.name}</b>:</br> {point.percentage:.2f} %'
+          },
+          showInLegend: true
+      }
+  },
+    series: [{
+        name: 'Brands',
+        colorByPoint: true,
+        data: [{
+            name: 'You',
+            y:aux_you
+  
+         
+        },  {
+            name: 'Opponents',
+            y: aux_others
+        }]
+    }]
+  });
+
+};
+
+
+GuessBox1.oninput = function () {
+  var investment = sliderBid1.value;
+  var prediction  = this.value;
+
+
+  document.getElementById("sliderGuess").className = "slider";
+  document.getElementById('prediction').innerHTML = this.value;
+
+
+  document.getElementById('sliderGuess').value= this.value;
+
+
+
+  document.getElementById('my_probability').innerHTML = (getProbability(investment, prediction)*100).toFixed(2);
+
+  document.getElementById('prize_won').innerHTML = (getProbability(investment, prediction)*{{V}}).toFixed(2);
+  document.getElementById('endowment_kept').innerHTML = ({{endowment}}-investment).toFixed(2);
+
+
+  document.getElementById('payoff_expected').innerHTML = ({{endowment}}+getProbability(investment, prediction)*{{V}}-investment).toFixed(2);
+  document.getElementById('payoff_opponent').innerHTML = ({{endowment}}+(1-getProbability(investment, prediction))/{{num_others}}*{{V}}-prediction).toFixed(2);
+
+  var aux_you=parseFloat((getProbability(investment, prediction)*100).toFixed(2));
+  var aux_others=parseFloat(((1- getProbability(investment, prediction))*100).toFixed(2));
+
+  Highcharts.chart('container', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie',     
+        margin: [0,0,0,0],
+        spacingTop: 0,
+        spacingRight: 0,
+        spacingBottom: 0,
+        spacingLeft: 0,
+        animation: false,
+    },
+    title: {
+        text: '',
+    },
+        credits: {
+        enabled: false
+            },
+  
+            caption: {   
+              text: 'Expected split of the prize:',
+              verticalAlign:'top',
+              floating: 'true',
+              align:'center',
+              
+            },
+    tooltip: {
+        pointFormat: ' <b>{point.percentage:.2f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+      pie: {
+          allowPointSelect: true,
+          cursor: 'pointer',
+          dataLabels: {
+              enabled: false,
+              format: '<b>{point.name}</b>:</br> {point.percentage:.2f} %'
+          },
+          showInLegend: true
+      }
+  },
+    series: [{
+        name: 'Brands',
+        colorByPoint: true,
+        data: [{
+            name: 'You',
+            y:aux_you
+  
+         
+        },  {
+            name: 'Opponents',
+            y: aux_others
+        }]
+    }]
+  });
+
+}
+
+
+
+
+
+sliderBid1.oninput = function () {
+  var prediction= sliderGuess1.value;
+  var investment = this.value;
+ 
+
+  document.getElementById("sliderBid").className = "slider";
+  document.getElementById('investment').innerHTML = this.value;
+
+
+  document.getElementById('BidBox').value= this.value;
+
+
+  document.getElementById('my_probability').innerHTML = (getProbability(investment, prediction)*100).toFixed(2);
+
+  document.getElementById('prize_won').innerHTML = (getProbability(investment, prediction)*{{V}}).toFixed(2);
+  document.getElementById('endowment_kept').innerHTML = ({{endowment}}-investment).toFixed(2);
+
+
+  document.getElementById('payoff_expected').innerHTML = ({{endowment}}+getProbability(investment, prediction)*{{V}}-investment).toFixed(2);
+  document.getElementById('payoff_opponent').innerHTML = ({{endowment}}+(1-getProbability(investment, prediction))/{{num_others}}*{{V}}-prediction).toFixed(2);
+
+  var aux_you=parseFloat((getProbability(investment, prediction)*100).toFixed(2));
+  var aux_others=parseFloat(((1- getProbability(investment, prediction))*100).toFixed(2));
+
+  Highcharts.chart('container', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie',     
+        margin: [0,0,0,0],
+        spacingTop: 0,
+        spacingRight: 0,
+        spacingBottom: 0,
+        spacingLeft: 0,
+        animation: false,
+    },
+    title: {
+        text: '',
+    },
+        credits: {
+        enabled: false
+            },
+  
+            caption: {   
+              text: 'Expected split of the prize:',
+              verticalAlign:'top',
+              floating: 'true',
+              align:'center',
+              
+            },
+    tooltip: {
+        pointFormat: ' <b>{point.percentage:.2f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+      pie: {
+          allowPointSelect: true,
+          cursor: 'pointer',
+          dataLabels: {
+              enabled: false,
+              format: '<b>{point.name}</b>:</br> {point.percentage:.2f} %'
+          },
+          showInLegend: true
+      }
+  },
+    series: [{
+        name: 'Brands',
+        colorByPoint: true,
+        data: [{
+            name: 'You',
+            y:aux_you
+  
+         
+        },  {
+            name: 'Opponents',
+            y: aux_others
+        }]
+    }]
+  });
+
+}
+
+
+BidBox1.oninput = function () {
+var prediction= sliderGuess1.value;
+var investment = this.value;
+
+
+
+document.getElementById("sliderBid").className = "slider";
+document.getElementById('investment').innerHTML = this.value;
+
+
+document.getElementById('sliderBid').value= this.value;
+
+
+document.getElementById('my_probability').innerHTML = (getProbability(investment, prediction)*100).toFixed(2);
+
+document.getElementById('prize_won').innerHTML = (getProbability(investment, prediction)*{{V}}).toFixed(2);
+document.getElementById('endowment_kept').innerHTML = ({{endowment}}-investment).toFixed(2);
+
+
+document.getElementById('payoff_expected').innerHTML = ({{endowment}}+getProbability(investment, prediction)*{{V}}-investment).toFixed(2);
+document.getElementById('payoff_opponent').innerHTML = ({{endowment}}+(1-getProbability(investment, prediction))/{{num_others}}*{{V}}-prediction).toFixed(2);
+
+var aux_you=parseFloat((getProbability(investment, prediction)*100).toFixed(2));
+var aux_others=parseFloat(((1- getProbability(investment, prediction))*100).toFixed(2));
+
+Highcharts.chart('container', {
+  chart: {
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'pie',     
+      margin: [0,0,0,0],
+      spacingTop: 0,
+      spacingRight: 0,
+      spacingBottom: 0,
+      spacingLeft: 0,
+      animation: false,
+  },
+  title: {
+      text: '',
+  },
+      credits: {
+      enabled: false
+          },
+
+          caption: {   
+            text: 'Expected split of the prize:',
+            verticalAlign:'top',
+            floating: 'true',
+            align:'center',
+            
+          },
+  tooltip: {
+      pointFormat: ' <b>{point.percentage:.2f}%</b>'
+  },
+  accessibility: {
+      point: {
+          valueSuffix: '%'
+      }
+  },
+  plotOptions: {
+    pie: {
+        allowPointSelect: true,
+        cursor: 'pointer',
+        dataLabels: {
+            enabled: false,
+            format: '<b>{point.name}</b>:</br> {point.percentage:.2f} %'
+        },
+        showInLegend: true
+    }
+},
+  series: [{
+      name: 'Brands',
+      colorByPoint: true,
+      data: [{
+          name: 'You',
+          y:aux_you
+
+       
+      },  {
+          name: 'Opponents',
+          y: aux_others
+      }]
+  }]
+});
+
+}
+
+function cooperate() {
+    var investment = sliderBid1.value;
+    var prediction  = sliderGuess1.value;
+    liveSend({'bid': investment, 'prediction': prediction  });
+
+}
+
+
+
+Highcharts.setOptions({
+    plotOptions: {
+        series: {
+            animation: false
+        }
+    }
+});
+
+
+</script>
+
+{% endblock %}

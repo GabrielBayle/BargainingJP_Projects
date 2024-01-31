@@ -1,0 +1,202 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+   <b style="color:grey"> Summary of Instructions: Prediction Task</b>
+{% endblock %}
+
+{% block app_styles %}
+<style type="text/css">
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slidecontainer2 {
+  width: 100%;
+}
+
+.slider2 {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider2:hover {
+  opacity: 1;
+}
+
+.slider2::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider2::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.center {
+border: 5px solid #FFFF00;
+text-align: center;
+}
+
+.display {
+    border: 10px solid red;
+}
+
+.important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+th {
+    border: 1px solid black;
+    font-size: 10pt;
+    width: 200px;
+    text-align: center;
+    font-weight:bold;
+    background-color: lightgray;
+    }
+
+td {
+    font-size: 10pt;
+    border: 1px solid black;
+    text-align: center;
+    }
+
+table {
+    table-layout: fixed;
+    width: 200px;
+    }
+
+.history td {
+    font-size: 16pt;
+    }
+
+.history th {
+    font-size: 12pt;
+    width: 100px;
+    text-align: center;
+    }
+.frac {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    letter-spacing: 0.001em;
+    text-align: center;
+}
+.frac > span {
+    display: block;
+    padding: 0.1em;
+}
+.frac span.bottom {
+    border-top: thin solid black;
+}
+.frac span.symbol {
+    display: none;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+
+<p>  </p>
+<li><b>Participants who do not actively participate in the market in a round:  (figure below): </b>
+   
+
+
+ <ul>
+   
+{#        You'll receive an asset to sell and learn its intrinsic value, <em>&theta;</em>, ranging from <em>L&dollar;0</em> to <em>L&dollar;100</em>,
+       which is unknown to potential Asset Buyers in your group.
+  #}
+ <ul> <li> Are asked to predict the average of the prices at which shares will be traded during that period. </li>
+    </ul>
+    <center><img src="https://i.imgur.com/h3g1pGL.png" width="75%"/> </center>
+
+
+     <p></p>
+    {# What is known to everyone is that <em>&theta;</em> is equally likely to be any number between <em>L&dollar;0</em> and <em>L&dollar;100</em>.#}
+    <ul> <li>At the end of each period, their prediction will be compared to the actual average trading price. The more accurate the prediction, the more you will earn.</li>
+    </ul> 
+      
+       <p></p>
+     
+          <ul> <li> Each period, you will earn <em>L&dollar;YYYY</em> minus the absolute value of your prediction error.
+            For example, if you predict a price of <em>PP</em> and the actual average trading price is <i>AP</i>,  your prediction earnings will be <em>L&dollar;YYY-|PP-AP| </em>.</li>
+
+    
+               <p></p>
+              </ul>
+            
+            <p></p>  
+              <ul> <li> You have 120 seconds to enter your prediction. If you do not enter a prediction value in time or your earnings would be negative, you will earn <em>L&dollar;YYY</em>.</li>
+   
+      
+            
+            
+            </ul>
+      
+      </li>
+
+
+      
+      
+
+
+
+<p></p><br>
+{% next_button %}
+
+
+{% endblock %}

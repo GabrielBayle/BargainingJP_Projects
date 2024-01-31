@@ -1,0 +1,55 @@
+{{ extends 'otree/WaitPage.html' }}
+{% load otree static %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+<style>
+.otree-btn-next {
+                 text-align: right;
+                }
+
+.blink_me {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+</style>
+
+
+<script>
+  </script>
+  
+
+
+<div class="card bg-light ">
+
+       <div class="card-header">
+         <h4><center>
+ <b style="color: gray">One participant will be replaced </b> — Another participant is being asked to join and receive detailed instructions but...
+         </center></h4>
+           <center>
+            
+            <br><br>
+            Before joining the experiment they will be asked to confirm  they are ready to join. If they fail to confirm on time the second participant on the queue will be selected.
+                <p></p>
+
+                
+           </center>
+
+
+       </div></div>
+<p></p><br>
+
+
+  
+
+
+{% endblock %}

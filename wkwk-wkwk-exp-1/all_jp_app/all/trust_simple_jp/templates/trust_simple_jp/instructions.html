@@ -1,0 +1,20 @@
+{% load otree %}
+
+<div class="card bg-light m-3">
+    <div class="card-body">
+
+    <h3>
+        実験説明
+    </h3>
+    <p>
+        これは2人で行う信頼ゲームです。
+    </p>
+    <p>
+        まず初めに プレイヤーAは {{ Constants.endowment }}を受け取ります。
+        プレイヤーBは何も受け取りません。
+        プレイヤーAは0〜{{ Constants.endowment }}のうち任意の値をプレイヤーBに渡すことができます。
+        Bが受け取る前にその値は3倍になります。
+        3倍になったポイントをBが受け取ると、BはAにいくら返すか決めることができます。
+    </p>
+    </div>
+</div>

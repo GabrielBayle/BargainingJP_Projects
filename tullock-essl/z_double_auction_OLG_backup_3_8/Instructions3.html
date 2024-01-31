@@ -1,0 +1,285 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+   <b style="color:grey"> Summary of Instructions: Trading</b>
+{% endblock %}
+
+{% block app_styles %}
+<style type="text/css">
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slidecontainer2 {
+  width: 100%;
+}
+
+.slider2 {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider2:hover {
+  opacity: 1;
+}
+
+.slider2::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider2::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.center {
+border: 5px solid #FFFF00;
+text-align: center;
+}
+
+.display {
+    border: 10px solid red;
+}
+
+.important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+th {
+    border: 1px solid black;
+    font-size: 10pt;
+    width: 200px;
+    text-align: center;
+    font-weight:bold;
+    background-color: lightgray;
+    }
+
+td {
+    font-size: 10pt;
+    border: 1px solid black;
+    text-align: center;
+    }
+
+table {
+    table-layout: fixed;
+    width: 200px;
+    }
+
+.history td {
+    font-size: 16pt;
+    }
+
+.history th {
+    font-size: 12pt;
+    width: 100px;
+    text-align: center;
+    }
+.frac {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    letter-spacing: 0.001em;
+    text-align: center;
+}
+.frac > span {
+    display: block;
+    padding: 0.1em;
+}
+.frac span.bottom {
+    border-top: thin solid black;
+}
+.frac span.symbol {
+    display: none;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+
+    <p>  </p>
+    <li><b>Trading will take place trough a double action (figure below): </b>
+      
+      {{ if info_acquisition == 1}}      
+      <center><img src="https://i.imgur.com/gbB1zmN.png" width="85%"/> </center>
+   {{else}}
+
+        {{ if public_information == 1}}      
+        <center><img src="https://i.imgur.com/gbB1zmN.png" width="85%"/> </center>
+        {{ endif }}
+
+        {{ if public_information == 0}}
+        <center><img src="https://i.imgur.com/OsoUsAf.png" width="85%"/> </center>
+        {{ endif }}
+      {{ endif }}
+   
+{{ if info_acquisition == 1}}
+      <ul> <li>You can purchase a <b>"clue"</b> about the sequence's dividend per share for L${{info_cost}}:   </li>
+      <ul>  <p></p>
+        <li>If you decide to purchase the "clue", you'll be informed about one of the three possible values the divided is NOT taking in the sequence. </li>
+        <p></p>
+        <li>Other participants that purchase the "clue" may receive the same or complementary information. </li>
+        <p></p>
+        <li>For example, if the dividend is L${{dividend_range_2}}, your clue will be either  NOT L${{dividend_range_1}} or NOT L${{dividend_range_3}} . </li>
+      
+      
+      </ul>
+      
+      </ul>
+{{else}}
+
+{{ if public_information == 1}}
+<ul> <li>You will receive a <b>"clue"</b> about the sequence's dividend per share:   </li>
+  <ul>  <p></p>
+    <li>You'll be informed about one of the three possible values the divided is NOT taking in the sequence. </li>
+        <p></p>
+        <li>Other participants may receive the same or complementary information. </li>
+        <p></p>
+        <li>For example, if the dividend is L${{dividend_range_2}}, your clue will be either  NOT L${{dividend_range_1}} or NOT L${{dividend_range_3}}. </li>
+      
+      
+      </ul>
+      
+      </ul>
+{{ endif }}
+
+{{ if public_information == 0}}
+<ul> <li> You, and all other participants, do not know what the dividend per share in each sequence will be: </li>
+  <ul>  <p></p>
+    <li> The only information available to everyone is that the dividend will be either L${{dividend_range_1}}, L${{dividend_range_2}} or L${{dividend_range_3}}.   </li>
+  </ul>
+      
+</ul>
+    {{ endif }}
+
+{{ endif }}
+
+      <p></p>
+       
+   {#        You'll receive an asset to sell and learn its intrinsic value, <em>&theta;</em>, ranging from <em>L&dollar;0</em> to <em>L&dollar;100</em>,
+           which is unknown to potential Asset Buyers in your group.
+      #}
+      <ul> <li> You can select to act as a <b>Buyer</b> or a <b>Seller</b> by clicking on the corresponding button</b>:</li>
+      </ul>
+      <p></p>
+     <ul> <ul> <li> As a <b>Buyer</b> you can submit one bid at the time for a single share, provided that you have enough cash to pay if your bid is accepted.</li>
+        </ul>
+
+         <p></p>
+        {# What is known to everyone is that <em>&theta;</em> is equally likely to be any number between <em>L&dollar;0</em> and <em>L&dollar;100</em>.#}
+        <ul> <li>Similarly, as a <b>Seller</b>, you can submit offer prices (ask prices) at which you are willing to sell each of the shares you own.</li>
+        </ul> 
+          
+           <p></p>
+         
+              <ul> <li> If a new bid is greater than an outstanding ask then a transaction occurs and the purchase price is the new bid price . </li>
+   
+        
+                   <p></p>
+                  </ul>
+                
+                <p></p>  
+                  <ul> <li> If a new ask is lower than an outstanding bid then the transaction occurs and the purchase price is the new ask price. </li>
+       
+            
+                       <p></p>
+                      </ul>
+                      
+                      <ul>
+                        <li>Buying a share reduces your cash balance by the purchase price, while selling a share increases your cash balance by the purchase price. </li>
+                                
+                         </ul>
+                        <p></p>  
+
+                  <p></p>  
+                  <ul> <li>   Note that neither your share nor cash inventories are allowed to fall below zero (no borrowing or short-selling). </li>
+       
+            
+                       <p></p>
+                      </ul>
+
+
+                  
+                  <p></p>  
+                  <ul> <li> Prices are determined only by the bids and asks submitted by the "active" investors in the market.</li>
+       
+            
+                       <p></p>
+                      </ul>
+                      <p></p>  
+                      <ul> <li>  All outstanding bids and asks are automatically canceled at the end of a period.
+                        </li>
+           
+                
+                           <p></p>
+                          </ul>
+                
+                
+                </ul>
+          
+          </li>
+
+
+          
+          
+
+
+
+<p></p><br>
+{% next_button %}
+
+
+{% endblock %}

@@ -1,0 +1,494 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+{% load static %}
+
+{% block title %}
+    株取引ゲーム
+{% endblock %}
+
+
+{% block styles %}
+<!-- <script><link rel="stylesheet" href="MyPage.css"></script> -->
+<link href="{% static "game.css" %}" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+<p>
+<h4>第{{ subsession.round_number }}ラウンド</h4>
+</p>
+<div>
+  <p>
+    あなたは<strong>グループ{{player.id_in_group }}</strong>です．<br />
+    あなたの所持金は<strong><span id='player_money'> {{ player.money }} </span></strong>，
+    所有株式は<strong><span id='player_stocks'> {{player.num_stocks }} 枚</span></strong>です.
+  </p>
+
+    <p>
+      倒産した株の総数  :{{ group.total_bunkruptcy }}<br />
+      生き残った株の総数:{{ group.total_survive_stock }} <br />
+    </p>
+
+  <p>
+    希望する価格を入力して，希望する注文ボタンを押してください．<br />
+    承諾ボタンを押すことで注文を承諾することができます．
+  </p>
+
+</div>
+
+<hr />
+
+<div id='app'>
+  <label float='left'>希望価格:</label>
+  <input id="inputbox" type="number" min="0" class="form-control" class="input-medium"  placeholder="">
+  <br /><label >注文:</label><br />
+  <button type="button" id="bidbutton" class="btn btn-danger">売り注文</button>
+  <button type="button" id="askbutton" class="btn btn-primary">買い注文</button>
+  <!-- <button type="button" id="canncelbutton" class="btn btn-warning">キャンセル</button> -->
+</div>
+
+<hr />
+
+<div id='tables' align="center" >
+<table class="table" align="center" >
+  <tr valign="top">
+    <td>
+      <table border="0" style="float:left;">
+        <tr align="center"><th colspan="2" width="160" >売り値</th></tr>
+        <tr align="center"><td colspan="2">
+          <button type="button" id='bid_accept' class="btn btn-success">承諾(購入)</button>
+        </td></tr>
+        <tr>
+          <td>
+            <div id='test' style="font-size:14pt"></div>
+          </td>
+        </tr>
+      </table>
+    </td>
+    <td>
+      <table border="0" >
+        <tr align="center"><th colspan="2" width="160">買い値</th></tr>
+        <tr align="center"><td colspan="2">
+          <button type="button" id='ask_accept' class="btn btn-success">承諾(売却)</button>
+        </td></tr>
+        <tr>
+          <td>
+            <div id='test_ask' style="font-size:14pt"></div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</div>
+
+<!-- <div id='check'>
+
+</div> -->
+
+<div class="modal fade" id="modal_1" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="label1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="label1">取引成立</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+          <span id='modal_result'></span><br />
+        「閉じる」を押して取引を続けてください．
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal_not_stock" data-backdrop="true" tabindex="-1" role="dialog" aria-labelledby="label1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="label1">エラー</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+          <p>株式を持っていません．</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal_you_are_top_asker" data-backdrop="true" tabindex="-1" role="dialog" aria-labelledby="label1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="label1">エラー</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+          <p>最も高い買い値をつけているとき売り注文はできません．</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal_no_money" data-backdrop="true" tabindex="-1" role="dialog" aria-labelledby="label1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="label1">エラー</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+          <p>所持金が不足しています.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal_you_are_top_bidder" data-backdrop="true" tabindex="-1" role="dialog" aria-labelledby="label1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="label1">エラー</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+          <p>最も低い売り値をつけているとき買い注文はできません．</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+
+
+{% block scripts %}
+
+<script>
+
+
+    function sort_object_down(dict){
+      var items = Object.keys(dict).map(function(key) {
+        return [key, dict[key]];
+      });
+      items.sort(function(first, second) {
+        return second[1] - first[1];
+      });
+      return(items);
+    }
+
+    function sort_object_up(dict){
+      var items = Object.keys(dict).map(function(key) {
+        return [key, dict[key]];
+      });
+      items.sort(function(first, second) {
+        return first[1] - second[1];
+      });
+      return(items);
+    }
+
+    let modal_1 = document.getElementById('modal_1');
+    let player_money = document.getElementById('player_money');
+    let player_stocks = document.getElementById('player_stocks');
+    let inputbox = document.getElementById('inputbox');
+    let bidbutton = document.getElementById('bidbutton');
+    let askbutton = document.getElementById('askbutton');
+    // let canncelbutton = document.getElementById('canncelbutton');
+    let test = document.getElementById('test');
+    let test_ask = document.getElementById('test_ask');
+    let error_check = document.getElementById('error_check');
+    let bid_accept = document.getElementById('bid_accept');
+    let ask_accept = document.getElementById('ask_accept');
+    let modal_topasker = document.getElementById('modal_topasker');
+    let modal_topbidder = document.getElementById('modal_topbidder');
+    let modal_result = document.getElementById('modal_result');
+    var bids = {};
+    var asks = {};
+
+    function liveRecv(data) {
+
+      if(data.type=='trade_success'){
+        test.innerHTML = "";
+        test_ask.innerHTML = "";
+        askbutton.disabled = false;
+        bidbutton.disabled = false;
+        bid_accept.disabled = true;
+        ask_accept.disabled = true;
+
+        if ( {{ player.id_in_group }} == data.top_bidder ){
+          player_money.innerHTML = '';
+          player_stocks.innerHTML = '';
+          player_money.innerHTML
+            += '<strong>'
+            + data.top_bidder_money
+            + '円'
+            + '</strong>';
+          player_stocks.innerHTML
+            += '<strong>'
+            + data.top_bidder_stocks
+            + '枚'
+            + '</strong>';
+        }else if ( {{ player.id_in_group }} == data.top_asker){
+          player_money.innerHTML = '';
+          player_stocks.innerHTML = '';
+          player_money.innerHTML
+            += '<strong>'
+            + data.top_asker_money
+            + '円'
+            + '</strong>';
+          player_stocks.innerHTML
+            += '<strong>'
+            + data.top_asker_stocks
+            + '枚'
+            + '</strong>';
+        }
+
+        for(var key in bids){
+          delete bids[key];
+        }
+
+        for(var key in asks){
+          delete asks[key];
+        }
+
+        var arr_bids = sort_object_up(bids);
+        for (i=0;i<arr_bids.length;i++){
+          test.innerHTML
+            += "<br>"
+            +"<small>グループ</small>" +"&nbsp;"
+            + "<small>" +arr_bids[i][0]+ "</small>"
+            +':' + '&emsp;'
+            + "<strong>" +arr_bids[i][1]+ "</strong>";
+        }
+
+        var arr_asks = sort_object_down(asks);
+        for (i=0;i<arr_asks.length;i++){
+          test_ask.innerHTML
+            += "<br>"
+            +"<small>グループ</small>" +"&nbsp;"
+            + "<small>" +arr_asks[i][0]+ "</small>"
+            +':' +"&emsp;"
+            + "<strong>" +arr_asks[i][1]+ "</strong>";
+        }
+
+        modal_result.innerHTML = '';
+        if ( {{ player.id_in_group }} == data.top_bidder ){
+          modal_result.innerHTML
+            += 'あなたは'
+            + '<strong>'
+            + 'グループ'
+            + data.top_asker
+            + '</strong>'
+            + 'と'
+            + data.traded_price
+            +'円で取引に成功しました．';
+        } else if ( {{ player.id_in_group }} == data.top_asker ){
+          modal_result.innerHTML
+            += 'あなたは'
+            + '<strong>'
+            + 'グループ'
+            + data.top_bidder
+            + '</strong>'
+            + 'と'
+            + data.traded_price
+            +'円で取引に成功しました．';
+        } else{
+          modal_result.innerHTML
+            += '<strong>'
+            + 'グループ'
+            + data.top_bidder
+            + '</strong>'
+            + 'と'
+            + '<strong>'
+            + 'グループ'
+            + data.top_asker
+            + '</strong>'
+            + 'が'
+            + data.traded_price
+            +'円で取引に成功しました．';
+        }
+        open_modal_1();
+      }
+
+      if(data.type=='bid'){
+        if ({{ player.id_in_group }} == data.id_in_group ){
+          bid_accept.disabled = true;
+        }else{
+          bid_accept.disabled = false;
+        }
+
+        bids[data.id_in_group]=data.bid;
+        test.innerHTML = "";
+        var arr_bids = sort_object_up(bids);
+
+
+        for (i=0;i<arr_bids.length;i++){
+          test.innerHTML
+            += "<br>"
+            +"<small>グループ</small>" +"&nbsp;"
+            + "<small>" +arr_bids[i][0]+ "</small>"
+            +':' + '&emsp;'
+            + "<strong>" +arr_bids[i][1]+ "</strong>";
+        }
+
+      }else if (data.type=='ask'){
+        if ({{ player.id_in_group }} == data.id_in_group  ||  {{ player.num_stocks }} < 1){
+          ask_accept.disabled = true;
+        }else{
+          ask_accept.disabled = false;
+        }
+
+        asks[data.id_in_group]=data.ask;
+        test_ask.innerHTML = "";
+        var arr_asks = sort_object_down(asks);
+
+        for (i=0;i<arr_asks.length;i++){
+          test_ask.innerHTML
+            += "<br>"
+            +"<small>グループ</small>" +"&nbsp;"
+            + "<small>" +arr_asks[i][0]+ "</small>"
+            +':' +"&emsp;"
+            + "<strong>" +arr_asks[i][1]+ "</strong>";
+        }
+
+      }else if (data.type=='cancel') {
+        if(data.id_in_group in bids){
+          delete bids[data.id_in_group];
+          test.innerHTML = "";
+          var arr_bids = sort_object_up(bids);
+          for (i=0;i<arr_bids.length;i++){
+            test.innerHTML
+              += "<br>"
+              +"<small>グループ</small>" +"&nbsp;"
+              + "<small>" +arr_bids[i][0]+ "</small>"
+              +':' + '&emsp;'
+              + "<strong>" +arr_bids[i][1]+ "</strong>";
+          }
+
+        }
+        if (data.id_in_group in asks){
+          delete asks[data.id_in_group];
+          test_ask.innerHTML = "";
+          var arr_asks = sort_object_down(asks);
+
+          for (i=0;i<arr_asks.length;i++){
+            test_ask.innerHTML
+              += "<br>"
+              +"<small>グループ</small>" +"&nbsp;"
+              + "<small>" +arr_asks[i][0]+ "</small>"
+              +':' +"&emsp;"
+              + "<strong>" +arr_asks[i][1]+ "</strong>";
+          }
+        }
+
+      }else if(data.type=='all_cancel'){
+        if(data.id_in_group in bids){
+          bid_accept.disabled = true;
+          delete bids[data.id_in_group];
+          test.innerHTML = "";
+          var arr_bids = sort_object_up(bids);
+          for (i=0;i<arr_bids.length;i++){
+            test.innerHTML
+              += "<br>"
+              +"<small>グループ</small>" +"&nbsp;"
+              + "<small>" +arr_bids[i][0]+ "</small>"
+              +':' + '&emsp;'
+              + "<strong>" +arr_bids[i][1]+ "</strong>";
+          }
+
+        }
+        if (data.id_in_group in asks){
+          ask_accept.disabled=true;
+          delete asks[data.id_in_group];
+          test_ask.innerHTML = "";
+          var arr_asks = sort_object_down(asks);
+
+          for (i=0;i<arr_asks.length;i++){
+            test_ask.innerHTML
+              += "<br>"
+              +"<small>グループ</small>" +"&nbsp;"
+              + "<small>" +arr_asks[i][0]+ "</small>"
+              +':' +"&emsp;"
+              + "<strong>" +arr_asks[i][1]+ "</strong>";
+          }
+        }
+      }else if (data.type=='not_stock'){
+        $('#modal_not_stock').modal();
+        // window.alert("株式を持っていません．");
+      }else if (data.type=='you_are_top_asker'){
+        $('#modal_you_are_top_asker').modal();
+        // window.alert("最も高い買い値をつけているとき売り注文はできません．");
+      }else if (data.type=='no_money'){
+        $('#modal_no_money').modal();
+        // window.alert("所持金が不足しています.");
+      }else if (data.type=='you_are_top_bidder'){
+        $('#modal_you_are_top_bidder').modal();
+        // window.alert("最も低い売り値をつけているとき買い注文はできません．");
+      }
+
+    } // function end
+    bidbutton.onclick = function () {
+        liveSend({'type':'bid','value':parseInt(inputbox.value)});
+        askbutton.disabled = false;
+    };
+
+    askbutton.onclick = function () {
+        liveSend({'type':'ask','value':parseInt(inputbox.value)});
+        bidbutton.disabled = false;
+    };
+
+    // canncelbutton.onclick = function() {
+    //     liveSend({'type':'cancel'});
+    //     askbutton.disabled = false;
+    //     bidbutton.disabled = false;
+    // };
+
+    bid_accept.disabled = true;
+    bid_accept.onclick = function(){
+      liveSend({'type':'bid_accept'});
+    };
+
+    ask_accept.disabled = true;
+    ask_accept.onclick = function(){
+      liveSend({'type':'ask_accept'});
+    };
+
+    function open_modal_1() {
+      $('#modal_1').modal();
+    }
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="D:\otree\otreetest3\auction\templates\auction\jquery-3.5.1.js"></script>
+
+{% endblock %}

@@ -1,0 +1,481 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+{% load static %}
+
+{% block title %}
+    ダブルオークションゲーム
+{% endblock %}
+
+{% block styles %}
+<link href="{% static "Game.css" %}" rel="stylesheet">
+{% endblock %}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+</head>
+
+
+{% block content %}
+<p>
+<h4>第{{ subsession.round_number }}ラウンド</h4>
+</p>
+<div id='form_and_list' align='center'>
+  <table class='table' align='center' height='100'>
+    <tr valign='top'>
+      <td width='280'>
+        <!-- <p>
+          <span style='display: inline-block; width: 10em;'>番号(ID)：</span>{{ player.id_in_group }}<br />
+          <span style='display: inline-block; width: 10em;'>Xの量：</span><span id='player_amount'>{{ player.amount }}</span><br />
+          <span style='display: inline-block; width: 8em;'>Yの量：</span><span id='player_money'>{{ player.money }}</span><br />
+          <span style='display: inline-block; width: 10em;'>得点：</span><span id='player_utility'>{{ player.utility }}</span><br />
+        </p> -->
+        <table class='table' align='center' >
+          <tr><td>グループ：</td><td>{{ player.id_in_group }}</td></tr>
+          <tr><td>Xの量：</td><td><span id='player_amount'>{{ player.amount }}</span></td></tr>
+          <tr><td>Yの量：</td><td><span id='player_money'>{{ player.money }}</span></td></tr>
+          <tr><td>得点：</td><td><span id='player_utility'>{{ player.utility }}</span></td></tr>
+        </table>
+        <hr />
+        <div id='form' style='float:left;'>
+          <div style='float:left;'>
+            <label float='left'>財X数量：</label>
+            <input id='amount_input_box' type='number' min='0' class='form-control' class='input-medium' placeholder="X">
+          </div>
+          <div>
+            <label float='left'>財Y数量：</label>
+            <input id='price_input_box' type='number' min='0' class='form-control' class='input-medium' placeholder="Y">
+          </div>
+          <br /><lable>注文：</lable><br />
+          <button type='button' id='bid_button' class='btn btn-danger'>     Xの売り注文(Yの買い注文)     </button><br />
+          <button type='button' id='ask_button' class='btn btn-primary'>    Xの買い注文(Yの売り注文)     </button>
+          <br /><lable>キャンセル：</lable><br />
+          <button type='button' id='bid_cancel' class='btn btn-outline-danger btn-sm'>    売キャンセル</button>
+          <button type='button' id='ask_cancel' class='btn btn-outline-primary btn-sm'>    買キャンセル</button>
+        </div>
+      </td>
+      <td>
+        <div id='traded_list' style='height:250pt; max-height: 250pt; overflow-y:scroll;'>
+          <table border='0' >
+            <tr align='center'><th colspan='5' width="440" align='center'>取引成立リスト</th></tr >
+            <tr align='center'>
+              <th colspan='1' width='160'>Xの売り手<br />(Yの買い手)</th>
+              <th colspan='1' width='160'>Xの買い手<br />(Yの売り手)</th>
+              <th colspan='1' width='120'>Xの数量</th>
+              <th colspan='1' width='120'>Yの数量</th>
+              <th colspan='1' width='180'>比率(Y/X)</th>
+            </tr>
+            <tr v-for='(traded_info, index) in traded_infos' align='center'>
+              <td colspan='1' width='160'>
+                 [[ traded_info.bidder ]]
+                <span v-if="traded_info.bidder === {{ player.id_in_group }}" class="badge badge-pill badge-primary">あなた</span>
+              </td>
+              <td colspan='1' width='160'>
+                 [[ traded_info.asker ]]
+                <span v-if="traded_info.asker === {{ player.id_in_group }}" class="badge badge-pill badge-primary">あなた</span>
+              </td>
+              <td colspan='1' width='120'>        [[ traded_info.amount ]]        </td>
+              <td colspan='1' width='120'>        [[ traded_info.price ]]         </td>
+              <td colspan='1' width='180'>        [[ traded_info.unit_of_price ]] </td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<hr />
+
+<div id='tables' align='center' >
+  <table class='table' align='center'>
+    <tr valign='top'>
+      <td>
+        <div id='bid_table'>
+        <table border='0' style='float:left;'>
+          <tr align='center'><th colspan='10' width="420" align='center'>Xの売り注文(Yの買い注文)リスト</th></tr >
+          <tr align='center'>
+            <th colspan='2' width='160'>グループ</th>
+            <th colspan='2' width='120'>Xの数量</th>
+            <th colspan='2' width='120'>Yの数量</th>
+            <th colspan='2' width='180'>比率(Y/X)</th>
+            <th></th>
+          </tr>
+          <tr v-for='(bid_info, index) in bid_infos'  align='center'>
+            <th colspan='2' width='160'>        [[ bid_info.id_in_group ]]   </th>
+            <th colspan='2' width='120'>        [[ bid_info.amount ]]        </th>
+            <th colspan='2' width='120'>        [[ bid_info.price ]]         </th>
+            <th colspan='2' width='180'>        [[ bid_info.unit_of_price ]] </th>
+            <th>
+              <span v-if="bid_info.id_in_group === {{ player.id_in_group }}" class="badge badge-pill badge-primary">あなた</span>
+              <button type="button" v-if="bid_info.id_in_group != {{ player.id_in_group }}" v-on:click="bid_accept(bid_info)" class="btn btn-success btn-sm">Xの購入</button>
+            </th>
+          </tr>
+        </table>
+        </div>
+      </td>
+      <td>
+        <div id='asl_table'>
+        <table border='0'>
+          <tr align='center'><th colspan='8' width="420">Xの買い注文(Yの売り注文)リスト</th></tr >
+          <tr align='center'>
+            <th colspan='2' width='160'>グループ</th>
+            <th colspan='2' width='120'>Xの数量</th>
+            <th colspan='2' width='120'>Yの数量</th>
+            <th colspan='2' width='160'>比率(Y/X)</th>
+            <th></th>
+          </tr>
+        <tr v-for='(ask_info, index) in ask_infos'  align='center'>
+          <th colspan='2' width='160'>        [[ ask_info.id_in_group ]]   </th>
+          <th colspan='2' width='120'>        [[ ask_info.amount ]]        </th>
+          <th colspan='2' width='120'>        [[ ask_info.price ]]         </th>
+          <th colspan='2' width='160'>        [[ ask_info.unit_of_price ]] </th>
+          <th>
+            <span v-if="ask_info.id_in_group === {{ player.id_in_group }}" class="badge badge-pill badge-primary">あなた</span>
+            <button type="button" v-if="ask_info.id_in_group != {{ player.id_in_group }}" v-on:click="ask_accept(ask_info)" class="btn btn-success btn-sm">Xの売却</button>
+          </th>
+        </tr>
+        </table>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<!-- modal -->
+
+<div class="modal" id="modal_1" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="label1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="label1">取引成立</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+          <span id='modal_result'></span><br />
+        「閉じる」を押して取引を続けてください．
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal_not_enough_X" data-backdrop="true" tabindex="-1" role="dialog" aria-labelledby="label1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="label1">エラー</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+          <p>財Xが足りません．</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal_not_enough_Y" data-backdrop="true" tabindex="-1" role="dialog" aria-labelledby="label1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="label1">エラー</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+          <p>財Yが足りません．</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<script>
+
+let player_amount = document.getElementById('player_amount');
+let player_money = document.getElementById('player_money');
+let player_utility = document.getElementById('player_utility');
+let price_input_box = document.getElementById('price_input_box');
+let amount_input_box = document.getElementById('amount_input_box');
+let bid_button = document.getElementById('bid_button');
+let ask_button = document.getElementById('ask_button');
+let bid_cancel = document.getElementById('bid_cancel');
+let ask_cancel = document.getElementById('ask_cancel');
+// let tables = document.getElementById('tables');
+let modal_1 = document.getElementById('modal_1');
+let modal_result = document.getElementById('modal_result');
+
+var table = new Vue({
+  delimiters: ['[[',']]'],
+  el: '#tables',
+  data:{
+    bid_infos:[],
+    ask_infos:[]
+  },
+  methods:{
+    bid_accept: function(bidder){
+      liveSend({
+        'type':'bid_accept',
+        'bidder': bidder.id_in_group,
+        'price': bidder.price,
+        'amount': bidder.amount
+      })
+    },
+    ask_accept: function(asker){
+      liveSend({
+        'type':'ask_accept',
+        'asker': asker.id_in_group,
+        'price': asker.price,
+        'amount': asker.amount
+      })
+    }
+  }
+});
+
+var traded_list = new Vue({
+  delimiters: ['[[',']]'],
+  el: '#traded_list',
+  data:{
+    traded_infos:[]
+  }
+});
+
+    function liveRecv(data) {
+      type = data.type;
+      console.log(type);
+      if (type=='bid'){
+        var id = data.id_in_group;
+        var existing = table.bid_infos.some((v) => v.id_in_group === id);
+        if (existing){
+          var index = table.bid_infos.findIndex((v) => v.id_in_group === id);
+          table.bid_infos.splice(index, 1, {
+            id_in_group: data.id_in_group,
+            amount: data.amount,
+            price: data.price,
+            unit_of_price: data.unit_of_price
+          })
+        }
+        else{
+          table.bid_infos.push({
+            id_in_group: data.id_in_group,
+            amount: data.amount,
+            price: data.price,
+            unit_of_price: data.unit_of_price
+          })
+        }
+      }
+      else if (type=='ask'){
+        var id = data.id_in_group;
+        var existing = table.ask_infos.some((v) => v.id_in_group === id);
+        if (existing){
+          var index = table.ask_infos.findIndex((v) => v.id_in_group === id);
+          table.ask_infos.splice(index, 1, {
+            id_in_group: data.id_in_group,
+            amount: data.amount,
+            price: data.price,
+            unit_of_price: data.unit_of_price
+          })
+        }
+        else{
+          table.ask_infos.push({
+            id_in_group: data.id_in_group,
+            amount: data.amount,
+            price: data.price,
+            unit_of_price: data.unit_of_price
+          })
+        }
+      }
+      else if (type=='bid_accept') {
+        var asker = data.asker;
+        var bidder = data.bidder;
+        var amount = data.amount;
+        var price = data.price;
+        var unit_of_price = data.unit_of_price;
+        var index = table.bid_infos.findIndex((v) => v.id_in_group === bidder);
+        table.bid_infos.splice(index, 1)
+        traded_list.traded_infos.push({
+          bidder: bidder,
+          asker: asker,
+          amount: amount,
+          price: price,
+          unit_of_price: unit_of_price
+        })
+        if ( {{ player.id_in_group }} == bidder){
+          player_amount.innerHTML = '';
+          player_money.innerHTML = '';
+          player_utility.innerHTML = '';
+          modal_result.innerHTML = '';
+          player_amount.innerHTML
+            += data.bidder_amount;
+          player_money.innerHTML
+            += data.bidder_money;
+          player_utility.innerHTML
+            += data.bidder_utility;
+          modal_result.innerHTML
+            += 'あなたは'
+            + '<strong>'
+            + 'グループ'
+            + asker
+            + '</strong>'
+            + 'と取引に成功しました．';
+          open_modal_1();
+        }
+        else if ( {{ player.id_in_group }} == asker){
+          player_amount.innerHTML = '';
+          player_money.innerHTML = '';
+          player_utility.innerHTML = '';
+          modal_result.innerHTML = '';
+          player_amount.innerHTML
+            += data.asker_amount;
+          player_money.innerHTML
+            += data.asker_money;
+          player_utility.innerHTML
+            += data.asker_utility;
+          modal_result.innerHTML
+            += 'あなたは'
+            + '<strong>'
+            + 'グループ'
+            + bidder
+            + '</strong>'
+            + 'と取引に成功しました．';
+          open_modal_1();
+        }
+
+      }
+      else if (type=='ask_accept') {
+        var bidder = data.bidder;
+        var asker = data.asker;
+        var amount = data.amount;
+        var price = data.price;
+        var unit_of_price = data.unit_of_price;
+        var index = table.ask_infos.findIndex((v) => v.id_in_group === asker);
+        table.ask_infos.splice(index, 1)
+        traded_list.traded_infos.push({
+          bidder: bidder,
+          asker: asker,
+          amount: amount,
+          price: price,
+          unit_of_price: unit_of_price
+        })
+        if ( {{ player.id_in_group }} == bidder){
+          player_amount.innerHTML = '';
+          player_money.innerHTML = '';
+          player_utility.innerHTML = '';
+          modal_result.innerHTML = '';
+          player_amount.innerHTML
+            += data.bidder_amount;
+          player_money.innerHTML
+            += data.bidder_money;
+          player_utility.innerHTML
+            += data.bidder_utility;
+          console.log('hoge')
+          modal_result.innerHTML
+            += 'あなたは'
+            + '<strong>'
+            + 'グループ'
+            + asker
+            + '</strong>'
+            + 'と取引に成功しました．';
+          open_modal_1();
+        }
+        else if ( {{ player.id_in_group }} == asker){
+          player_amount.innerHTML = '';
+          player_money.innerHTML = '';
+          player_utility.innerHTML = '';
+          modal_result.innerHTML = '';
+          player_amount.innerHTML
+            += data.asker_amount;
+          player_money.innerHTML
+            += data.asker_money;
+          player_utility.innerHTML
+            += data.asker_utility;
+          modal_result.innerHTML
+            += 'あなたは'
+            + '<strong>'
+            + 'グループ'
+            + bidder
+            + '</strong>'
+            + 'と取引に成功しました．';
+          console.log('hoge')
+          open_modal_1();
+        }
+      }
+      else if (type=='bid_cancel'){
+        var id = data.id_in_group;
+        var existing = table.bid_infos.some((v) => v.id_in_group === id);
+        if (existing){
+          var index = table.bid_infos.findIndex((v) => v.id_in_group === id);
+          table.bid_infos.splice(index, 1)
+        }
+      }
+      else if (type=='ask_cancel'){
+        var id = data.id_in_group;
+        var existing = table.ask_infos.some((v) => v.id_in_group === id);
+        if (existing){
+          var index = table.ask_infos.findIndex((v) => v.id_in_group === id);
+          table.ask_infos.splice(index, 1)
+        }
+      }else if (type=='not_enough_X'){
+        $('#modal_not_enough_X').modal();
+      }else if (type=='not_enough_Y'){
+        $('#modal_not_enough_Y').modal();
+      }
+    }
+    bid_button.onclick = function () {
+      liveSend({
+        'type': 'bid',
+        'price': parseInt(price_input_box.value),
+        'amount': parseInt(amount_input_box.value)
+      });
+    };
+    ask_button.onclick = function () {
+      liveSend({
+        'type': 'ask',
+        'price': parseInt(price_input_box.value),
+        'amount': parseInt(amount_input_box.value)
+      });
+    };
+    bid_cancel.onclick = function () {
+      liveSend({
+        'type': 'bid_cancel'
+      });
+    };
+    ask_cancel.onclick = function () {
+      liveSend({
+        'type': 'ask_cancel'
+      });
+    };
+    function open_modal_1() {
+      $('#modal_1').modal();
+    }
+
+</script>
+
+<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+{% endblock %}

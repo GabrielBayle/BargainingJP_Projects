@@ -1,0 +1,201 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+   <b style="color:grey"> Summary of Instructions: Buyer </b>
+{% endblock %}
+
+{% block app_styles %}
+<style type="text/css">
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slidecontainer2 {
+  width: 100%;
+}
+
+.slider2 {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider2:hover {
+  opacity: 1;
+}
+
+.slider2::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider2::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.center {
+border: 5px solid #FFFF00;
+text-align: center;
+}
+
+.display {
+    border: 10px solid red;
+}
+
+.important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+th {
+    border: 1px solid black;
+    font-size: 16pt;
+    width: 650px;
+    text-align: right;
+    font-weight:normal;
+    }
+
+td {
+    font-size: 14pt;
+    border: 1px solid black;
+    text-align: center;
+    }
+
+table {
+    table-layout: fixed;
+    width: 800px;
+    }
+
+.history td {
+    font-size: 16pt;
+    }
+
+.history th {
+    font-size: 12pt;
+    width: 100px;
+    text-align: center;
+    }
+.frac {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    letter-spacing: 0.001em;
+    text-align: center;
+}
+.frac > span {
+    display: block;
+    padding: 0.1em;
+}
+.frac span.bottom {
+    border-top: thin solid black;
+}
+.frac span.symbol {
+    display: none;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<ul>
+    <p>  </p>
+    <li><b>If you are selected to be a</b> <span class="important" style="color:green"> Buyer</span>:</b>
+    <ul>
+        <li>
+            In each round you'll be randomly paired with a Seller, but before that you'll have to decide how much money to bring to the meeting by taking a loan that you'll have to repay at the end of the round.
+        </li>
+        <p></p>
+        <ul>
+        <li>The interest rate for borrowing money will be {{r_percentage_1|to0}}% for the first {{half_num_round|to0}} rounds and {{r_percentage_2|to0}}% for the last {{half_num_round|to0}} rounds (and {{r_percentage_practice|to0}}% for both practice rounds)  </li>
+           <p></p>
+        </ul>
+        <li> Once you meet with the Seller, you can make as many offers as you'd like regarding how much <b style="color:blue"> Output</b> you want to purchase, and the <b>Payment</b> you are willing to make for them.
+           </li>
+           <p></p>
+               <li> You will also receive offers from the Seller regarding how much <b style="color:blue"> Output</b>  they'd like to produce and sell, and the <b>Payment</b> they'd wish to receive for them.
+           </li>
+           <p></p>
+           <li>
+               Your payoff for  buying  said <b style="color:blue">Output</b>, q, for you as a Buyer (expressed in $) is: <em><span> U(q)={{A|to2}}q<sup>{{a}}</sup></span> </em>
+            </li>
+           <p></p>
+           <li>
+                     <center><img src="https://i.imgur.com/REx35Ud.png" width="75%"/> </center>
+            </li>
+           <p></p>
+           <li> The bargaining concludes if you accept an offer from the Seller, they accept one of your offers, or you run out of time.
+             </li>
+           <p></p>
+            <li> If an agreement is reached you'll receive your payoff from buying that <b style="color:blue>">Output</b> and make the agreed <b>Payment</b>, if NO agreement is reached there will be no production or <b>Payment</b>.
+             </li>
+           <p></p>
+            <li> At the end of the round, regardless of whether an agreement is reached, you will receive a fix amount of {{endowment_1|cu|to1}} for the first {{half_num_round|to0}} rounds and {{endowment_2|cu|to1}} thereafter, that will always be enough to help repay the amount you borrowed plus any interest.
+             </li>
+           <p></p>
+           <li>Thus, your payoff for the round will be calculated as follows:<p></p>
+            <p></p>
+               <ul>
+                   <li>  <b style="color:blue"> Payoff for purchased Output</b> minus the agreed <b>Payment</b> plus your fix amount minus repayment of your loan:</li> <br>
+           <center>
+
+           <h5> <em>Payoff = Purchase Payoff - Payment  + Fix Amount - Loan Repayment </em></h5>
+
+               </center>
+
+       </ul></li> </ul>
+
+{% next_button %}
+
+
+{% endblock %}

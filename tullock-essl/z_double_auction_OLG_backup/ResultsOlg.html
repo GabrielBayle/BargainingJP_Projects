@@ -1,0 +1,116 @@
+{{ block title }}
+  <b style="color:grey"> Round {{ player.round_number }} of {{num_rounds}}: Results </b>
+{{ endblock }}
+
+{{ block content }}
+
+<style>
+    table {
+    table-layout: fixed;
+    width: 800px;
+    }
+
+.history td {
+    font-size: 10pt;
+        text-align: center;
+    }
+
+.history th {
+    font-size: 8pt;
+    width: 100px;
+    text-align: center;
+    }
+
+    .important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+
+</style>
+
+{{ if player.is_playing == 0 }}
+
+
+    <table class="table">
+              <tr>
+            <th>Your prediction</th>
+            <td>{{ player.prediction }}</td>
+        </tr>
+               <tr>
+            <th>Average price </th>
+            <td>{{ p.group.average_price|cu|to1 }}</td>
+        </tr>
+
+        <tr>
+            <th class="important"> 	&nbsp;&nbsp;&nbsp;&nbsp;&rarr; Round Payoff </th>
+            <td class="important"> &nbsp;&nbsp;&nbsp;&nbsp; {{ player.round_payoff|cu|to2 }}</td>
+        </tr>
+    </table>
+
+{{ else }}
+
+    <table class="table">
+        <tr>
+            <th>Assets in your possession</th>
+            <td>{{ player.num_items }}</td>
+        </tr>
+
+            <tr>
+            <th>Money in your possession</th>
+            <td>{{ player.money|cu|to2 }}</td>
+        </tr>
+
+        <tr>
+            <th class="important"> 	&nbsp;&nbsp;&nbsp;&nbsp;&rarr; Round Payoff </th>
+            <td class="important"> &nbsp;&nbsp;&nbsp;&nbsp; {{ player.round_payoff|cu|to2 }}</td>
+        </tr>
+    </table>
+{{ endif }}
+
+
+
+<br>
+<button class="otree-btn-next btn btn-primary">Next</button>
+<br><br>
+<center>
+
+
+<h5>Results including this round </h5>
+    <table class="history">
+    <tr style="background-color:gainsboro">
+
+           <table class="history">
+    <tr style="background-color:gainsboro">
+            <th><b>Round</b></th>
+            <th><b>Your Role</b></th>
+            <th><b>Average Price </b></th>
+            <th><b> Your Round Payoff </b></th>
+
+
+
+            </tr>
+        {% for p in player_in_all_rounds %}
+                <tr style="background-color:white">
+
+                <td>{{ p.round_number }}</td>
+                <td>
+                    {% if p.is_playing == 1 %}
+                        {% if p.is_buyer == 1 %}
+                        Buyer
+                        {% else%}
+                        Seller
+                        {% endif %}
+                    {% else %}
+                        Predictor
+                    {% endif %}
+                </td>
+                    <td>{{ p.group.average_price|cu|to1 }}</td>
+                    <td>{{ p.round_payoff|cu|to1 }} </td>
+
+
+
+            </tr>
+        {% endfor %}
+     </table></center>
+{{ endblock }}

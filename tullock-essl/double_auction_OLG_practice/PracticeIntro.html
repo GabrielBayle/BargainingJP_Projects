@@ -1,0 +1,70 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+<style>
+.otree-btn-next {
+                 text-align: right;
+                }
+
+
+th {
+    border: 1px solid black;
+    font-size: 10pt;
+    width: 200px;
+    text-align: center;
+    font-weight:bold;
+   
+    }
+
+td {
+    font-size: 10pt;
+    border: 1px solid black;
+    text-align: center;
+    }
+
+table {
+    table-layout: fixed;
+    width: 600px;
+    }
+
+</style>
+
+
+
+<div class="card bg-light ">
+
+       <div class="card-header">
+         <h4><center>
+ <b style="color: gray"> Practice Sequences </b> — The next {{practice_num_rounds}} Sequences  are for practice purposes only
+         </center></h4>
+         
+         <center>
+          Table summarizes the dividend payments that depend on <b>Type</b> and <b>State of the World</b>:
+                <br><br>
+            <table> 
+              <tbody >
+                <tr>
+                 <th colspan="2" style=" background-color: lightgray;">State of the World = A</th><th colspan="2" style=" background-color: lightgray;">State of the World = B </th>
+                </tr>
+                <tr style=" background-color: lightgray;">
+                  <th>Type </th> <th>Dividend</th> <th>Type </th> <th>Dividend</th>
+                 </tr>
+                  <tr>  <td style="background-color:lightgreen"><b>A</b></td><td style="background-color:lightgreen"><b>{{dividend_range_1|cu|to0}}</b></td>              <td style="color:red">A</td><td style="color:red">{{0|cu|to0}}</td> </tr>
+                  <tr>  <td style="color:red">B</td><td style="color:red">{{0|cu|to0}}</td>                                                                                   <td style="background-color:lightgreen"><b>B</b></td><td style="background-color:lightgreen"><b>{{dividend_range_2|cu|to0}}</b> </td></tr>                                                                                                           
+              </tbody>
+          </table></center>
+<br>
+           <center>
+               <span style="color:red">Remember</span>: Your <b style="color:gray">Practice Sequences</b> will not count towards your compensation
+           </center>
+       </div></div>
+<br><p></p>
+    {% next_button %}
+
+
+{% endblock %}

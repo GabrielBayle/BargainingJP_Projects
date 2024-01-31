@@ -1,0 +1,79 @@
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<div id="highchart">
+
+</div>
+
+<script>
+    function redrawChart(series) {
+        Highcharts.chart('highchart', {
+
+            credits: {
+                enabled: false
+            },
+
+            title: {
+                text: 'Trade history'
+            },
+            yAxis: {
+                title: {
+                    text: 'Price'
+                }
+            },
+            xAxis: {
+                title: {
+                    text: 'Time (seconds)'
+                },
+                min: 0
+            },
+
+    legend: {
+    	enabled: false,
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+
+    plotOptions: {
+        series: {
+            label: {
+                connectorAllowed: false
+            },
+            pointStart: 2010
+        }
+    },
+
+    series: [
+    {    name: 'Price',
+        data: series,
+        type: 'spline',},
+
+        {name: 'Price',
+        data: series,
+        type: 'scatter',},
+
+
+    ],
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
+});
+    }
+</script>

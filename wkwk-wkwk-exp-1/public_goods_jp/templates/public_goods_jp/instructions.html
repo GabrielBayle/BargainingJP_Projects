@@ -1,0 +1,17 @@
+{% load otree %}
+
+<div class="card bg-light m-3">
+    <div class="card-body">
+    <h3>
+        Instructions
+    </h3>
+
+    <p>この研究では、ランダムに生成された {{ Constants.players_per_group}}人の参加者のグループに参加していただきます。 
+    グループの各参加者には{{ Constants.endowment }}ポイントが与えられます。グループには、共同プロジェクトを行う機会があります。グループの各参加者は、自分がそのプロジェクトにどれだけ貢献するかを決めます。貢献度は0～{{ Constants.endowment }}ポイントの任意の整数とします。
+    </p>
+    <p>
+        プロジェクトからの収益は次のように計算されます。{{ Constants.players_per_group}}人の参加者の貢献度を合計し、貢献度の合計に係数{{ Constants.multiplier}}をかけ、その結果の金額がプロジェクトからの収益の合計となり、{{ Constants.players_per_group }}人の参加者に均等に分配されます。あなたのペイオフは、あなたのプロジェクトからの収益に、あなたが貢献しなかった金額を加えたものになります。
+    </p>
+    </div>
+</div>
+

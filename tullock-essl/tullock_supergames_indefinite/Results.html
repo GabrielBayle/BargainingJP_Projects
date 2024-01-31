@@ -1,0 +1,154 @@
+{{ block title }}
+  <b style="color:grey">Results for the Latest Round</b>
+{{ endblock }}
+
+{{ block content }}
+
+<style>
+    table {
+    table-layout: fixed;
+    width: 800px;
+
+    }
+
+.table td{
+    text-align: center;
+    }
+
+.history td {
+    font-size: 12pt;
+        text-align: center;
+        border: 1px solid black;
+  border-collapse: collapse;
+    }
+
+.history th {
+    font-size: 12pt;
+   
+    width: 50px;
+    text-align: center;
+    border: 1px solid black;
+  border-collapse: collapse;
+    }
+
+    .important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+
+</style>
+
+
+
+
+
+
+{{ if player.round_number == 11}}
+
+<div class="card bg-light ">
+
+    <div class="card-header">
+    <h4><center>
+  
+   <b style="color: gray">  The Experiment has concluded </b> -  
+   Please go ahead and and complete the exit questionnaire 
+
+   </center></h4>
+   
+   </div></div>
+{{ else }}
+
+{{if is_leaving == 1}}
+ <div class="card bg-light ">
+
+ <div class="card-header">
+ <h4><center>
+{{if pressure == 1 }}
+<b style="color: gray">A Replacement Event just occurred and you had the lowest performance in the last round</b> — Thus, you've been selected to leave the experiment
+{{else}}
+ <b style="color: gray"> A Replacement Event just occurred</b> — You've been randomly selected to leave the experiment
+{{endif}}
+</center></h4>
+
+</div></div>
+<p></p>
+
+{{else}}
+<div class="card bg-light ">
+
+    <div class="card-header">
+     <h4><center>
+      {{if pressure == 1 }}
+        <b style="color: gray"> A Replacement Event just occurred</b> — You've been selected to continue participating due to your performance in this last round
+        {{else}}
+         <b style="color: gray"> A Replacement Event just occurred</b> — You've been randomly selected to continue participating 
+        {{endif}}
+    
+    </center></h4>
+    
+    </div></div>
+    <p></p><br>
+    {{endif}}
+
+
+{{ endif }}
+
+<table>
+
+           <table class="table">
+            
+    <tr class="important" style="background-color:gainsboro">
+            <th>Participant</th>
+            <th>Investment</th>
+
+            <th>Round Payoff</th>
+            </tr>
+
+<tr style="color:green">
+<td ><b style="font-size: 14pt;">You</b></td> 
+    <td><b style="font-size: 14pt;">L${{ player.last_bid|to2  }}</b></td>
+
+    <td><b style="font-size: 14pt;">L${{ player.last_payoff|to2 }}</b></td>
+</tr>
+
+
+<tr>
+   <td><b>Average</b></td> 
+    <td>L${{average_investment|to2 }}</td>
+
+    <td>L${{average_payoff|to2 }}</td>
+</tr>
+
+
+</table>
+
+
+<br><br>
+<button class="otree-btn-next btn btn-primary">Next</button>
+<br><br>
+
+     <!--   {% for p in player_in_all_rounds %}
+                <tr style="background-color:white">
+
+                <td>{{ p.round_number }}</td>
+                <td>
+                     if p.is_playing == 1
+                         if p.is_winner == 1
+                        Buyer
+                        {{ else }}
+                        Seller
+                        endif
+                     else
+                        Predictor
+                    endif
+                </td>
+
+
+
+
+
+            </tr>
+        {% endfor %}-->
+ 
+{{ endblock }}

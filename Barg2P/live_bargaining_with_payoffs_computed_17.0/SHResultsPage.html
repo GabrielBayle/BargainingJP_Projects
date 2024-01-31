@@ -1,0 +1,47 @@
+{{ block content }}
+    <style>
+        .results-container {
+            font-family: Arial, sans-serif;
+            margin: 0 auto;
+            max-width: 600px;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .results-header {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .results-info {
+            font-size: 18px;
+            color: #555;
+            line-height: 1.6;
+        }
+        .highlight {
+            color: #007bff;
+            font-weight: bold;
+        }
+    </style>
+
+    <div class="results-container">
+        <div class="results-header">Stag Hunt Results</div>
+        <div class="results-info">
+            <p>Your decision:
+                <span class="highlight">{{ player_decision_display }}</span>
+            </p>
+            <p>Other's decision:
+                <span class="highlight">{{ other_decision_display }}</span>
+            </p>
+            <p>Your payoff:
+                <span class="highlight">{{ player.payoff }}</span> ECU
+            </p>
+            <p>Other's payoff:
+                <span class="highlight">{{ other_payoff }}</span> ECU
+            </p>
+        </div>
+        {{ next_button }}
+    </div>
+{{ endblock }}

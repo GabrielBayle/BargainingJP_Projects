@@ -1,0 +1,270 @@
+{{ block title }}
+  <b style="color:grey"> Practice - {{ group.title }}: Results </b>
+{{ endblock }}
+
+{{ block content }}
+
+<style>
+    table {
+    table-layout: fixed;
+    width: 900px;
+    }
+
+.history td {
+    font-size: 10pt;
+        text-align: center;
+    }
+
+.history th {
+    font-size: 8pt;
+    width: 100px;
+    text-align: center;
+    }
+
+    .important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+
+</style>
+
+{{ if player.is_playing == 0 }}
+
+
+    <table class="table">
+              <tr>
+            <th>Your prediction</th>
+            <td>L${{ player.prediction }}</td>
+        </tr>
+               <tr>
+            <th>Average price </th>
+            <td>{{ player.group.average_price|cu|to2 }}</td>
+        </tr>
+
+        <tr>
+            <th class="important"> 	&nbsp;&nbsp;&nbsp;&nbsp;&rarr; Round Payoff </th>
+            <td class="important"> &nbsp;&nbsp;&nbsp;&nbsp; {{ player.round_payoff|cu|to2 }}</td>
+        </tr>
+    </table>
+
+{{ else }}
+
+    <table class="table">
+        <tr>
+            <th>Assets in your possession</th>
+            <td>{{ player.num_items }}</td>
+        </tr>
+     
+     {{ if player.round_number ==  3  or  player.round_number ==  6  or player.round_number ==  9  or player.round_number ==  12 or player.round_number ==  15 or player.round_number ==  15 or player.round_number ==  18 
+    or player.round_number ==  21 or player.round_number ==  18 or player.round_number == 21 or player.round_number ==  24 or player.round_number ==  27 or player.round_number ==  30    }}
+     
+  
+        <tr>
+            <th>Dividend per share</th>
+            <td>L${{ group.dividend }}</td>
+        </tr>
+        {{ if player.type == player.group.world_state}}  
+        <tr>
+            <th> Dividends paid to you</th>
+            <td style="color:green">{{ dividend_payment|cu|to2 }} - Your Type ({{player.type}}) matched the State of the World ({{player.group.world_state}})</td>
+        </tr>
+        {{endif}}
+        {{ if player.type != player.group.world_state}}  
+        <tr>
+            <th> Dividends paid to you </th>
+            <td style="color:red"> L$0 - Your Type ({{player.type}}) did not match the State of the World ({{player.group.world_state}})</td>
+        </tr>
+        {{endif}}
+    {{else}}
+
+      {{endif}}
+
+        <tr>
+            <th>Money in your possession</th>
+            <td>{{ player.money|cu|to2 }}</td>
+        </tr>
+
+        <tr>
+            <th class="important"> 	&nbsp;&nbsp;&nbsp;&nbsp;&rarr; Round Payoff </th>
+            <td class="important"> &nbsp;&nbsp;&nbsp;&nbsp; {{ player.round_payoff|cu|to2 }}</td>
+        </tr>
+    </table>
+{{ endif }}
+
+
+
+<br>
+<button class="otree-btn-next btn btn-primary">Next</button>
+<br><br>
+<center>
+
+
+<h5>Results including this round </h5>
+    <table class="history">
+    <tr style="background-color:gainsboro">
+
+           <table class="history">
+    <tr style="background-color:gainsboro">
+            <th><b>Sequence</b></th>
+            <th><b>Your Role</b></th>
+            <th><b>Average Share Price </b></th>
+            <th><b>State of the World Information</b></th>
+            <th><b>Your Round Payoff </b></th>
+
+
+
+            </tr>
+        {% for p in player_in_all_rounds %}
+
+        <tr>
+            {{ if p.round_number == 3 or p.round_number == 6 or  p.round_number == 9 or  p.round_number == 12 or  p.round_number == 15 or  p.round_number == 18  or p.round_number == 21  or p.round_number == 24  or p.round_number == 27 }}
+            <td>   - - - - - </td> <td>   - - - - - </td> <td>   - - - - - </td> <td>   - - - - - </td> <td>   - - - - - </td>
+                  {{endif}}
+               </tr>
+
+                <tr style="background-color:white">
+
+                <td>
+                    {{ if p.round_number >= 28 }}
+                    X
+                    {{endif}}
+
+                    {{ if p.round_number == 27 }}
+                    IX
+                    {{endif}}
+                    {{ if p.round_number == 26 }}
+                    IX
+                    {{endif}}
+                    {{ if p.round_number == 25 }}
+                    IX
+                    {{endif}}
+
+
+
+                    {{ if p.round_number == 24 }}
+                    VIII
+                    {{endif}}
+                    {{ if p.round_number == 23 }}
+                    VIII
+                    {{endif}}
+                    {{ if p.round_number == 22 }}
+                    VIII
+                    {{endif}}
+
+                    {{ if p.round_number == 21 }}
+                    VII
+                    {{endif}}
+                    {{ if p.round_number == 20 }}
+                    VII
+                    {{endif}}
+                    {{ if p.round_number == 19 }}
+                    VII
+                    {{endif}}
+
+                    {{ if p.round_number == 18 }}
+                    VI
+                    {{endif}}
+                    {{ if p.round_number == 17 }}
+                    VI
+                    {{endif}}
+                    {{ if p.round_number == 16 }}
+                    VI
+                    {{endif}}
+
+                    {{ if p.round_number == 15 }}
+                    V
+                    {{endif}}
+                    {{ if p.round_number == 14 }}
+                    V
+                    {{endif}}
+                    {{ if p.round_number == 13 }}
+                    V
+                    {{endif}}
+
+                    {{ if p.round_number == 12 }}
+                    IV
+                    {{endif}}
+                    {{ if p.round_number == 11 }}
+                    IV
+                    {{endif}}
+                    {{ if p.round_number == 10 }}
+                    IV
+                    {{endif}}
+
+                    {{ if p.round_number == 9 }}
+                    III
+                    {{endif}}
+                    {{ if p.round_number == 8 }}
+                    III
+                    {{endif}}
+                    {{ if p.round_number == 7 }}
+                    III
+                    {{endif}}
+
+                    {{ if p.round_number == 6 }}
+                    II
+                    {{endif}}
+                    {{ if p.round_number == 5 }}
+                    II
+                    {{endif}}
+                    {{ if p.round_number == 4 }}
+                    II
+                    {{endif}}
+
+                    {{ if p.round_number <= 3 }}
+                    I
+                    {{endif}}
+                </td>
+                <td>
+                    {% if p.is_playing == 1 %}
+                        {% if p.is_young == 1 %}
+                        Young
+                        {% else%}
+                        Old
+                        {% endif %}
+                    {% else %}
+                        Predictor
+                    {% endif %}
+                </td>
+
+                <td>{{ p.group.average_price|cu|to1 }}</td>
+
+                <td>
+
+        
+                    
+                  
+                    {{if info_acquisition == 1}}
+
+                        {{if p.is_informed == 1}}
+                            {{p.dividend_clue_text}} 
+                        {{ else }}
+                            Either {{dividend_range_1_text}} or {{dividend_range_2_text}}
+                            {{endif}}
+                    {{ else }} 
+                        
+                        {{if public_information == 1 and p.is_informed == 1}}
+                        {{p.dividend_clue_text}} 
+                        {{else}}
+                        Either {{dividend_range_1_text}} or {{dividend_range_2_text}}
+                        {{endif}}
+                    
+                        {{if public_information == 0}}
+                        Either {{dividend_range_1_text}} or {{dividend_range_2_text}}
+                        {{endif}}
+
+                    {{ endif }}
+                </td>
+
+                <td>{{ p.round_payoff|cu|to1 }} </td>
+
+
+
+            </tr>
+        
+       
+  
+            {% endfor %}
+     </table></center>
+{{ endblock }}

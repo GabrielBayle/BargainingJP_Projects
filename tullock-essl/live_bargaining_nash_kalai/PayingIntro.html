@@ -1,0 +1,51 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+<style>
+.otree-btn-next {
+                 text-align: right;
+                }
+
+</style>
+
+
+{{ if player.round_number == 1 }}
+<div class="card bg-light ">
+
+       <div class="card-header">
+         <h4><center>
+ <b style="color: gray"> Paying Rounds </b> — The next {{num_rounds}} rounds are actual paying rounds
+         </center></h4>
+           <center>
+          One of your <b style="color:gray">Paying Rounds</b> will be selected at random and count
+               towards your compensation
+           </center>
+       </div></div>
+<p></p><br>
+<h4 style="color:gray">Interest Rate:</h4>
+{{else}}
+<h4 style="color:gray">Interest Rate Change:</h4>
+{{endif}}
+<center>
+<div class="card bg-light "  style="width:80%">
+
+       <div class="card-body">
+         <h6><center>
+     <span style="color:red">NOTICE: </span>For the next {{half_num_round|to0}} rounds the interest rate for borrowing money will be {{r_percentage|to0}}%<br>
+         </center></h6>
+
+
+           <center>
+           That means, if a buyer borrows $10, they'll have to pay back {{principal_plus_interest_example|cu|to0}}.
+           </center>
+       </div></div>
+<br><p></p></center>
+    {% next_button %}
+
+
+{% endblock %}

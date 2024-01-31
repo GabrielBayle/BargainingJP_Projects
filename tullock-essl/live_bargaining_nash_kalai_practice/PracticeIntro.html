@@ -1,0 +1,49 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+<style>
+.otree-btn-next {
+                 text-align: right;
+                }
+
+</style>
+
+
+
+<div class="card bg-light ">
+
+       <div class="card-header">
+         <h4><center>
+ <b style="color: gray"> Practice Rounds </b> — The next {{practice_num_rounds}} rounds are for practice purposes only
+         </center></h4>
+
+
+           <center>
+              Your <b style="color:gray">Practice Rounds</b> will NOT count towards your compensation
+           </center>
+       </div></div>
+<br>
+<h4 style="color:gray">Interest Rate:</h4>
+<center>
+<div class="card bg-light "  style="width:80%">
+
+       <div class="card-body">
+         <h6><center>
+     <span style="color:red">Notice: </span>For both practice rounds the interest rate for borrowing money will be {{r_percentage|to0}}%<br>
+         </center></h6>
+
+
+           <center>
+           That means, if a buyer borrows $10, they'll have to pay back {{principal_plus_interest_example|cu|to0}}.
+           </center>
+       </div></div>
+<br><p></p></center>
+    {% next_button %}
+
+
+{% endblock %}

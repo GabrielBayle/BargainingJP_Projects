@@ -1,0 +1,20 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    信頼ゲーム: 君の選択
+{% endblock %}
+
+{% block content %}
+
+    {% include Constants.instructions_template %}
+
+<p>
+あなたはプレイヤーBです。 プレイヤーAはあなたに{{group.sent_amount}}送り、あなたは{{tripled_amount}}受け取りました。
+</p>
+
+    {% formfields %}
+
+    {% next_button %}
+
+{% endblock %}

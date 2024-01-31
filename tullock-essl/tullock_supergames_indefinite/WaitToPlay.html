@@ -1,0 +1,135 @@
+{{ extends 'otree/WaitPage.html' }}
+{% load otree static %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+<style>
+.otree-btn-next {
+                 text-align: right;
+                }
+
+.blink_me {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+</style>
+
+
+<script>
+  //Soft timer; red color if less than 1 minute, flashing display if less than 10 seconds left
+  var starttime=new Date(); hs=starttime.getHours(); ms=starttime.getMinutes(); ss=starttime.getSeconds();
+  
+  
+  function startTime() {
+    var today=new Date();
+    var h=today.getHours()-hs;
+      //hours immediately settled against minutes
+    var m=today.getMinutes()+h*60-ms;
+    var s=today.getSeconds()-ss;
+    var timer = document.getElementById('id_time_left');
+    var timer_title =  document.getElementById('time_title');
+    m= {{ tlimit }} -m;
+    s=0-s;
+    if (s<0)
+    {
+    s=s+60;
+    m=m-1;
+    }
+      //time remaining
+    if (m>=0) {
+          // generate display, adding zeros where necessary
+        mdisp=timeDisp(m);
+        sdisp=timeDisp(s);
+          timer.innerHTML=mdisp+":"+sdisp;
+          // red text-color if less than 1 minute left
+          if (m<=1 ){
+              timer.style.color = "#ff0000";
+              timer_title.style.color = "#ff0000";
+        }
+          if (m<=0 && s<=30){
+              timer.classList.add('blink_me');
+              timer_title.classList.add('blink_me');
+          }
+    } else {//time is up
+          timer.innerHTML="00:00";
+      }
+      //loop ever 1/2 second 
+    t=setTimeout('startTime()',500);
+  }
+  
+  function timeDisp(i){
+        if (i<10) {
+            i="0" + i.toString();
+        } else {
+              i = i.toString();
+          }
+        return i;
+  }
+  
+  window.onload = function() {
+    startTime();
+    }
+  
+  </script>
+  
+{{if player.is_buffering == 1}}
+<div class="card bg-light ">
+
+  <div class="card-header">
+    <h4><center>
+<b style="color: gray"> Please Wait </b> — You will soon start actively participating
+    </center></h4>
+      <center>
+       Just <b hidden style="color:gray"> {{buffer_queue_position|to0}} more Replacement Event(s)</b>  <b style="color:gray"> a couple more Replacement Events</b> before you join 
+       
+       <br><br>
+       <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000; width: 30%;" >
+         <span id='time_title'style="font-size: 16px; vertical-align: middle; margin:0; padding: 0;"> &nbsp; &nbsp;APPROX. WAIT TIME TO ACTIVELY PARTICIPATE: </span><span id="id_time_left" style="font-size: 16px; vertical-align: middle; margin:0; padding: 0;">00:00</span>
+           </div>
+           <p></p>
+           
+      </center>
+
+
+  </div></div>
+<p></p><br>
+
+
+
+{{else }}
+<div class="card bg-light ">
+
+       <div class="card-header">
+         <h4><center>
+ <b style="color: gray"> Please Wait </b> — You will soon be selected to go over the instructions and  join the contest
+         </center></h4>
+           <center>
+            Your current position in the queue is: {{queue_position|to0}}
+            <br><br>
+            <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000; width: 30%;">
+              <span id='time_title'style="font-size: 16px; vertical-align: middle; margin:0; padding: 0;"> &nbsp; &nbsp;APPROX. TIME TO ENTER THE STUDY AND RECEIVE INSTRUCTIONS: </span><span id="id_time_left" style="font-size: 16px; vertical-align: middle; margin:0; padding: 0;">00:00</span>
+                </div>
+                <p></p>
+                <small style="color:red">Note:</small><small> Before joining the experiment you will be asked to confirm that you are ready to join. If you fail to confirm on time you will loose your place on the queue
+                </small>
+                
+           </center>
+
+
+       </div></div>
+<p></p><br>
+
+{{endif}}
+  
+
+
+{% endblock %}

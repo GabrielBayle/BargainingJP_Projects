@@ -1,0 +1,14 @@
+{{ block title }}Trust Game: Your Choice{{ endblock }}
+{{ block content }}
+
+    {{ include_sibling 'instructions.html' }}
+
+    <p>
+    You are Participant A. Now you have {{C.ENDOWMENT}}.
+    </p>
+
+    {{ formfields }}
+
+    {{ next_button }}
+
+{{ endblock }}

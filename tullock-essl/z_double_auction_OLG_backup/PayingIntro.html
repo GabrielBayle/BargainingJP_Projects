@@ -1,0 +1,73 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+<style>
+.otree-btn-next {
+                 text-align: right;
+                }
+
+</style>
+
+
+{{ if OLG == 1 }}
+
+<div class="card bg-light ">
+
+       <div class="card-header">
+         <h4><center>
+ <b style="color: gray"> Paying Rounds </b> — The next {{num_rounds}} rounds are actual paying rounds
+         </center></h4>
+           <center>
+          Two of your <b style="color:gray">Paying Rounds</b>, one as a Seller and one as a Predictor,  will be selected at random and count
+               towards your compensation
+           </center>
+       </div></div>
+<p></p><br>
+
+{{ else }}
+
+    {{ if short_horizon == 1  }}
+
+<div class="card bg-light ">
+
+       <div class="card-header">
+         <h4><center>
+ <b style="color: gray"> New Paying Sequence </b> — This  next sequence is an  actual paying sequence
+         </center></h4>
+           <center>
+          One out of your three  <b style="color:gray">Paying Sequences</b>  will be selected at random and count
+               towards your compensation
+           </center>
+       </div></div>
+<p></p><br>
+
+    {{ else}}
+
+<div class="card bg-light ">
+
+       <div class="card-header">
+         <h4><center>
+ <b style="color: gray"> Paying Sequence </b> — This next sequence is an actual paying sequences
+         </center></h4>
+           <center>
+          This   <b style="color:gray">Paying Sequence</b>  will be 2count towards your compensation
+           </center>
+       </div></div>
+<p></p><br>
+
+
+    {{ endif  }}
+
+
+
+
+{{endif}}
+    {% next_button %}
+
+
+{% endblock %}

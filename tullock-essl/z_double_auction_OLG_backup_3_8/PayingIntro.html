@@ -1,0 +1,38 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+<style>
+.otree-btn-next {
+                 text-align: right;
+                }
+
+</style>
+
+
+
+
+<div class="card bg-light ">
+
+       <div class="card-header">
+         <h4><center>
+ <b style="color: gray"> Paying Sequences </b> — The next {{num_sequences}} sequences are actual paying rounds
+         </center></h4>
+           <center>
+          One <b style="color:gray">Paying Sequence</b> will be selected at random and count
+               towards your compensation
+           </center>
+       </div></div>
+<p></p><br>
+
+
+
+
+    {% next_button %}
+
+
+{% endblock %}

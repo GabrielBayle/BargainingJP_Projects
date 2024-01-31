@@ -1,0 +1,220 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+   <b style="color:grey"> Summary of Instructions </b>
+{% endblock %}
+
+{% block app_styles %}
+<style type="text/css">
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slidecontainer2 {
+  width: 100%;
+}
+
+.slider2 {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider2:hover {
+  opacity: 1;
+}
+
+.slider2::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider2::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.center {
+border: 5px solid #FFFF00;
+text-align: center;
+}
+
+.display {
+    border: 10px solid red;
+}
+
+.important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+th {
+    border: 1px solid black;
+    font-size: 16pt;
+    width: 650px;
+    text-align: right;
+    font-weight:normal;
+    }
+
+td {
+    font-size: 14pt;
+    border: 1px solid black;
+    text-align: center;
+    }
+
+table {
+    table-layout: fixed;
+    width: 800px;
+    }
+
+.history td {
+    font-size: 16pt;
+    }
+
+.history th {
+    font-size: 12pt;
+    width: 100px;
+    text-align: center;
+    }
+     .frac {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    letter-spacing: 0.001em;
+    text-align: center;
+}
+.frac > span {
+    display: block;
+    padding: 0.1em;
+}
+.frac span.bottom {
+    border-top: thin solid black;
+}
+.frac span.symbol {
+    display: none;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+<p></p>
+  <h4>  Welcome to this experiment in decision-making.</h4>
+<p></p>
+<ul>
+    <li>
+        <b>General Information:</b>
+    </li><ul>
+        <li>  Please plan on staying on your computer for the next 90 minutes. If you have any questions please raise your hand.
+        <p></p>
+        </li>
+        <li>You and {{others}} other subjects will participate in <b style="color:gray">{{ num_practice_sequences }} Independent 3-Period Practice Sequences</b> and then
+            <b style="color:gray">{{ num_sequences }} Independent 3-Period Paying Sequences</b>.</li>
+        <p></p>
+        <li>
+            In this session, we conduct a market experiment in which you can trade securities that we will call shares. Each of those shares will pay a dividend to its holder (under certain conditions) at the end of each sequence. 
+                Instructions will remain the same for every sequence throughout the entire experiment.
+        </li>
+
+        <p> </p>
+        <li>In each of the sequences you will participate in the market as a "young" and/or "old"  active investor only in some, not all, periods. 
+            If you do NOT actively participate in the market you will be asked to make certain predictions about the market.
+      
+        <p></p>
+        <li>The process of assignment to the trading roles ("young", "old" or  inactive) in the market will be described shortly and trading in each period will last for 120 seconds.
+
+        </li>
+        <p></p>
+    </ul>
+
+    <li>
+        <b>Paying Sequences:</b>
+    </li><ul>
+        <li>
+            After the <b style="color:gray">Practice Sequences</b>, you'll enter the <b style="color:gray">Paying Sequences</b>.
+        {# At the end of each of the paying rounds, your payoff (either positive or negative) will be added to your
+            payoffs account.#}
+        </li>
+        <p></p>
+        <li>
+            At the end of the experiment, a US${{ show_up_fee|to0 }} show-up fee, plus your earnings from one randomly selected
+            <b style="color:gray">Paying Sequence</b>,
+            transformed to US dollars (US$) at a rate of <em> 1 US$ per {{us_exchange_rate}} L$</em>,
+            will be paid to you.
+        </li>
+        <p></p>
+        <li>
+            If your earnings for the randomly selected <b style="color:gray">Paying Sequence</b> are negative, they'll be rounded up to zero.
+        </li>
+        <p></p>
+        <li>
+            If you leave before the end of the experiment, you'll be only eligible for the US${{ show_up_fee|to0 }} show-up fee.
+        </li>
+
+    </ul>
+<p></p>
+    <br>
+ {# <div style="border: thin solid lightgray; padding:5px"> #}
+<center>
+    <small><b style="color:red">Please notice</b>: Throughout the experiment, prices, costs and payoffs will always be
+        expressed in <em> Laboratory Dollars, L&dollar;</em>.</small>
+</center>
+{# </div> #}
+
+    </ul>
+
+<p></p><br>
+{% next_button %}
+
+
+
+{% endblock%}

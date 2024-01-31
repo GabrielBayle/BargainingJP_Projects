@@ -1,0 +1,297 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+   <b style="color:grey">Instructions </b>
+{% endblock %}
+
+{% block app_styles %}
+<style type="text/css">
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slidecontainer2 {
+  width: 100%;
+}
+
+.slider2 {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider2:hover {
+  opacity: 1;
+}
+
+.slider2::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider2::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.center {
+border: 5px solid #FFFF00;
+text-align: center;
+}
+
+.display {
+    border: 10px solid red;
+}
+
+.important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+th {
+    border: 1px solid black;
+    font-size: 16pt;
+    width: 650px;
+    text-align: right;
+    font-weight:normal;
+    }
+
+td {
+    font-size: 14pt;
+    border: 1px solid black;
+    text-align: center;
+    }
+
+table {
+    table-layout: fixed;
+    width: 800px;
+    }
+
+.history td {
+    font-size: 16pt;
+    }
+
+.history th {
+    font-size: 12pt;
+    width: 100px;
+    text-align: center;
+    }
+     .frac {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    letter-spacing: 0.001em;
+    text-align: center;
+}
+.frac > span {
+    display: block;
+    padding: 0.1em;
+}
+.frac span.bottom {
+    border-top: thin solid black;
+}
+.frac span.symbol {
+    display: none;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: #ffffff;
+  width: 300px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+<script>
+
+
+  
+function playSound(url) {
+  const audio = new Audio(url);
+  audio.play();
+}
+
+
+function request() {
+  Notification.requestPermission().then(permission => {
+    if (permission === "granted") {
+      // Show the notification
+      
+    } else{
+    }
+    document.getElementById('aux_button').style.display = 'none'
+    document.getElementById('next_button').style.display = 'block'
+  });
+  
+
+}
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+<p></p>
+  <h4>  Welcome to this experiment in decision-making.</h4>
+<p></p>
+<!-- https://dl.dropboxusercontent.com/s/h8pvqqol3ovyle8/tom.mp3 -->
+<ul>
+    <li>
+        <b>General Information:</b>
+    </li><ul>
+        <li>  Please plan on staying on your computer for up to {{duration}} minutes. 
+            <p></p>
+        
+
+    
+        <li>
+            This study consists of a random number of  <b style="color:gray"> Contest Rounds</b> in which  4 active subjects compete by bidding over the fraction of a prize they will receive. 
+        <p></p>
+         
+        <li> At the end of each <b style="color:gray"> Contest Round</b> with {{stop_prob|to0}}% probability a <b style="color:gray"> Replacement Event</b> occurs. When such an event happens, 
+          {{ if pressure == 1 }} the participant with the lowest payoff in that round is replaced with a new inexperienced participant. {{else}} one participant is randomly replaced with a new inexperienced participant. {{endif}}
+           
+        </li>   
+
+        <p></p>
+        <li>The 4 participants in today's first <b style="color:gray"> Contest Round</b> will be selected at random among a larger pool of enrolled participants and immediately receive detailed instructions. Instructions will remain the same for the entire session.
+        </li>   
+    
+         </li>
+
+         <p></p>
+         <li>
+           The rest of the enrolled subjects must wait and queue to later enter the study, and will receive the same detailed instructions,  once their turn approaches. Information on the expected wait time to enter the study will be individually provided. 
+          </li>
+           <p></p> 
+
+        </li>
+
+        <p></p>
+
+        <li> Participants waiting to later join the study are free to keep this window in the background and engage in other leisure activities on their device, but it is crucial that they keep an eye on the timer and queue position and also "Allow Notifications" in this page (button below) so that they can be informed when their turn approaches.
+
+        </li>
+
+        <p></p>
+
+        <li> Before actively joining the study, waiting participants will receive a notification (even if they minimize this window) and hear (if they keep this window open in the background) the following sound <button   style="border:1px solid gray; background-color: transparent;border-radius: 25px;" type="button" onclick="playSound('http://commondatastorage.googleapis.com/codeskulptor-demos/pyman_assets/intromusic.ogg');"> &#9654; &#9835; </button> , after which they will have 45 seconds to confirm they are ready to join. Failure to confirm will relegate participants to the end of the queue.
+        </li>
+    </ul>
+
+    <li>
+        <p></p>
+        <b>Participants Compensation:</b>
+    </li><ul>
+ 
+        <li>
+          After the end of your participation in the experiment, a US${{ show_up_fee|to0 }} show-up fee, plus your earnings  from one random <b style="color:gray">Contest Round</b> for each  <b style="color:gray">Replacement Event</b> you reached transformed to US dollars (US$) at a rate of US$1  per L${{us_exchange_rate}},
+            will be paid to you.
+        </li>
+        <p></p>
+        <li>
+            If you leave before being given permission by the experimenter, you will only be eligible for the US${{ show_up_fee|to0 }} show-up fee.
+        </li>
+
+    </ul>
+<p></p>
+    <br>
+ {# <div style="border: thin solid lightgray; padding:5px"> #}
+<center>
+    <small><b style="color:red">Please note</b>: Throughout the experiment, endowments, investments and payoffs will always be
+        expressed in Laboratory Dollars, L&dollar;.</small>
+</center>
+{# </div> #}
+
+    </ul>
+
+<p></p><br>
+<button class="btn btn-primary btn-large" type="button" id="aux_button" onclick="request()"> &rarr; Please Allow Notifications to Continue</button>  
+
+
+
+<center>
+<button class="btn btn-primary btn-large" id="next_button" style="display: none;">
+  Next
+</button>
+</center>
+
+
+{% endblock%}

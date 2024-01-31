@@ -1,0 +1,59 @@
+{{ block title }}
+  <b style="color:grey"> Sequence Results </b>
+{{ endblock }}
+
+{{ block content }}
+
+<style>
+    table {
+    table-layout: fixed;
+    width: 800px;
+    }
+
+.history td {
+    font-size: 10pt;
+        text-align: center;
+    }
+
+.history th {
+    font-size: 8pt;
+    width: 100px;
+    text-align: center;
+    }
+
+    .important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+
+</style>
+
+
+
+    <table class="table">
+        <tr>
+            <th>Assets in your possession</th>
+            <td>{{ player.num_items }}</td>
+        </tr>
+
+        <tr>
+            <th>Dividend per Asset </th>
+            <td>{{ dividend|cu|to1 }}</td>
+        </tr>
+
+            <tr>
+            <th>Money in your possession</th>
+            <td>{{ player.money|cu|to2 }}</td>
+        </tr>
+
+        <tr>
+            <th class="important"> 	&nbsp;&nbsp;&nbsp;&nbsp;&rarr; Sequence Payoff </th>
+            <td class="important"> &nbsp;&nbsp;&nbsp;&nbsp; {{ player.round_payoff|cu|to2 }}</td>
+        </tr>
+    </table>
+<br>
+<button class="otree-btn-next btn btn-primary">Next</button>
+<br><br>
+
+{{ endblock }}

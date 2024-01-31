@@ -1,0 +1,228 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+   <b style="color:grey">  Instructions: Contest Rounds </b>
+{% endblock %}
+
+{% block app_styles %}
+<style type="text/css">
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slidecontainer2 {
+  width: 100%;
+}
+
+.slider2 {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider2:hover {
+  opacity: 1;
+}
+
+.slider2::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider2::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.center {
+border: 5px solid #FFFF00;
+text-align: center;
+}
+
+.display {
+    border: 10px solid red;
+}
+
+.important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+th {
+    border: 1px solid black;
+    font-size: 10pt;
+    width: 200px;
+    text-align: center;
+    font-weight:bold;
+    background-color: lightgray;
+    }
+
+td {
+    font-size: 10pt;
+    border: 1px solid black;
+    text-align: center;
+    }
+
+table {
+    table-layout: fixed;
+    width: 200px;
+    }
+
+.history td {
+    font-size: 16pt;
+    }
+
+.history th {
+    font-size: 12pt;
+    width: 100px;
+    text-align: center;
+    }
+.frac {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    letter-spacing: 0.001em;
+    text-align: center;
+}
+.frac > span {
+    display: block;
+    padding: 0.1em;
+}
+.frac span.bottom {
+    border-top: thin solid black;
+}
+.frac span.symbol {
+    display: none;
+}
+
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+
+
+
+    <p>  </p>
+    <li> In each <b style="color:gray">Contest Round</b>  that you participate in, you wll have to use the following interface to make your decisions (figure below): </b>
+      <br><br>
+      
+      <div style=" width: 100%; float: left; border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px gray;">
+
+       <!--  <center><img src="https://i.imgur.com/9s53VPC.png" width="85%"/> </center>  -->
+       
+       <center><img src="https://i.imgur.com/XpxpA6R.png" width="85%"/> </center> 
+
+      
+      </div>
+
+ 
+   <p></p>
+<br><br> <b style="color:white">-</b>
+<p></p>
+      <ul> <li>In each <b style="color:gray">Contest Round</b> you and the other 3 active participants (your opponents) compete in the following way: </li>
+      <ul>  <p></p>
+
+        <li> You and your opponents are each endowed with <em>L&dollar;{{endowment}}</em> to use completely or partially to invest in increasing your share of a  <em>L&dollar;{{V}}</em> prize.</li>
+ 
+        <p></p>
+      
+        <li> 	The more you invest relative to your opponents, the higher the fraction of the prize you'll receive. In particular, if only one participant invests, they would take the whole prize independent of the invested amount. If all participants invest the same, the prize is equally split.    </li>
+ 
+        
+  
+        <p></p>
+
+        <li> 	Formally, if participant <em>i</em>, <em>j</em>, <em>k</em> and <em>l</em> invest <em>x<sub>i</sub></em>, <em>x<sub>j</sub></em>, <em>x<sub>k</sub></em>  and <em>x<sub>l</sub></em>, respectively, then the fraction, <em>f<sub>i</sub></em> of the prize that participant <em>i</em> would take would be equal to:
+
+          <center><img src="https://i.imgur.com/xnc4VRH.png" width="55%"/> </center> 
+          
+          
+  
+        <p></p>
+        
+        <li>  In addition to choosing your investment, you can  make a prediction about the average investment of your opponents. This will help inform your decision. 
+          The better your prediction, the more accurate the predicted result will be.</li>
+        <p></p>
+        <li> On the left-hand side of your screen  you'll have 2 sliders (and corresponding input boxes): one at the top that you can use for your prediction and one at the bottom which corresponds to your desired investment. Once you are happy with your prediction and your investment, you can press the "Submit" button.    </li>
+       
+        <p></p>
+        <li>
+          On the right-hand side of your screen you'll see a pie chart that illustrates the expected outcome given your prediction and investment.
+
+          <p></p>
+        
+          <li>Whatever part of your endowment you do not invest is yours to keep and will be included in your round payoff along the fraction of the prize you receive. But note that you cannot save investment budgets across rounds: For each contest you will have <em>L&dollar;{{endowment}}</em> to invest, independent of what you invested in previous rounds. </li>
+
+
+          <p></p>
+          {{if pressure == 1}}
+          <li>
+            <b>REMEMBER:</b> At the end of each <b style="color:gray">Contest Round </b> the probability of a <b style="color:gray">Replacement Event</b> is {{stop_prob|to0}}%. If a replacement event happens, the participant with the lowest payoff in that round will be asked to leave the study and replaced with an inexperienced participant. 
+          </li>
+          {{else}}
+          <li>
+            <b>REMEMBER: </b>At the end of each <b style="color:gray">Contest Round </b> the probability of a <b style="color:gray">Replacement Event</b> is {{stop_prob|to0}}%. If a replacement event happens, one participant at random is asked to leave the study and replaced with a new inexperienced participant. 
+          </li>
+          {{endif}}
+
+        </li>
+      </ul>
+      
+      </ul>
+
+
+{% next_button %}
+
+
+{% endblock %}

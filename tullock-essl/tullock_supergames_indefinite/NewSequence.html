@@ -1,0 +1,217 @@
+{{ extends 'otree/WaitPage.html' }}
+{% load otree static %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+<style>
+.otree-btn-next {
+                 text-align: right;
+                }
+
+</style>
+
+
+<style>
+  .otree-timer {
+      display: none;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function (event) {
+      $('.otree-timer__time-left').on('update.countdown', function (event) {
+          if (event.offset.totalSeconds === 10) {
+              $('.otree-timer').show();
+          }
+      });
+  });
+</script>
+
+
+{{if is_playing_next_round == 1}}
+
+        {{ if player.is_playing == 0}}
+
+
+
+        <body onload="notifyWithSound()">
+
+          <audio id="notificationSound" src='http://commondatastorage.googleapis.com/codeskulptor-demos/pyman_assets/intromusic.ogg' preload="auto"></audio>
+          
+          <script>
+              function notifyWithSound() {
+                  // First, check if the browser supports notifications
+                  if (!("Notification" in window)) {
+                      console.log("This browser does not support desktop notifications.");
+                      return;
+                  }
+          
+                  // Request permission from the user
+                  Notification.requestPermission().then(function (permission) {
+                      // If permission is granted
+                      if (permission === "granted") {
+                          // Play the sound
+                          document.getElementById('notificationSound').play();
+        
+                          
+                          // Display the notification
+                          new Notification("ESSL Study!", {
+                              body: "You will now start actively participating. Please make sure to go back to the website",
+                              // You can even add an icon if you like
+                              icon: "https://i.imgur.com/ajElItQ.png"
+                          });
+                      }
+                  });
+              }
+          </script>
+
+
+       <div class="card bg-light ">
+
+       <div class="card-header">
+         <h4><center>
+
+       <b style="color: gray"> A Replacement Event just occurred</b> — You will now start actively participating
+
+       </center></h4>
+     
+ 
+        </center>
+        </div></div>
+        <p></p><br>
+
+        {{else}}
+        <div class="card bg-light ">
+
+        <div class="card-header">
+         <h4><center>
+          {{if pressure == 1 }}
+            <b style="color: gray"> A Replacement Event just occurred</b> — You've been selected to continue participating due to your performance in this last round
+            {{else}}
+             <b style="color: gray"> A Replacement Event just occurred</b> — You've been randomly selected to continue participating 
+            {{endif}}
+
+        </center></h4>
+
+        </div></div>
+      <p></p><br>
+      {{endif}}
+
+
+{{else}}
+ 
+        {{if is_leaving == 1}}
+         <div class="card bg-light ">
+
+         <div class="card-header">
+         <h4><center>
+        {{if pressure == 1 }}
+        <b style="color: gray">A Replacement Event just occurred and you had the lowest performance in the last round</b> — Thus, you've been selected to leave the experiment
+        {{else}}
+         <b style="color: gray"> A Replacement Event just occurred</b> — You've been randomly selected to leave the experiment
+        {{endif}}
+        </center></h4>
+        <center>
+          Please make sure you complete the exit questionnaire to collect your payment.
+        </center>
+      </div></div>
+      <p></p><br>
+  
+  
+  
+      {{else}}
+        {{if player.is_buffering == 1}}
+    
+    <div class="card bg-light ">
+
+    <div class="card-header">
+    <h4><center>
+    <b style="color: gray"> A Replacement Event just occurred </b> — Another participant just started actively participating
+      </center></h4>
+        <center>
+          You  are one <b style="color:gray">Replacement Event</b> closer. Please be ready.
+        </center>
+    </div></div>
+    <p></p><br>
+      {{else}}
+
+      
+        {{if is_gonna_buffer == 1}}
+
+        <body onload="notifyWithSound()">
+
+          <audio id="notificationSound" src='http://commondatastorage.googleapis.com/codeskulptor-demos/pyman_assets/intromusic.ogg' preload="auto"></audio>
+          
+          <script>
+              function notifyWithSound() {
+                  // First, check if the browser supports notifications
+                  if (!("Notification" in window)) {
+                      console.log("This browser does not support desktop notifications.");
+                      return;
+                  }
+          
+                  // Request permission from the user
+                  Notification.requestPermission().then(function (permission) {
+                      // If permission is granted
+                      if (permission === "granted") {
+                          // Play the sound
+                          document.getElementById('notificationSound').play();
+        
+                          
+                          // Display the notification
+                          new Notification("Welcome Back to the ESSL Study!", {
+                              body: "You have been selected to join the study. Please make sure to go back to the website",
+                              // You can even add an icon if you like
+                              icon: "https://i.imgur.com/ajElItQ.png"
+                          });
+                      }
+                  });
+              }
+          </script>
+
+
+
+      
+      <div class="card bg-light ">
+
+      <div class="card-header">
+        <h4><center>
+    <b style="color: gray"> Welcome </b> — You will now join the study
+        </center></h4>
+          <center>
+        You will go over the detailed instructions and a quiz before you can actively participate
+          </center>
+      </div></div>
+      <p></p><br>
+
+      {{else}}
+      <div class="card bg-light ">
+
+        <div class="card-header">
+        <h4><center>
+        <b style="color: gray"> A Replacement Event just occurred </b> — Another participant just entered the study 
+          </center></h4>
+            <center>
+              You are one step closer to entering the study. Please be ready and keep and eye for the queue. 
+            </center>
+        </div></div>
+        <p></p><br>
+
+      {{endif}}
+{{endif}}
+
+{{endif}}
+
+
+{{endif}}
+
+
+  
+  
+
+
+
+{% endblock %}

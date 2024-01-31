@@ -1,0 +1,25 @@
+{% load otree %}
+
+<div class="card bg-light m-3">
+    <div class="card-body">
+
+    <h3>
+        説明
+    </h3>
+
+    <p>
+        あなたは {{ Constants.players_per_group }} 人のグループに入っています.
+        それぞれのメンバーに０から {{ Constants.guess_max }}までの数字から一つ選んでもらいます.
+        全員が選択した数字の平均に2/3を掛けた値に最も近い数字を選択した人が勝者となります.
+    </p>
+
+    <p>
+        勝者は {{ Constants.jackpot }}を受け取ります.
+        同列だった場合,  {{ Constants.jackpot }}
+        が勝者の間で平等に分配されます.
+    </p>
+
+    <p>このゲームは {{ Constants.num_rounds }} 回まで繰り返されます.</p>
+
+</div>
+</div>

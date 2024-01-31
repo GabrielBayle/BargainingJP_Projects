@@ -1,0 +1,210 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+   <b style="color:gray"> Exit Questionnaire </b>
+{% endblock %}
+
+
+
+{% block app_styles %}
+<style type="text/css">
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slidecontainer2 {
+  width: 100%;
+}
+
+.slider2 {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider2:hover {
+  opacity: 1;
+}
+
+.slider2::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider2::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.center {
+border: 5px solid #FFFF00;
+text-align: center;
+}
+
+.display {
+    border: 10px solid red;
+}
+
+.important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+th {
+    border: 1px solid black;
+    font-size: 16pt;
+    width: 650px;
+    text-align: right;
+    font-weight:normal;
+    }
+
+td {
+    font-size: 14pt;
+    border: 1px solid black;
+    text-align: center;
+    }
+
+table {
+
+    }
+
+.history td {
+    font-size: 16pt;
+    }
+
+.history th {
+    font-size: 12pt;
+    width: 100px;
+    text-align: center;
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+The following questionnaire is for research purposes only. Your answers will stay anonymous. Your
+payment will be prepared while you answer this questionnaire. We thank you for your cooperation.
+<br>
+<p></p>
+1.   How old are you? <br>
+<input name="age"  type="number" style="width: 4em" min="16" max = "99">
+{{ formfield_errors 'age' }}
+
+<p></p><br>
+{{formfield 'sex' label='2. What is your sex?'}}
+
+<p></p><br>
+{{formfield 'major' label='3. What is (closest) to your major field of study? If more than one major, or major not represented, please select "other STEM" or "non-STEM" as appropriate'}}
+<p></p><br>
+{{formfield 'race' label='4. Which one of the following best describes you?'}}
+
+<p></p><br>
+5. What is your current GPA ?<br>
+<input name="GPA"  type="number" style="width: 4em"  step="0.01" min="0" max="4">
+{{ formfield_errors 'GPA' }}
+<p></p><br>
+
+
+<!-- For the next two questions, choose the scale from 0 to 10, where a 0 means you are completely unwilling and a 10 means you are
+very willing. 
+<br><br> -->
+6. Choose the scale that best describes how you see yourself: are you a person who is generally willing to take risks, or do you try to avoid
+taking risks?
+<br><br>
+<center>
+       <div style="border: thin solid LightGray ">
+      <tr>
+          <th>Completely unwilling &nbsp;&nbsp;&nbsp;&nbsp; </th> <th> </th> <th>{{form.risk1}}</th> <th>Very willing</th>
+      </tr>
+</div>
+</center>
+<br><br>
+7. Choose the scale that best describes how willing are you to give up something that is beneficial for you today in order to benefit more from that in the future?
+<br><br>
+<center>
+       <div style="border: thin solid LightGray ">
+      <tr>
+          <th>Completely unwilling &nbsp;&nbsp;&nbsp;&nbsp; </th> <th> </th> <th>{{form.risk2}}</th> <th>Very willing</th>
+      </tr>
+</div>
+</center>
+<br><br>
+8. Choose the scale to which the following statements describe you: "Competition brings the best out of me"
+<br><br>
+<center>
+       <div style="border: thin solid LightGray ">
+      <tr>
+          <th>Not at all like me &nbsp;&nbsp;&nbsp;&nbsp; </th> <th> </th> <th>{{form.competitive}}</th> <th>Exactly like me</th>
+      </tr>
+</div>
+</center>
+<br><br>
+
+9.   How many math classes have you taken in college? <br>
+<input name="math_classes"  type="number" style="width: 4em" min="0" max = "99">
+{{ formfield_errors 'math_classes' }}
+
+<p></p><br>
+10. How many statistics classes have you taken in college?"<br>
+<input name="stats_classes"  type="number" style="width: 4em" min="0" max = "99">
+{{ formfield_errors 'stats_classes' }}
+
+<p></p><br>
+11. How many economics classes have you taken in college?"<br>
+<input name="econ_classes"  type="number" style="width: 4em" min="0" max = "99">
+{{ formfield_errors 'econ_classes' }}
+
+
+<p></p><br>
+{% next_button %}
+
+{% endblock %}

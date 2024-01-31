@@ -1,0 +1,29 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    結果
+{% endblock %}
+
+{% block content %}
+
+{% if player.id_in_group == 1 %}
+    <p>
+        あなたはプレイヤーBに{{ group.sent_amount }}送りました。
+        プレイヤーBは{{group.sent_back_amount}}返しました。
+    </p>
+    {% else %}
+    <p>
+        プレイヤーAはあなたに{{ group.sent_amount }}送りました。
+        あなたは{{group.sent_back_amount}}返しました。
+    </p>
+
+{% endif %}
+
+    <p>
+    よってあなたの合計は{{player.payoff}}になりました。
+    </p>
+
+    {% include Constants.instructions_template %}
+
+{% endblock %}

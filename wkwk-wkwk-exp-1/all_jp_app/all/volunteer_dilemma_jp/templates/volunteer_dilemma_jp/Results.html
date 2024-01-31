@@ -1,0 +1,24 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    結果
+{% endblock %}
+
+
+{% block content %}
+    <p>
+        {% if player.volunteer %}
+            あなたはボランティアをしました。その結果、あなたの報酬は、<strong>{{ player.payoff }}</strong>です。
+        {% elif group.num_volunteers > 0 %}
+            あなたはボランティアをしませんでしたが、ほかの誰かがボランティアをしました。結果、あなたの報酬は、<strong>{{ player.payoff }}</strong>です。
+        {% else %}
+            あなたはボランティアをしませんでした。また、ほかの誰もボランティアをしませんでした。結果、あなたの報酬は、<strong>{{ player.payoff }}</strong>です。
+        {% endif %}
+    </p>
+
+    <p>{% next_button %}</p>
+
+    {% include Constants.instructions_template %}
+
+{% endblock %}

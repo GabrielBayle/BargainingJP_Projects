@@ -1,0 +1,587 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+  <b style="color:grey"> Practice - {{group.title}}: Information Acquisition </b>
+{% endblock %}
+
+{% block content %}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<style>
+
+
+
+  button {
+    color:white;
+    background-color: #4CAF50; //#e5e9ec;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 10px;
+}
+button:hover {
+background-color:  #3d8c40;
+color: white;
+border: 3px solid black;
+}
+
+    table {
+    table-layout: fixed;
+    width: 800px;
+    }
+
+.history td {
+    font-size: 10pt;
+        text-align: center;
+    }
+
+.history th {
+    font-size: 8pt;
+    width: 100px;
+    text-align: center;
+    }
+
+    .important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+
+
+
+div.a {
+  text-align: center;
+}
+
+div.b {
+  text-align: left;
+}
+
+div.c {
+  text-align: right;
+}
+
+#table {
+  border-collapse: separate;
+  border-spacing: 15px;
+}
+
+
+
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+.slidecontainer2 {
+  width: 75%;
+}
+
+.slider2 {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider2:hover {
+  opacity: 1;
+}
+
+.slider2::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 10%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider2::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+ .frac {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    letter-spacing: 0.001em;
+    text-align: center;
+}
+.frac > span {
+    display: block;
+    padding: 0.1em;
+}
+.frac span.bottom {
+    border-top: thin solid black;
+}
+.frac span.symbol {
+    display: none;
+}
+</style>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.8.2.js"></script>
+<style type="text/css">
+#overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: #000;
+filter:alpha(opacity=70);
+-moz-opacity:0.7;
+-khtml-opacity: 0.7;
+opacity: 0.7;
+z-index: 100;
+display: none;
+}
+.cnt223 a{
+text-decoration: none;
+}
+.popup{
+width: 100%;
+margin: 0 auto;
+display: none;
+position: absolute;
+z-index: 101;
+}
+.cnt223{
+min-width: 600px;
+width: 600px;
+min-height: 150px;
+margin: 100px auto;
+background: #f3f3f3;
+position: relative;
+z-index: 103;
+padding: 15px 35px;
+border-radius: 5px;
+box-shadow: 0 2px 5px #000;
+}
+.cnt223 p{
+clear: both;
+    color: #555555;
+    /* text-align: justify; */
+    font-size: 20px;
+    font-family: sans-serif;
+}
+.cnt223 p a{
+color: #d91900;
+font-weight: bold;
+}
+.cnt223 .x{
+float: right;
+height: 35px;
+left: 22px;
+position: relative;
+top: -25px;
+width: 34px;
+}
+.cnt223 .x:hover{
+cursor: pointer;
+}
+
+
+.swal-button--confirm {
+  padding: 7px 19px;
+  border-radius: 2px;
+  background-color: #3d8c40;
+  font-size: 12px;
+  border: 1px solid #3e549a;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+}
+
+</style>
+
+The <b>State of the World</b> is unknown to you and other participants, but you can request to purchase that information:
+<p></p>
+<div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000;">
+
+    <ul>
+      <li>
+      Up to 3 participants in each generation may acquire this information.  If more participants request the information, only 3 per generation will randomly  be selected. 
+    </li> 
+    <p></p>
+    <li>
+        If selected among requesters, a <b>L${{info_cost}}</b> cost will be deducted from your sequence payoff but won't affect the amount of money you have for trading.
+    </li> 
+    <p></p>
+    <li>
+        While trading other participants won't know if you purchased this information or not.
+    </li>
+    <p></p>
+    <li>
+        Once purchased, this information will be available to you throughout the entire sequence.
+    </li>
+    <p></p>
+    <li>
+      Your <b>Type is {{player.type}}</b> and you'll enter the market as <b>{{cohort}} investor</b>.
+    </li>
+
+
+</ul>
+    Would you like to request this information for the current sequence:<br>
+<br>
+    <center>
+       <button id="bid_for_info_field" name="bid_for_info" value=1><b>YES, <br></b>request information</button>  &nbsp;&nbsp;&nbsp;&nbsp;
+       <button id="bid_for_info_field" name="bid_for_info" value=0><b>NO,<br></b> don't request information</b></button> 
+      </center>
+      <br>
+</div>
+
+<input id="bid_for_info_field" type="hidden" name="prediction"  value='0'/>
+   
+
+<p></p>
+
+
+
+<p></p>
+
+
+
+
+
+
+<p></p>
+<small style="color:red">Note:</small><small> If you do not make a choice, information about the <b>State of the World</b> will not be requested.
+</small>
+
+
+<br><br>
+
+<center>
+
+
+  <h5>Previous Results </h5>
+  <table class="history">
+  <tr style="background-color:gainsboro">
+
+         <table style="table-layout: fixed;
+          width: 800px;"
+           class="history">
+  <tr style="background-color:gainsboro">
+          <th><b>Sequence</b></th>
+          <th><b>Your Role</b></th>
+          <th><b>Average Share Price </b></th>
+          <th><b>State of the World Information</b></th>
+          <th><b>Your Round Payoff </b></th>
+
+
+
+          </tr>
+      {% for p in player_in_previous_rounds %}
+
+
+      <tr>
+        {{ if p.round_number == 3 or p.round_number == 6 or  p.round_number == 9 or  p.round_number == 12 or  p.round_number == 15 or  p.round_number == 18  or p.round_number == 21  or p.round_number == 24  or p.round_number == 27 }}
+        <td>   - - - - - </td> <td>   - - - - - </td> <td>   - - - - - </td> <td>   - - - - - </td> <td>   - - - - - </td>
+              {{endif}}
+           </tr>
+
+              <tr style="background-color:white">
+
+              <td>
+                  {{ if p.round_number >= 28 }}
+                  X
+                  {{endif}}
+
+                  {{ if p.round_number == 27 }}
+                  IX
+                  {{endif}}
+                  {{ if p.round_number == 26 }}
+                  IX
+                  {{endif}}
+                  {{ if p.round_number == 25 }}
+                  IX
+                  {{endif}}
+
+
+
+                  {{ if p.round_number == 24 }}
+                  VIII
+                  {{endif}}
+                  {{ if p.round_number == 23 }}
+                  VIII
+                  {{endif}}
+                  {{ if p.round_number == 22 }}
+                  VIII
+                  {{endif}}
+
+                  {{ if p.round_number == 21 }}
+                  VII
+                  {{endif}}
+                  {{ if p.round_number == 20 }}
+                  VII
+                  {{endif}}
+                  {{ if p.round_number == 19 }}
+                  VII
+                  {{endif}}
+
+                  {{ if p.round_number == 18 }}
+                  VI
+                  {{endif}}
+                  {{ if p.round_number == 17 }}
+                  VI
+                  {{endif}}
+                  {{ if p.round_number == 16 }}
+                  VI
+                  {{endif}}
+
+                  {{ if p.round_number == 15 }}
+                  V
+                  {{endif}}
+                  {{ if p.round_number == 14 }}
+                  V
+                  {{endif}}
+                  {{ if p.round_number == 13 }}
+                  V
+                  {{endif}}
+
+                  {{ if p.round_number == 12 }}
+                  IV
+                  {{endif}}
+                  {{ if p.round_number == 11 }}
+                  IV
+                  {{endif}}
+                  {{ if p.round_number == 10 }}
+                  IV
+                  {{endif}}
+
+                  {{ if p.round_number == 9 }}
+                  III
+                  {{endif}}
+                  {{ if p.round_number == 8 }}
+                  III
+                  {{endif}}
+                  {{ if p.round_number == 7 }}
+                  III
+                  {{endif}}
+
+                  {{ if p.round_number == 6 }}
+                  II
+                  {{endif}}
+                  {{ if p.round_number == 5 }}
+                  II
+                  {{endif}}
+                  {{ if p.round_number == 4 }}
+                  II
+                  {{endif}}
+
+                  {{ if p.round_number <= 3 }}
+                  I
+                  {{endif}}
+              </td>
+              <td>
+                  {% if p.is_playing == 1 %}
+                      {% if p.is_young == 1 %}
+                      Young
+                      {% else%}
+                      Old
+                      {% endif %}
+                  {% else %}
+                      Predictor
+                  {% endif %}
+              </td>
+
+              <td>{{ p.group.average_price|cu|to1 }}</td>
+
+              <td>
+
+      
+              
+                {{if info_acquisition == 1}}
+
+                {{if p.is_informed == 1}}
+                     {{p.dividend_clue_text}} 
+                {{ else }}
+                    Either {{dividend_range_1_text}} or {{dividend_range_2_text}}
+                {{endif}}
+
+            {{ else }} 
+                
+                {{if public_information == 1 and p.is_informed == 1}}
+                {{p.dividend_clue_text}} 
+                {{else}}
+                Either {{dividend_range_1_text}} or {{dividend_range_2_text}}
+                {{endif}}
+            
+                {{if public_information == 0}}
+                Either {{dividend_range_1_text}} or {{dividend_range_2_text}}
+
+            {{ endif }}
+              </td>
+
+          
+             
+              <td>{{ p.round_payoff|cu|to1 }} </td>
+
+
+{{endif}}
+          </tr>
+
+
+      {% endfor %}
+   </table></center>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+var slider = document.getElementById("sliderSignal");
+var max_request = document.getElementById("max_request");
+var borrow_cost = document.getElementById("signal_cost_box");
+var payoff = document.getElementById("payoff_box");
+var payoff2 = document.getElementById("payoff_box_2");
+
+
+window.onload = function() {
+    document.getElementById('signal_field').value = 0;
+    console.log("window.onload ran")
+}
+
+function Y(m,r) {
+return (m)*(1+r);
+}
+
+
+function max_rq(p) {
+    return (p/{{4}})**(1/{{2}});
+}
+
+
+
+function cu(amount) {
+return `L$${amount}`;
+}
+
+function percent(amount) {
+return ` ${amount}%`;
+}
+
+
+function yourPoints(q){
+       aux = {{2}}*q**{{1}};
+       return aux.toFixed(1);
+     }
+
+
+
+slider.oninput = function() {
+    document.getElementById("borrow").innerHTML = cu(this.value);
+    document.getElementById("borrow2").innerHTML = cu(this.value);
+    max_request.innerHTML = max_rq(this.value).toFixed(1);
+    borrow_cost.innerHTML = cu(Y(this.value, {{2}} ).toFixed(1));
+    payoff.innerHTML = cu(yourPoints(max_rq(this.value)));
+    payoff2.innerHTML = cu((yourPoints(max_rq(this.value))-Y(this.value, {{1}} )).toFixed(1));
+
+
+}
+
+function sendBorrow() {
+swal({
+  title: "Are you sure?",
+  text: "Yor average price prediction is :",
+  icon: "warning",
+  buttons: true,
+  dangerMode: false,
+  content: document.getElementById("borrow2"),
+
+})
+.then((willDelete) => {
+  if (willDelete) {
+    document.getElementById("myForm").click()
+  } else {
+
+  }
+});
+}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

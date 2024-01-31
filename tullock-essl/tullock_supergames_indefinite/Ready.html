@@ -1,0 +1,370 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+  <b style="color:grey"> Are you ready to participate? </b>
+{% endblock %}
+
+{% block content %}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<style>
+
+
+
+  button {
+    color:white;
+    background-color: #4CAF50; //#e5e9ec;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 10px;
+}
+button:hover {
+background-color:  #3d8c40;
+color: white;
+border: 3px solid black;
+}
+
+    table {
+    table-layout: fixed;
+    width: 800px;
+    }
+
+.history td {
+    font-size: 10pt;
+        text-align: center;
+    }
+
+.history th {
+    font-size: 8pt;
+    width: 100px;
+    text-align: center;
+    }
+
+    .important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+
+
+
+div.a {
+  text-align: center;
+}
+
+div.b {
+  text-align: left;
+}
+
+div.c {
+  text-align: right;
+}
+
+#table {
+  border-collapse: separate;
+  border-spacing: 15px;
+}
+
+
+
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+.slidecontainer2 {
+  width: 75%;
+}
+
+.slider2 {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider2:hover {
+  opacity: 1;
+}
+
+.slider2::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 10%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider2::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+ .frac {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    letter-spacing: 0.001em;
+    text-align: center;
+}
+.frac > span {
+    display: block;
+    padding: 0.1em;
+}
+.frac span.bottom {
+    border-top: thin solid black;
+}
+.frac span.symbol {
+    display: none;
+}
+</style>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.8.2.js"></script>
+<style type="text/css">
+#overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: #000;
+filter:alpha(opacity=70);
+-moz-opacity:0.7;
+-khtml-opacity: 0.7;
+opacity: 0.7;
+z-index: 100;
+display: none;
+}
+.cnt223 a{
+text-decoration: none;
+}
+.popup{
+width: 100%;
+margin: 0 auto;
+display: none;
+position: absolute;
+z-index: 101;
+}
+.cnt223{
+min-width: 600px;
+width: 600px;
+min-height: 150px;
+margin: 100px auto;
+background: #f3f3f3;
+position: relative;
+z-index: 103;
+padding: 15px 35px;
+border-radius: 5px;
+box-shadow: 0 2px 5px #000;
+}
+.cnt223 p{
+clear: both;
+    color: #555555;
+    /* text-align: justify; */
+    font-size: 20px;
+    font-family: sans-serif;
+}
+.cnt223 p a{
+color: #d91900;
+font-weight: bold;
+}
+.cnt223 .x{
+float: right;
+height: 35px;
+left: 22px;
+position: relative;
+top: -25px;
+width: 34px;
+}
+.cnt223 .x:hover{
+cursor: pointer;
+}
+
+
+.swal-button--confirm {
+  padding: 7px 19px;
+  border-radius: 2px;
+  background-color: #3d8c40;
+  font-size: 12px;
+  border: 1px solid #3e549a;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+}
+
+
+</style>
+
+ 
+<body onload="notifyWithSound()">
+
+  <audio id="notificationSound" src='http://commondatastorage.googleapis.com/codeskulptor-demos/pyman_assets/intromusic.ogg' preload="auto"></audio>
+  
+  <script>
+      function notifyWithSound() {
+          // First, check if the browser supports notifications
+          if (!("Notification" in window)) {
+              console.log("This browser does not support desktop notifications.");
+              return;
+          }
+  
+          // Request permission from the user
+          Notification.requestPermission().then(function (permission) {
+              // If permission is granted
+              if (permission === "granted") {
+                  // Play the sound
+                  document.getElementById('notificationSound').play();
+
+                  
+                  // Display the notification
+                  new Notification("Welcome Back to the ESSL Study!", {
+                      body: "You have been selected to join the study. Please make sure to go back to the website",
+                      // You can even add an icon if you like
+                      icon: "https://i.imgur.com/ajElItQ.png"
+                  });
+              }
+          });
+      }
+  </script>
+
+  
+
+<b>One active participant  {{ if pressure == 1 }} will be soon selected to leave the experiment based on their performance: {{else}} will soon be randomly selected to leave the experiment: {{endif}}</b>
+<p></p>
+<div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000;">
+
+    <ul>
+      <li>
+      You are next in line to go over the instructions so you can join the experiment.
+    </li> 
+    <p></p>
+    <li>
+      But first you have to confirm that you are ready to enter.
+    </li> 
+    <p></p>
+    <li>
+      If you fail to confirm in the next 30 seconds, the next person in line will take your place and you'll have to wait until someone else leaves to join. 
+    </li> 
+
+</ul>
+    Please confirm that you are now ready to join the experiment:<br>
+<br>
+    <center>
+       <button  onclick="myFunction()" id="queue_position_field" name="queue_position"><b>YES, <br></b>I'm ready</button> 
+       
+      </center>
+      <br>
+</div>
+
+<script>
+  function myFunction() {
+    document.getElementById("queue_position_field").value = {{ready_position}};
+  }
+  </script>
+   
+
+
+<p></p>
+
+
+
+<p></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+
+window.onload = function() {
+  document.getElementById('signal_field').value = 0;
+  console.log("window.onload ran")
+}
+
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,677 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+  <b style="color:grey"> Practice - {{group.title}}: Make Your Price Prediction </b>
+{% endblock %}
+
+{% block content %}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<style>
+
+
+
+    table {
+    table-layout: fixed;
+    width: 800px;
+    }
+
+.history td {
+    font-size: 10pt;
+        text-align: center;
+    }
+
+.history th {
+    font-size: 8pt;
+    width: 100px;
+    text-align: center;
+    }
+
+    .important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+
+
+
+div.a {
+  text-align: center;
+}
+
+div.b {
+  text-align: left;
+}
+
+div.c {
+  text-align: right;
+}
+
+#table {
+  border-collapse: separate;
+  border-spacing: 15px;
+}
+
+   .otree-btn-next {
+          color:white;
+          background-color: #4CAF50; //#e5e9ec;
+          border: 2px solid black;
+          border-radius: 5px;
+          padding: 10px;
+    }
+    .otree-btn-next:hover {
+  background-color:  #3d8c40;
+  color: white;
+  border: 2px solid black;
+    }
+
+
+
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+.slidecontainer2 {
+  width: 75%;
+}
+
+.slider2 {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider2:hover {
+  opacity: 1;
+}
+
+.slider2::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 10%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider2::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+ .frac {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    letter-spacing: 0.001em;
+    text-align: center;
+}
+.frac > span {
+    display: block;
+    padding: 0.1em;
+}
+.frac span.bottom {
+    border-top: thin solid black;
+}
+.frac span.symbol {
+    display: none;
+}
+</style>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.8.2.js"></script>
+<style type="text/css">
+#overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: #000;
+filter:alpha(opacity=70);
+-moz-opacity:0.7;
+-khtml-opacity: 0.7;
+opacity: 0.7;
+z-index: 100;
+display: none;
+}
+.cnt223 a{
+text-decoration: none;
+}
+.popup{
+width: 100%;
+margin: 0 auto;
+display: none;
+position: absolute;
+z-index: 101;
+}
+.cnt223{
+min-width: 600px;
+width: 600px;
+min-height: 150px;
+margin: 100px auto;
+background: #f3f3f3;
+position: relative;
+z-index: 103;
+padding: 15px 35px;
+border-radius: 5px;
+box-shadow: 0 2px 5px #000;
+}
+.cnt223 p{
+clear: both;
+    color: #555555;
+    /* text-align: justify; */
+    font-size: 20px;
+    font-family: sans-serif;
+}
+.cnt223 p a{
+color: #d91900;
+font-weight: bold;
+}
+.cnt223 .x{
+float: right;
+height: 35px;
+left: 22px;
+position: relative;
+top: -25px;
+width: 34px;
+}
+.cnt223 .x:hover{
+cursor: pointer;
+}
+
+
+.swal-button--confirm {
+  padding: 7px 19px;
+  border-radius: 2px;
+  background-color: #3d8c40;
+  font-size: 12px;
+  border: 1px solid #3e549a;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+}
+
+</style>
+
+
+<script type='text/javascript'>
+
+$(function(){
+var overlay = $('<div id="overlay"></div>');
+overlay.show();
+overlay.appendTo(document.body);
+$('.popup').show();
+$('.close').click(function(){
+$('.popup').hide();
+overlay.appendTo(document.body).remove();
+return false;
+});
+
+
+$('.x').click(function(){
+$('.popup').hide();
+overlay.appendTo(document.body).remove();
+return false;
+});
+});
+
+
+</script>
+
+
+<div class='popup'>
+<div class='cnt223'>
+<h3 style="color:red">Remember: </h3>
+<center>
+    <b>While you wait to enter the market again, your round payoff will depend on the accuracy of your market price prediction. </b>
+</center>
+
+<br><br>
+
+    <center>
+<b><a href='' style="color:white;   padding: 7px 19px;
+  border-radius: 2px;
+  background-color: #3d8c40;
+  font-size: 12px;
+  border: 2px solid #3e549a;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+
+
+
+" class='close'> OK </a></b>
+        </center>
+</div>
+
+
+</div>
+</div>
+
+
+You are currently "inactive", please make a prediction about the average price you expect to observe in the market for this round.
+<br><br>
+
+<!-- Your payoff will be calculated as follows:
+            <center>
+              <em><b class="important">payoff = ${{prediction_endowment}}+${{scale_prediction}}*(prediction-average price)<sup>2</sup></b></em>
+            </center>
+
+<p></p>  -->
+
+  <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 2px #000;">
+        Enter your price prediction:
+      &nbsp; <em><span class="important" id="borrow"> </span></em>    <span hidden>  <span class="important" id="borrow2"></span>  </span>
+<div class="slidecontainer">
+    <div class="c">  <small>{{prediction_max|cu|to0}}</small></div>
+  <input type="range" min="{{prediction_min}}" max="{{prediction_max}}"  step="1" value="0" class="slider" id="sliderSignal" name="prediction">
+     <div class="b">  <small>{{prediction_min|cu|to0}}</small></div>
+    <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total amount to payback from your after bargain with the seller would be <em><strong><span id="signal_cost_box"></span></strong></em>
+
+-->
+</div>
+</div>
+
+    <input id="prediction_field" type="hidden" name="prediction"  value='0'/>
+
+<p></p>
+
+<!--
+  Given this borrowed amount:
+    <ul>
+        <li>
+             You could request to trade this amount for up to <span class="important" id="max_request"> </span> units of  <b><i style="color:blue">Output</i></b> from the seller, which, if accepted would imply a gross payoff of  <span class="important" id="payoff_box"> $</span>  for you.
+        </li> <br>
+        <li>
+            That gross payoff minus the payback of the loan would give you a <b class="important">net payoff of </b><span class="important" id="payoff_box_2">$</span>
+        </li>
+
+    </ul>
+
+</p><br>
+    <button class="otree-btn-next"  onclick="sendBorrow()">
+    Submit
+</button> !-->
+<button  class="otree-btn-next" type="button" onclick="sendBorrow()"> Submit</button>
+<button id="myForm" hidden></button>
+<p></p>
+
+{{ if player.is_informed == 0 and info_acquisition == 1 }}
+        <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 1px #000;">
+                <b>State of the World Information:</b>
+
+             <div id="myDIV">&nbsp;&nbsp;&nbsp;&nbsp;&rarr; State of the World can be either <b>{{dividend_range_1_text}}</b> (i.e L${{dividend_range_1}}), <b>{{dividend_range_2_text}}</b> (i.e L${{dividend_range_2}}), or <b>{{dividend_range_3_text}}</b>  (i.e L${{dividend_range_3}}) </div>
+       </div>
+{{endif}}
+{{if player.is_informed == 1 and info_acquisition == 1 }}
+      <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 1px #000;">
+            <b>State of the World Information:</b>
+
+            <div id="myDIV">&nbsp;&nbsp;&nbsp;&nbsp;&rarr;  State of the World is <b>NOT {{player.dividend_clue_text}}</b>  (i.e dividend is NOT L${{player.dividend_clue|to0}}) </div>
+    </div>
+{{endif}}
+{{if   public_information == 1 and info_acquisition == 0 }}
+      <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 1px #000;">
+            <b>State of the World Information:</b>
+
+            <div id="myDIV">&nbsp;&nbsp;&nbsp;&nbsp;&rarr; State of the World is <b>NOT {{player.dividend_clue_text}}</b>  (i.e dividend is NOT L${{player.dividend_clue|to0}}) </div>
+      </div>
+{{endif}}
+{{if   public_information == 0 and info_acquisition == 0 }}
+      <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 1px #000;">
+            <b>State of the World Information:</b>
+
+            <div id="myDIV">&nbsp;&nbsp;&nbsp;&nbsp;&rarr; State of the World can be either <b>{{dividend_range_1_text}}</b> (i.e L${{dividend_range_1}}), <b>{{dividend_range_2_text}}</b> (i.e L${{dividend_range_2}}), or <b>{{dividend_range_3_text}}</b>  (i.e L${{dividend_range_3}}) </div>
+          </div>
+{{endif}}
+
+
+
+
+
+
+
+
+
+
+
+
+<p></p>
+<small style="color:red">Note:</small><small> If you do not make a choice, a prediction of zero will be assumed.
+</small>
+
+
+<br><br>
+
+<center>
+
+
+  <h5>Previous Results </h5>
+  <table class="history">
+  <tr style="background-color:gainsboro">
+
+         <table style="table-layout: fixed;
+          width: 800px;"
+           class="history">
+  <tr style="background-color:gainsboro">
+          <th><b>Sequence</b></th>
+          <th><b>Your Role</b></th>
+          <th><b>Average Share Price </b></th>
+          <th><b>State of the World Information</b></th>
+          <th><b>Your Round Payoff </b></th>
+
+
+
+          </tr>
+      {% for p in player_in_previous_rounds %}
+
+
+      <tr>
+        {{ if p.round_number == 3 or p.round_number == 6 or  p.round_number == 9 or  p.round_number == 12 or  p.round_number == 15 or  p.round_number == 18  or p.round_number == 21  or p.round_number == 24  or p.round_number == 27 }}
+        <td>   - - - - - </td> <td>   - - - - - </td> <td>   - - - - - </td> <td>   - - - - - </td> <td>   - - - - - </td>
+              {{endif}}
+           </tr>
+
+              <tr style="background-color:white">
+
+              <td>
+                  {{ if p.round_number >= 28 }}
+                  X
+                  {{endif}}
+
+                  {{ if p.round_number == 27 }}
+                  IX
+                  {{endif}}
+                  {{ if p.round_number == 26 }}
+                  IX
+                  {{endif}}
+                  {{ if p.round_number == 25 }}
+                  IX
+                  {{endif}}
+
+
+
+                  {{ if p.round_number == 24 }}
+                  VIII
+                  {{endif}}
+                  {{ if p.round_number == 23 }}
+                  VIII
+                  {{endif}}
+                  {{ if p.round_number == 22 }}
+                  VIII
+                  {{endif}}
+
+                  {{ if p.round_number == 21 }}
+                  VII
+                  {{endif}}
+                  {{ if p.round_number == 20 }}
+                  VII
+                  {{endif}}
+                  {{ if p.round_number == 19 }}
+                  VII
+                  {{endif}}
+
+                  {{ if p.round_number == 18 }}
+                  VI
+                  {{endif}}
+                  {{ if p.round_number == 17 }}
+                  VI
+                  {{endif}}
+                  {{ if p.round_number == 16 }}
+                  VI
+                  {{endif}}
+
+                  {{ if p.round_number == 15 }}
+                  V
+                  {{endif}}
+                  {{ if p.round_number == 14 }}
+                  V
+                  {{endif}}
+                  {{ if p.round_number == 13 }}
+                  V
+                  {{endif}}
+
+                  {{ if p.round_number == 12 }}
+                  IV
+                  {{endif}}
+                  {{ if p.round_number == 11 }}
+                  IV
+                  {{endif}}
+                  {{ if p.round_number == 10 }}
+                  IV
+                  {{endif}}
+
+                  {{ if p.round_number == 9 }}
+                  III
+                  {{endif}}
+                  {{ if p.round_number == 8 }}
+                  III
+                  {{endif}}
+                  {{ if p.round_number == 7 }}
+                  III
+                  {{endif}}
+
+                  {{ if p.round_number == 6 }}
+                  II
+                  {{endif}}
+                  {{ if p.round_number == 5 }}
+                  II
+                  {{endif}}
+                  {{ if p.round_number == 4 }}
+                  II
+                  {{endif}}
+
+                  {{ if p.round_number <= 3 }}
+                  I
+                  {{endif}}
+              </td>
+              <td>
+                  {% if p.is_playing == 1 %}
+                      {% if p.is_young == 1 %}
+                      Young
+                      {% else%}
+                      Old
+                      {% endif %}
+                  {% else %}
+                      Predictor
+                  {% endif %}
+              </td>
+
+              <td>{{ p.group.average_price|cu|to1 }}</td>
+
+              <td>
+
+      
+              
+                {{if info_acquisition == 1}}
+
+                {{if p.is_informed == 1}}
+                    NOT {{p.dividend_clue_text}} (i.e NOT L${{p.dividend_clue|to0}})
+                {{ else }}
+                    Either {{dividend_range_1_text}}, L${{dividend_range_2_text}}, or L${{dividend_range_3_text}}
+                {{endif}}
+
+            {{ else }} 
+                
+                {{if public_information == 1}}
+                    NOT {{p.dividend_clue_text}} (i.e NOT L${{p.dividend_clue|to0}})
+                {{endif}}
+            
+                {{if public_information == 0}}
+                Either {{dividend_range_1_text}}, {{dividend_range_2_text}}, or {{dividend_range_3_text}}
+                {{endif}}
+
+            {{ endif }}
+              </td>
+
+          
+             
+              <td>{{ p.round_payoff|cu|to1 }} </td>
+
+
+
+          </tr>
+
+
+      {% endfor %}
+   </table></center>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+var slider = document.getElementById("sliderSignal");
+var max_request = document.getElementById("max_request");
+var borrow_cost = document.getElementById("signal_cost_box");
+var payoff = document.getElementById("payoff_box");
+var payoff2 = document.getElementById("payoff_box_2");
+
+
+window.onload = function() {
+    document.getElementById('signal_field').value = 0;
+    console.log("window.onload ran")
+}
+
+function Y(m,r) {
+return (m)*(1+r);
+}
+
+
+function max_rq(p) {
+    return (p/{{4}})**(1/{{2}});
+}
+
+
+
+function cu(amount) {
+return `L$${amount}`;
+}
+
+function percent(amount) {
+return ` ${amount}%`;
+}
+
+
+function yourPoints(q){
+       aux = {{2}}*q**{{1}};
+       return aux.toFixed(1);
+     }
+
+
+
+slider.oninput = function() {
+    document.getElementById("borrow").innerHTML = cu(this.value);
+    document.getElementById("borrow2").innerHTML = cu(this.value);
+    max_request.innerHTML = max_rq(this.value).toFixed(1);
+    borrow_cost.innerHTML = cu(Y(this.value, {{2}} ).toFixed(1));
+    payoff.innerHTML = cu(yourPoints(max_rq(this.value)));
+    payoff2.innerHTML = cu((yourPoints(max_rq(this.value))-Y(this.value, {{1}} )).toFixed(1));
+
+
+}
+
+function sendBorrow() {
+swal({
+  title: "Are you sure?",
+  text: "Yor average price prediction is :",
+  icon: "warning",
+  buttons: true,
+  dangerMode: false,
+  content: document.getElementById("borrow2"),
+
+})
+.then((willDelete) => {
+  if (willDelete) {
+    document.getElementById("myForm").click()
+  } else {
+
+  }
+});
+}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

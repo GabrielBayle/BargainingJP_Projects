@@ -1,0 +1,132 @@
+{{ extends 'otree/WaitPage.html' }}{{ block title }}
+{{title_text}}
+
+{{ endblock }}
+
+{{ block content }}
+<style>
+    table {
+    table-layout: fixed;
+    width: 800px;
+    }
+
+.history td {
+    font-size: 10pt;
+    }
+
+.history th {
+    font-size: 8pt;
+    width: 100px;
+    text-align: center;
+    }
+
+    .important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+
+</style>
+
+<b>{{body_text}}</b>
+<br>
+<br>
+<center>
+--------------------------------------------------------------------------------------
+</center>
+<br>
+<b style="color:grey" xmlns="http://www.w3.org/1999/html">: Results: Practice Round {{player.round_number}} of {{practice_num_rounds}}</b>
+    <p>
+    {{if player.group.no_agreement == 1}}
+        <b> You run out of time and NO agreement was reached, so no trade occurred </b>
+
+
+    {{ else }}
+        {{ if player.field_maybe_none('amount_accepted') == None and player.field_maybe_none('amount_accepted_q') == None }}
+            Congratulations, one of your proposal was accepted: <b>{{group.deal_price_q|to1}} units</b> of <i><b style="color:blue"> Output</b></i> for <b>{{ group.deal_price|cu|to1 }}</b>.
+        {{ else }}
+            Congratulations, you accepted the following proposal: <b>{{group.deal_price_q|to1}} units</b> of <i><b style="color:blue"> Output</b></i>  for <b>{{ group.deal_price|cu|to1 }}</b>.
+        {{ endif }}
+            {{endif}}
+        <br>
+         {{ if  player.role == 'Buyer' }}
+        <ul>
+            {{if r == 0}}
+            <li style="color:green">You borrowed {{player.amount_borrowed|cu|to1}}, so you have to pay it  back  </li>
+            {{else}}
+             <li style="color:green">You borrowed {{player.amount_borrowed|cu|to1}} at an interest rate of {{r_percentage|to0}}%, so you have to pay back {{principal_plus_interest|cu|to1}}  </li>
+            {{endif}}
+            <li style="color:blue">Your Payoff from trading is equal to {{player.gross_payoff|cu|to1}}</li>
+            <li style="color:orange">You made a Payment of {{group.deal_price|cu|to1}} out of the amount you borrowed</li>
+        </ul>
+So, after receiving your <span style="color:SlateGray">round endowment of {{endowment|cu|to1}}</span>:<br>
+        <center>
+        <b style="font-size:18px"> Total Payoff for the round is:</b><br>
+            <b style="font-size:18px"> <span style="color:green"> {{player.amount_borrowed|cu|to1}}-{{principal_plus_interest|cu|to1}}</span><span style="color:blue">+{{player.gross_payoff|cu|to1}}</span><span style="color:orange">-{{group.deal_price|cu|to1}}</span><span style="color:SlateGray">+{{endowment|cu|to1}}</span><span class="important"> ={{player.net_payoff|cu|to1}} </span></b></li>
+        </center>
+
+        {{ else }}
+            <ul>
+                <li style="color:red">Your Cost for the traded units is {{gross_payoff|cu|to1}} </li>
+                <li style="color:orange">You received a Payment of {{group.deal_price|cu|to1}} </li>
+            </ul>
+So, after receiving your round <span style="color:SlateGray">endowment of {{seller_endowment|cu|to0}}:</span><br>
+        <center>
+        <b style="font-size:18px"> Total Payoff for the round is:</b><br>
+            <b style="font-size:18px"> <span style="color:red">-{{gross_payoff|cu|to1}}</span><span style="color:orange">+{{group.deal_price|cu|to1}}</span><span style="color:SlateGray">+{{seller_endowment|cu|to0}}</span> <span class="important">={{player.net_payoff|cu|to1}}</span></b></li>
+        </center>
+        {{ endif }}
+
+    </p>
+
+<h5>Results including this round </h5>
+    <table class="history">
+    <tr style="background-color:gainsboro">
+
+           <table class="history">
+    <tr style="background-color:gainsboro">
+            <th><b>Round</b></th>
+            <th><b>Your Role</b></th>
+            <th><b>Payment Agreed, <em>P</em></b></th>
+            <th><b>Quantity Agreed, <em>q</em></b></th>
+            <th><b> Accepted by </b></th>
+            <th><b> Your Total Payoff </b></th>
+
+
+
+            </tr>
+        {% for p in player_in_all_rounds %}
+                <tr style="background-color:white">
+
+                <td>{{ p.round_number }}</td>
+                <td>
+                    {% if p.id_in_group == 1 %}
+                    Seller
+                    {% else %}
+                    Buyer
+                    {% endif %}
+                </td>
+                    <td>{{ p.group.deal_price|cu|to1 }}</td>
+                    <td>{{ p.group.deal_price_q|to1 }} units</td>
+                <td>
+                    {{if p.group.no_agreement == 1}}
+                        No agreement
+                    {{else}}
+                        {{if p.field_maybe_none('amount_accepted') == p.group.deal_price }}
+                            You
+                        {{else}}
+                            Counterpart
+                        {{endif}}
+                    {{endif}}
+                </td>
+                    <td><b>{{p.net_payoff|cu|to1}}</b></td>
+
+
+            </tr>
+        {% endfor %}
+    </table>
+<p></p>
+        <br>
+
+
+{{ endblock }}

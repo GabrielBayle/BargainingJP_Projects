@@ -1,0 +1,575 @@
+{{ block title }}
+  <b style="color:grey">Practice Round {{player.round_number}} of {{practice_num_rounds}}: You are a {{player.role}} make a deal with a {{other_role}} </b>
+{{ endblock }}
+
+{{ block content }}
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+          <style>
+
+
+div.a {
+  text-align: center;
+    font-size: 12px;
+    color:gray;
+}
+
+div.b {
+  text-align: left;
+  font-size: 12px;
+  color:gray;
+}
+
+div.c {
+  text-align: right;
+    font-size: 12px;
+    color:gray;
+}
+   .boton {
+          color:white;
+          background-color: #4169E1;  //#4CAF50; //#e5e9ec;
+          border: 2px solid black;
+          border-radius: 12px;
+          padding: 10px;
+            margin: 3px 150px;
+    }
+
+    .boton:hover {
+  background-color:  	#0F52BA;
+  color: white;
+  border: 2px solid black;
+    border-radius: 12px;
+
+    }
+
+   .boton2 {
+          color:white;
+          background-color:  #4CAF50; //#4169E1;  //#4CAF50; //#e5e9ec;
+          border: 1px solid black;
+          border-radius: 12px;
+          padding: 3px;
+           margin: 2px 2px;
+           font-size : 0.875em
+    }
+
+    .boton2:hover {
+  background-color:  #3d8c40; //	#0F52BA;
+  color: white;
+  border: 2px solid black;
+    border-radius: 12px;
+
+    }
+
+
+                .slidecontainer {
+  width: 95%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #1930ff;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #1930ff;
+  cursor: pointer;
+}
+
+.slidecontainer2 {
+  width: 85%;
+}
+
+.slider2 {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider2:hover {
+  opacity: 1;
+}
+
+.slider2::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #1930ff;
+  cursor: pointer;
+}
+
+.slider2::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #1930ff;
+  cursor: pointer;
+}
+
+.swal-text {
+  background-color: #FEFAE3;
+  padding: 17px;
+  border: 1px solid #F0E1A1;
+  display: block;
+  margin: 22px;
+  text-align: center;
+  color: #61534e;
+}
+
+
+.swal-button--confirm {
+  padding: 7px 19px;
+  border-radius: 2px;
+  background-color: #4962B3;
+  font-size: 12px;
+  border: 1px solid #3e549a;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+}
+
+
+.otree-timer {
+    padding-top: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+   width: 300px;
+   border: 2px solid #3e549a;
+   text-align: center;
+  position: absolute;
+  top: 15px;
+  right: 70%;
+  z-index: -1;
+
+}
+
+.hide {
+  display: none;
+}
+
+.myDIV:hover + .hide {
+  display: block;
+  color: black;
+background: white ;
+position: relative;
+z-index: 103;
+padding: 15px 35px;
+border-radius: 5px;
+box-shadow: 0 2px 5px #000;
+}
+</style>
+<span style="position:relative; top:-10px"> You are a <b class="important"> {{ player.role }}</b>.
+{{ if player.id_in_group == 2 }}
+    You can offer up to <b> ${{player.amount_borrowed|to1}}</b> to the Seller.
+{{ else }}
+    The Buyer borrowed <b>${{player.amount_borrowed|to1}}</b> before the meeting, which is the maximum they can offer.
+    {{endif}} </span>
+
+<h4 style="color:gray"> Make a New Proposal </h4>
+<div class="card-deck">
+<div class= "card border-dark mb-3 bg-light">
+<div class="card-header">
+{{ if player.id_in_group == 2 }}
+    <b>Enter the <b>Quantity</b> you'd like to buy and the <b>Payment</b> that you'd like to offer:</b>  (<span class="myDIV"><i style="color:navy"><u>see Payoff and Cost Graph</u></i></span>)
+        <div style="border:1px solid" class="hide">
+              <h5>Payoff and Cost Graph</h5>
+                               <center><img src="https://i.imgur.com/REx35Ud.png" width="100%"/> </center>
+        </div>
+{{ else }}
+    <b>Enter the <b>Quantity</b> you'd like to offer and the <b>Payment</b> that you'd like in return:</b>  (<span class="myDIV"><i style="color:navy"><u>see Payoff-Cost Graph</u></i></span>)
+        <div style="border:1px solid" class="hide">
+              <h5>Payoff and Cost Graph</h5>
+                  <center><img src="https://i.imgur.com/REx35Ud.png" width="100%"/> </center>
+        </div>
+{{endif}}
+ </div>
+
+<div class="card-body">
+{{ if player.role == 'Buyer' }}
+    Use this first slider to make your <i><b style="color:blue"> Output</b></i> request:
+{{ else }}
+    Use this first slider to make your <i><b style="color:blue"> Output</b></i> offer:
+{{endif}}
+
+<b style="color:blue"> <span id="demo_q" >0 </span></b>
+<br>
+<center>
+<div class="slidecontainer">
+     <!-- <div class="b">{{q_bar|to1}} units</div> -->
+<input type="range" min="0" step='0.1' max="{{q_bar}}"  value="0" class="slider" id="my_offer_q" name="output_request">
+ <div class="c">{{q_bar|to1}} units</div>
+</div></center>
+{{ if player.role == 'Buyer' }}
+    And this slider to  select the <i><b style="color:blue">Total Payment</b></i> you'd like to offer for those units:
+{{ else }}
+    And this slider to  select the <i><b style="color:blue">Total Payment</b></i> you'd like to receive for those units:
+{{endif}}
+<b style="color:blue">  <span  id="demo"> $0 </span></b>
+
+<center>
+<div class="slidecontainer2">
+    <!-- <div class="b">{{player.amount_borrowed|cu|to0}}</div> -->
+<input type="range" min="0" step='0.1' max="{{player.amount_borrowed}}"  value="0" class="slider" id="my_offer" name="token_offer">
+     <div class="c">{{player.amount_borrowed|cu|to1}}</div>
+</div></center>&nbsp; &nbsp;
+</div>
+
+
+<table class="table" style="position:relative; top:-35px">
+<tr>
+    <td></td>
+    <td> <b style="color:black">Output:</b> </td>
+    {{if player.role == 'Buyer'}}<td><b>Buyer Payoff (you):</b> </td>{{else}}<td><b>Buyer Payoff:</b> </td> {{endif}}
+    {{if player.role == 'Seller'}}<td><b>Seller Cost (you):</b></td>{{else}}<td><b>Seller Cost:</b> </td> {{endif}}
+    <td><b style="color: black"> Total Payment: </b></td>
+    <td><b>Buyer Payoff - Seller Cost:</b></td>
+</tr>
+<tr>
+    <td> <b style="color:gray">Your new proposal:</b></td>
+
+    <td><ul><li><b style="color:blue"> <span id="demo_q_aux" ></span> </b> </li></ul></td>
+    <td><ul><li><b> <span id="ConsumerBenefit"></span></b> </li></ul></td>
+    <td><ul><li><b><span id="Cost"></span></b></ul></td>
+    <td><ul><li><b style="color:blue "><span id="demo_aux"></span></b></ul></td>
+    <td><ul><li><b><span id="Surplus"></span></b></ul></td>
+</tr>
+
+<tr>
+    <td><span style="color:gray">Your most recent proposal:</span></td>
+
+    <td><ul><li><span style="color:blue">  <span id="my-proposal_q"></span></span></li></ul></td>
+    <td><ul><li> <span id="ConsumerBenefit_aux"></span></li> </ul></td>
+    <td><ul><li> <span id="Cost_aux"></span></li></ul></td>
+    <td><ul><li><span style="color:blue"><span id="my-proposal"> </span></span></li></ul></td>
+    <td><ul><li><span id="Surplus_aux"> </span></li></ul></td>
+</tr>
+</table></div><center>
+ <button type="button"  class="boton" style="position:relative; top:-55px" onclick="sendOffer()" id="btn-offer"><b>Send new proposal</b></button>
+</center>
+
+<h4 style="color:gray; position:relative; top:-40px">Active Proposals </h4>
+<div class="card-group " style="position:relative; top:-40px">
+<div class="card border-dark mb-3 bg-light">
+<h5 class="card-header"><center>Received Proposals from {{other_role}}</center></h5>
+<div class="card-body">
+<h5 class="card-title"></h5>
+<p class="card-text">
+
+
+
+<table id="history" style="font-size : 0.8em; position:relative; top:-35px"  class="table">
+<!--
+    <td></td>
+    <td></td>
+    <td> Output:</td>
+    <td> Buyer Payoff:</td>
+    <td> Seller Cost:</td>
+    <td> Total Payment:</td>
+    <td> Buyer Payoff - Seller Cost:</td>
+    <td> </td>
+-->
+        <tr id="rowH1"></tr>
+</table></p>
+<p class="card-text" style="font-size : 0.8em; position:relative; top:-35px"><small class="text-muted" >New received proposals stack at the top</small></p>
+</div>
+</div>
+
+<div class="card border-dark mb-3 bg-light">
+<h5 class="card-header"><center>My Proposals</center></h5>
+<div class="card-body">
+<h5 class="card-title"></h5>
+<p class="card-text">
+<!--
+<table style="font-size : 0.8em" class="table">
+    <td></td>
+    <td></td>
+    <td> Output:</td>
+    <td> Buyer Payoff:</td>
+    <td> Seller Cost:</td>
+    <td> Total Payment:</td>
+    <td> Buyer Payoff - Seller Cost:</td>
+    <td> </td>
+</table>
+-->
+<table id="history2" style="font-size : 0.8em; position:relative; top:-35px"  class="table">
+<!--
+    <td></td>
+    <td></td>
+    <td> Output:</td>
+    <td> Buyer Payoff:</td>
+    <td> Seller Cost:</td>
+    <td> Total Payment:</td>
+    <td> Buyer Payoff - Seller Cost:</td>
+    <td> </td>
+-->
+    <tr id="rowH2"></tr>
+</table ></p>
+<p class="card-text" style="font-size : 0.8em; position:relative; top:-35px"><small class="text-muted">My new proposals stack at the top</small></p>
+</div>
+</div>
+
+</div>
+</div>
+
+{% if chat_on == 1 %}
+<h4>Chat</h4>
+{{ chat nickname=player.role }}
+{% else %}
+
+{% endif %}
+<p id="my_row"></p>
+
+<!--
+<h4>Chat</h4>
+ {{ chat nickname=player.role }} -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", (event) => {
+    liveSend({});
+});
+
+window.onload = function() {
+    document.getElementById("demo_q").value = 0;
+    document.getElementById("demo").value= 0;
+
+    console.log("window.onload ran")
+}
+
+/* variables for "most recent proposal" */
+let msgMyProposal = document.getElementById('my-proposal');
+let msgMyProposal_q = document.getElementById('my-proposal_q');
+let msgMyCost = document.getElementById('Cost_aux');
+let msgMyConsumerBenefit = document.getElementById('ConsumerBenefit_aux');
+let msgMySurplus = document.getElementById('Surplus_aux');
+
+/* variables for "Active Proposals" */
+let otherProposal;
+let otherProposal_q;
+let count;
+let history = document.getElementById('history');
+let history2 = document.getElementById('history2');
+
+/* variables "new proposal" */
+let slider_q = document.getElementById("my_offer_q");
+let output_q = document.getElementById("demo_q");
+let Cost = document.getElementById("Cost");
+let ConsumerBenefit = document.getElementById("ConsumerBenefit");
+let Surplus =  document.getElementById("Surplus");
+let slider = document.getElementById("my_offer");
+let output = document.getElementById("demo");
+
+let aux_q;
+let aux;
+
+/* Functions */
+
+my_offer.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            sendOffer();
+        }
+    });
+
+my_offer_q.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            sendOffer();
+        }
+    });
+
+
+slider_q.oninput = function() {
+output_q.value = this.value;
+output_q.innerHTML=units(this.value);
+document.getElementById("demo_q_aux").innerHTML = units(this.value);
+ConsumerBenefit.innerHTML =  cu(ConsumerB(this.value).toFixed(1));
+Cost.innerHTML = cu(SellerC(this.value).toFixed(1));
+Surplus.innerHTML = cu(TotalS(this.value).toFixed(1));
+}
+
+slider.oninput = function() {
+ output.value = this.value;
+ output.innerHTML = cu(this.value);
+document.getElementById("demo_aux").innerHTML = cu(this.value);
+}
+
+/* function sendOffer() {
+liveSend({'type': 'propose', 'amount': output.value ,'amount_q': output_q.value , 'time_stamp' : performance.now() })
+alert("I am an alert box!")
+}
+*/
+
+function sendOffer() {
+if ({{A}}*output_q.value**{{a}}<output.value) {
+   swal( "Oops" ,  "Buyer Payoff is less than Total Payment. Decrease Payment or increase Output" ,  "error", {
+  button: "Please try a different offer",
+} )
+
+    }
+else if ({{B}}*output_q.value**{{b}}>output.value) {
+   swal( "Oops" ,  "Seller Cost is more than Total Payment. Increase Payment or decrease Output" ,  "error", {
+  button: "Please try a different offer",
+} )
+
+    }
+else {
+
+    liveSend({'type': 'propose', 'amount': output.value ,'amount_q': output_q.value , 'time_stamp' : performance.now() })
+    }
+}
+
+
+
+function sendAccept() {
+liveSend({'type': 'accept', 'amount': otherProposal , 'amount_q': otherProposal_q , 'time_stamp': performance.now()})
+}
+
+function SellerC(q){
+return {{B}}*q**{{b}};
+}
+
+function ConsumerB(q){
+return {{A}}*q**{{a}};
+}
+
+function TotalS(q){
+return -{{B}}*q**{{b}}+{{A}}*q**{{a}}+0.01;
+}
+
+
+
+function sendAccept2(x,z,y) {
+swal({
+  title: "Are you sure?",
+  text: "Do you want to accept this offer? ",
+  icon: "warning",
+  buttons: true,
+  dangerMode: false,
+})
+.then((willDelete) => {
+  if (willDelete) {
+    otherProposal=z;
+    otherProposal_q=y;
+    sendAccept(x);
+  } else {
+
+  }
+});
+}
+
+
+
+function cu(amount) {
+return `$${amount}`;
+}
+
+function units(amount) {
+return `${amount} units`;
+}
+
+/* if you are a buyer*/
+
+    function yourPoints(p,q){
+        if (js_vars.my_id == 2) {
+            aux = {{A}}*q**{{a}}-p;
+            return aux.toFixed(1);
+        }else{
+            aux = -{{B}}*q**{{b}}+p ;
+            return aux.toFixed(1);
+        }
+     }
+
+/* if you are a seller*/
+
+function otherPoints(p,q){
+        if (js_vars.my_id ==2) {
+            aux=-{{B}}*q**{{b}}+p;
+            return aux.toFixed(1);
+        }else{
+            aux = {{A}}*q**{{a}}-p;
+            return  aux.toFixed(1);
+        }
+     }
+
+
+
+    function liveRecv(data) {
+        count = data.count;
+        count2 = data.count2;
+
+        if ('proposals' in data) {
+            for (let [id_in_group, proposal , proposal_q] of data.proposals){
+
+
+                if (id_in_group === js_vars.my_id) {
+                    msgMyProposal.innerHTML = cu(proposal);
+                    msgMyProposal_q.innerHTML = units(proposal_q);
+                    msgMyCost.innerHTML = cu(SellerC(proposal_q).toFixed(1));
+                    msgMyConsumerBenefit.innerHTML = cu(ConsumerB(proposal_q).toFixed(1));
+                    msgMySurplus.innerHTML = cu(TotalS(proposal_q).toFixed(1));
+
+                document.getElementById("rowH2").remove();
+
+                    history2.innerHTML =
+                        '<tr id="rowH2" style="text-align: center; font-weight: bold; vertical-align: middle;"> <td></td><td> Output:</td><td>Buyer Payoff:</td><td>Seller Cost:</td><td>Total Payment:</td> <td>Buyer Payoff -Seller Cost:</td></tr>'+
+
+                    '<tr style="text-align: center"><td>#' + count + '</td><td>'  + proposal_q + ' units' + '</td><td>' +'$'+ ConsumerB(proposal_q).toFixed(1)+  '</td><td>'+ '$' +SellerC(proposal_q).toFixed(1) + '</td><td>'+ '$' +proposal + '</td>  <td>'+ '$' + TotalS(proposal_q).toFixed(1) +  '</td> </tr>' +
+                     document.getElementById('history2').innerHTML;
+                } else {
+
+                    otherProposal = proposal;
+                    otherProposal_q = proposal_q;
+
+              document.getElementById("rowH1").remove();
+
+                    history.innerHTML =
+                        '<tr id="rowH1" style="text-align: center; font-weight: bold; vertical-align: middle;"> <td>  </td><td> Output:</td><td>Buyer Payoff:</td><td>Seller Cost:</td><td>Total Payment:</td> <td>Buyer Payoff -Seller Cost:</td></tr>'+
+
+                    '<tr style="text-align: center" ><td>#' + count + '</td><td> '  + proposal_q + ' units' + '</td><td>' +'$'+ ConsumerB(proposal_q).toFixed(1)+  '</td><td>'+ '$' +SellerC(proposal_q).toFixed(1) + '</td><td>'+ '$' +proposal + '</td>  <td>'+ '$' + TotalS(proposal_q).toFixed(1) +  ' <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <button  class="boton2" type="button" onclick="sendAccept2(this,' + proposal +' , '+ proposal_q +' )">Accept</button> '+'</td>  </tr>' +
+                     document.getElementById('history').innerHTML;
+                }
+            }
+        }
+        if ('finished' in data) {
+            document.getElementById('form').submit();
+        }
+    }
+
+
+
+
+    window.addEventListener('DOMContentLoaded', (event) => {
+        liveSend({});
+    });
+
+</script>
+  {{ endblock }}

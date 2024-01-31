@@ -1,0 +1,81 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Exit Survey
+{% endblock %}
+
+{% block content %}
+<style>
+    .otree-btn-next {
+          color:black;
+          background-color: #e5e9ec;
+          border: 2px solid black;
+    }
+    .otree-btn-next:hover {
+  background-color:  gray;
+  color: white;
+   border: 2px solid black;
+    }
+</style>
+
+    <p>
+       <h5 style="color:gray"> Please answer the following questions as accurately as possible:</h5>
+    </p>
+
+<div class="card">
+   <div class="card-header">
+       <b style="color:gray">Personal Information</b>
+   </div>
+    <div class="card-body">
+{% formfield player.age %}
+{% formfield player.field_of_study%}
+{% formfield player.GPA %}
+{% formfield player.math_classes %}
+{% formfield player.stats_classes %}
+{% formfield player.econ_classes %}
+
+    </div></div>
+
+
+<br>
+
+<div class="card">
+   <div class="card-header">
+<b style="color:gray">Preferences</b>
+   </div>
+    <div class="card-body">
+<p>
+    The next two questions ask about your own preferences. Please indicate your answer on a scale from 0 to 10, where 0 means you are <b>“completely unwilling to do so”</b> and a 10 means you are <b>“very willing to do so"</b>.
+</p>
+{% formfield player.risk1%}
+
+{% formfield player.risk2 %}
+    </div></div>
+
+<br>
+<div class="card">
+   <div class="card-header">
+       <b style="color:gray">General Questions </b>
+   </div>
+    <div class="card-body">
+<p>
+    For the the last four questions, please provide the answer that you think is better.
+</p>
+{% formfield player.CRT1%}
+
+{% formfield player.CRT2 %}
+
+{% formfield player.CRT3 %}
+
+{% formfield player.CRT4 %}
+    </div></div>
+
+<br>
+  {% next_button %}
+
+
+
+
+
+{% endblock %}

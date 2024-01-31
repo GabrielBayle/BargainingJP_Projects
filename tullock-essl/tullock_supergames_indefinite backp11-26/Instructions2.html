@@ -1,0 +1,253 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+   <b style="color:grey"> Instructions: Structure of the Study </b>
+{% endblock %}
+
+{% block app_styles %}
+<style type="text/css">
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slidecontainer2 {
+  width: 100%;
+}
+
+.slider2 {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider2:hover {
+  opacity: 1;
+}
+
+.slider2::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider2::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.center {
+border: 5px solid #FFFF00;
+text-align: center;
+}
+
+.display {
+    border: 10px solid red;
+}
+
+.important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+th {
+    border: 1px solid black;
+    font-size: 10pt;
+    width: 200px;
+    text-align: center;
+    font-weight:bold;
+    background-color: lightgray;
+    }
+
+td {
+    font-size: 10pt;
+    border: 1px solid black;
+    text-align: center;
+    }
+
+table {
+    table-layout: fixed;
+    width: 600px;
+    }
+
+.history td {
+    font-size: 16pt;
+    }
+
+.history th {
+    font-size: 12pt;
+    width: 100px;
+    text-align: center;
+    }
+.frac {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    letter-spacing: 0.001em;
+    text-align: center;
+}
+.frac > span {
+    display: block;
+    padding: 0.1em;
+}
+.frac span.bottom {
+    border-top: thin solid black;
+}
+.frac span.symbol {
+    display: none;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+
+<script>
+
+
+
+  </script>
+<!--
+
+  <body onload="notifyWithSound()">
+
+    <audio id="notificationSound" src='http://commondatastorage.googleapis.com/codeskulptor-demos/pyman_assets/intromusic.ogg' preload="auto"></audio>
+    
+    <script>
+        function notifyWithSound() {
+            // First, check if the browser supports notifications
+            if (!("Notification" in window)) {
+                console.log("This browser does not support desktop notifications.");
+                return;
+            }
+    
+            // Request permission from the user
+            Notification.requestPermission().then(function (permission) {
+                // If permission is granted
+                if (permission === "granted") {
+                    // Play the sound
+                    document.getElementById('notificationSound').play();
+  
+                    
+                    // Display the notification
+                    new Notification("Welcome Back to the ESSL Study!", {
+                        body: "You have been selected to join the study. Please make sure to go back to the website",
+                        // You can even add an icon if you like
+                        icon: "https://i.imgur.com/ajElItQ.png"
+                    });
+                }
+            });
+        }
+    </script>
+  
+  -->
+  <b>Read these instructions carefully.</b> You will have to successfully answer some questions that check your understanding of the instructions before you can proceed on to the study.  If you have any questions let the instructor know via the zoom chat.
+
+  <p></p>
+
+    <p>  </p>
+    <li><b>The structure of the study is illustrated below: </b>
+
+      <br><br>
+
+
+    {{if pressure == 1}}
+        <center><img src="https://i.imgur.com/5pSqjhK.png" width="95%"/> </center>
+      {{else}}
+      <center><img src="https://i.imgur.com/PNX6NXF.png" width="95%"/> </center>
+    {{endif}}
+<br></li>
+    
+
+
+  <li><b>Some Important Reminders</b>:
+    <ul> <ul> 
+   <li> In each <b style="color:gray">Contest Round </b> the 4 active compete over the split of a prize. 
+   </li>
+   <p></p>
+   <li> At the end of each <b style="color:gray"> Contest Round</b> with {{stop_prob|to0}}% probability a <b style="color:gray"> Replacement Event</b> occurs, the total number of <b style="color:gray"> Replacement Events</b> before the end of the study is unknown to participants.
+   </li>
+ 
+   <p></p>
+   <li>  When such an event happens, {{ if pressure == 1 }} the participant with the lowest payoff in that round is replaced with a new inexperienced participant. {{else}} one participant is randomly replaced with a new inexperienced participant. {{endif}}
+     
+  </li>   
+   
+    </ul></ul>
+
+    <li><b>Participant Compensation</b>:
+      <ul> <ul> 
+     <li> After the end of your participation in the experiment, a US${{ show_up_fee|to0 }} show-up fee, plus your earnings  from one random <b style="color:gray">Contest Round</b> for each  <b style="color:gray">Replacement Event</b> you reached transformed to US dollars (US$) at a rate of US$1  per L${{us_exchange_rate}},
+      will be paid to you.
+     </li>
+     <p></p>
+     <li> Thus, the more  <b style="color:gray"> Replacement Events</b> you reach,  the more payments you'll receive. Since you do not know which rounds will be chosen for payment, you will want to do your best in every round. 
+     </li>
+   
+     <p></p>
+     <li> 
+      If you leave the session before being given permission by the experimenter, you will only be eligible for the US${{ show_up_fee|to0 }} show-up fee.
+    </li>   
+     
+      </ul></ul>
+
+
+
+   
+
+
+
+
+<p></p><br>
+{% next_button %}
+
+
+{% endblock %}

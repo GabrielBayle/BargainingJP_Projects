@@ -1,0 +1,327 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    インストラクション
+{% endblock %}
+
+{% block styles %}
+<link href="{% static "instruction.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<p>
+  これから意思決定と経済学に関する実験を行います．
+  この実験では2種類の商品(商品Ｘと商品Ｙ)を交換するか保有するかの決定を繰り返して行ってもらいます．
+</p>
+<ol type='I'>
+  <li class='first_list'>
+    <strong>はじめに</strong>
+  </li>
+  <br />
+  <ol>
+    <li>
+      この実験では，2~4人のグループで取引します．全部で20グループです．<br />
+      <ul>
+        <li>
+          得点表
+        </li>
+        <li>
+          記録用紙
+        </li>
+        を後ほど配ります．
+      </ul>
+    </li>
+    <br />
+    <li>
+      あなたのグループの「得点表」は個人情報です．
+      <u>他のグループとの得点表に関する情報のやり取りは一切禁止します．</u>
+      なお，利得表の見方は後ほど具体例で説明します．
+    </li>
+    <br />
+    <li>
+      この実験では，グループは各ラウンドの最初で財 X（以降、X と呼びます）と財 Y（以降、Y
+      と呼びます）を保有します.
+      最初にどれだけの量を保有するかは，「記録用紙」の一番上の行に記載されています．
+      後程説明する取引を行う画面でもわかります．
+      この初期保有も個人情報です．<u>他のグループとの初期保有に関する情報のやり取りも一切禁止します．</u>
+    </li>
+  </ol>
+  <br /><br />
+  <li class='first_list'>
+    <strong>取引ルール</strong><br />
+  </li>
+  取引ルールは以下のとおりです．
+  <ol>
+    <br />
+    <li>
+      グループは最初に X と Y の両方、あるいはどちらかを保有しています。
+    </li>
+    <br />
+    <li>
+      各人は、「買い」もしくは「売り」の注文をします。このとき注文で用いることのできる数字は自然数のみです。つまり、
+      小数、分数、負の数、0 等を用いることはできません。<br />
+      これらの注文の中から取引したいものがあれば、それを選択し取引をします。<br />
+      具体的な操作方法は後ほど説明します。
+    </li>
+    <br />
+    <li>
+      XについてもYについても<u>自分が保有している量より多い量を取引することはできません．</u>
+    </li>
+    <br />
+    <li>
+      各ラウンドの<u>制限時間は<strong>6分</strong></u>です．
+      制限時間内であれば何回でも取引が可能です．
+    </li>
+    <br />
+    <li>
+      各ラウンド終了後，そのラウンドの結果が表示されますので，速やかに記録用紙に写してください(コピペ可能)．
+      写しながら取引を行ってもかまいません．
+      ラウンド終了時の得点が，このラウンドでのあなたの獲得ポイントになります．
+    </li>
+    <br />
+    <li>
+      第 2 ラウンドでは，第 1 ラウンドのスタート時と全く同じ状態に戻ります．
+      つまり，商品Ｘと商品Ｙのそれぞれの量はスタート時点の数量にリセットされます．
+      そして第 2 ラウンドに入ります．
+    </li>
+    <br />
+    <li>
+      以後同様に<strong>5ラウンド</strong>を繰り返し，実験を終了します．
+    </li>
+  </ol>
+  <br /><br />
+  <li class='first_list'>
+    <strong>具体例</strong><br />
+  </li>
+  具体例を用いて，「得点表」の見方，「記録用紙」の書き方，注文と取引の方法を説明します．
+  なお，以下の説明で用いる「得点表(練習用)」の値は本番の得点表の値とは全く関係ありません．
+  <ol>
+    <br />
+    <li>
+      今，グループの番号は2とします．
+    </li>
+    <br />
+    <li>
+      以下の表1)を見てください．この表が記録表となります．
+      記録用紙をダウンロードできたら，まずグループメンバーを記入してください<br /><br />
+      <p>
+        <label>表1)</label> <br />
+      <img src = "{% static "instruction/instruction10.png" %}" class='images'/> <br /><br />
+      </p>
+      <P>
+        あなたの初期保有は，得点表配布ページの最初に書いてあります．
+        この例では，Xを9単位，Yを8単位与えられています．
+      </P>
+      <p>
+        表2を見てください．この表は，「得点表(練習用)」の一部分です．
+        それぞれの欄をたどるとあなたのグループの利得がわかります．
+        横軸はXの量，縦軸はYの量を表しています．あなたの初期保有量は，Xを9単位とYを8単位ですので，
+        最初の利得は横9縦8の欄の「3600」となります．
+      </p>
+      <p>
+        この数字は，記録表の「取引0」の得点の値です．
+      </p>
+      <p>
+        <label>表2)「得点表(練習用)」</label> <br />
+      <img src = "{% static "instruction/instruction9.png" %}" class='images'/> <br /><br />
+      </p>
+
+      <p>
+        それでは，取引画面の使い方を説明しながら，取引の流れを説明します．<br />
+        取引は，以下のような画面で行われます．
+      </p>
+      <label>取引画面)</label> <br />
+    <img src = "{% static "instruction/instruction.png" %}" class='images'/> <br /><br />
+    <p>
+    <u>
+      あなたがXを受け取り，Yを渡す取引をしたい</u>(つまり,
+      Xを買いたい=Yを売りたい)<u>場合は，Xの買い注文(=Yの売り注文)をするか，
+      Xの売り注文(Yの買い注文)リストの中から選択するかのどちらかを行います．
+    </u>
+    </p>
+    <p>
+      また，<u>あなたがXを渡し，Yを受け取る取引をしたい</u>(つまり,
+      Xを売りたい=Yを買いたい)場合は，Xの売り注文(=Yの買い注文)をするか，
+      Xの買い注文(Yの売り注文)リストの中から選択するかのどちらかを行います．</u>
+    </p>
+    そこで成立した取引は画面上部の取引成立リストに表示されます．
+    </li>
+    <br />
+    <ol type='i'>
+      <li>
+        <strong>個人情報</strong><br />
+        <p>
+        あなたの個人情報です．グループ番号，現在所持しているXの量,
+        現在所持しているYの量，現在の得点が表示されます．取引を行うと，この欄の値が変化します．
+        </p>
+        <label>個人情報欄)</label> <br />
+        <img src = "{% static "instruction/instruction1.png" %}" class='images'/> <br />
+      </li>
+      <br /><br />
+      <li>
+        <strong>Xの売り注文(Yの買い注文)の仕方</strong><br />
+        <p>
+          Xを売りたい(=Yを買いたい)場合は，以下のように注文を行います．
+          <u>財X数量の欄に渡すXの量を，財Y数量の欄に受け取るYの量を入力します．
+          入力をしたら，「Xの売り注文(Yの買い注文)」という赤いボタンを押してください．</u>
+          これでXの売り注文(=Yの買い注文)を出すことになります．
+          注文を行うと，Xの売り注文(=Yの買い注文)リストにあなたの注文が追加されます．
+        </p>
+        <label>注文欄)</label> <br />
+        <img src = "{% static "instruction/instruction2.png" %}" class='images'/> <br />
+        <br />
+        <p>
+          このとき，注文するXの量があなたの所持しているXの量を上回っていると，
+          以下のような「財Xが足りません」とエラーメッセージが出ます．<br /><br />
+        <img src = "{% static "instruction/instruction3.png" %}" class='images'/> <br />
+        <br />
+          取引画面の誤った入力を消し，入力し直してください．
+        </p>
+      </li>
+      <br />
+      <li>
+        <strong>Xの買い注文(Yの売り注文)の仕方</strong><br /><br />
+        <p>
+          Xを買いたい(=Yを売りたい)場合は，以下のように注文を行います．
+          <u>財X数量の欄に受け取るXの量を，財Y数量の欄に渡すYの量を入力します．
+          入力をしたら，「Xの買い注文(Yの売り注文)」という青いボタンを押してください．</u>
+          これでXの買い注文(=Yの売り注文)を出すことになります．
+          注文を行うと，Xの買い注文(=Yの売り注文)リストにあなたの注文が追加されます．
+        </p>
+        <label>注文欄)</label> <br />
+        <img src = "{% static "instruction/instruction2.png" %}" class='images'/> <br />
+        <br />
+        <p>
+          このとき，注文するYの量があなたの所持しているYの量を上回っていると，
+          以下のような「財Yが足りません」とエラーメッセージが出ます．
+          <br /><br />
+        <img src = "{% static "instruction/instruction4.png" %}" class='images'/> <br />
+        <br />
+          取引画面の誤った入力を消し，入力し直してください．
+        </p>
+      </li>
+      <br />
+      <li>
+        <strong>Xの買い注文(Yの売り注文)リストでの取引方法</strong>
+        <p>
+          以下の画面で，それぞれ「グループ」は「注文したグループの番号」，
+          「Xの数量」は「受け取るXの量」，「Y」は「渡すYの量」，
+          「比率((Y/X))」はそのまま「比率」を意味します．
+          下の例では，「グループ1がXを4単位受け取り，Yを7単位渡す．そのときの比率は1.8である」，
+          「グループ3がXを5単位受け取り，Yを3単位渡す．そのときの比率は0.6である」
+          という2つの注文があります．<br /><br />
+          <img src = "{% static "instruction/instruction5.png" %}" class='images'/> <br />
+          <br /><br />
+          ここで，このリストに取引をしたい注文があったとします．
+          このとき，取引したい注文の横にある売却ボタンを押すことで注文を承諾することができます．
+        </p>
+        <p>
+          取引が成立すると注文リストからは注文が消え，
+          以下の図のように取引成立リストに成立した取引として追加されます．<br /><br />
+          <img src = "{% static "instruction/instruction6.png" %}" class='images'/> <br />
+        </p>
+      </li>
+      <br />
+      <li>
+        <strong>Xの売り注文(Yの買い注文)リストでの取引方法</strong><br /><br />
+        <p>
+          以下の画面で，それぞれ「グループ」は「注文したグループの番号」，
+          「Xの数量」は「渡すXの量」，「Y」は「受け取るYの量」，
+          「比率((Y/X))」はそのまま「比率」を意味します．
+          下の例では，「グループ1がXを6単位渡し，Yを7単位受け取る．そのときの比率は1.2である」，
+          「グループ3がXを3単位渡し，Yを2単位受け取る．そのときの比率は0.7である」
+          という2つの注文があります．<br />
+          <img src = "{% static "instruction/instruction7.png" %}" class='images'/> <br />
+          <br />
+          ここで，このリストに取引をしたい注文があったとします．
+          このとき，取引したい注文の横にある購入ボタンを押すことで注文を承諾することができます．
+        </p>
+        <p>
+          取引が成立すると注文リストからは注文が消え，
+          以下の図のように取引成立リストに成立した取引として追加されます．
+          <br /><br />
+          <img src = "{% static "instruction/instruction8.png" %}" class='images'/> <br />
+        </p>
+      </li>
+      <br />
+      <li>
+        <strong>ラウンド終了時の表示</strong><br /><br />
+        <img src = "{% static "instruction/instruction11.png" %}" class='images'/> <br />
+      <br />
+        <p>
+          6分が過ぎると，そのラウンドごとのあなたの結果が表示されます．
+          記録表(EXcel)にはコピー＆ペーストでも入力することができます．
+          ミスの無いよう入力してください．<br /><br />
+          <img src = "{% static "instruction/instruction12.png" %}" class='images'/> <br />
+          表２の「得点表(練習用)」に，このラウンドの取引による利得の変化が表されています．
+        <br />
+        </p>
+      </li>
+    </ol>
+  </ol>
+</ol><br />
+<h5>この実験における得点：</h5>
+<p>
+  まず，実験終了後に５個のラウンドから1つをランダムに選びます．
+  そして，その選ばれたラウンドであなたが得た最終得点が，
+  この実験における得点です．
+  どのラウンドになるかは，実験終了後にくじびきで決まりますので，
+  実験中は誰にもわかりません．
+</p>
+<p>
+  説明は以上です．何か質問のある方は申し出てください．
+</p>
+
+<strong>Google Driveにアクセスして本番用の得点表と記録表をダウンロードしてください．</strong><br />
+
+{% if player.roll == '1-A-F' %}
+  <a href="https://drive.google.com/drive/folders/15rrMOrKTcNsSpmhejzXvbUZG74Jx4OzH?usp=sharing" target="_blank" rel="noopener noreferrer">Google Drive A にアクセスする</a><br />
+  <!-- <a id='kirokuA' href="kirokuA.xlsx" download="財取引実験_記録用紙Aグループ番号＊＊.xlsx">記録用紙をダウンロード</a>
+  <br />
+  <a id='tokutenA' href="tokutenA.clsx" download="得点表A.xlsx">得点表をダウンロード</a> -->
+{% elif player.roll == '2-G-L' %}
+  <a href="https://drive.google.com/drive/folders/1gxzdJ4p93mu2dsmsdR5mhfbo_NGSIuMS?usp=sharing" target="_blank" rel="noopener noreferrer">Google Drive B にアクセスする</a><br />
+  <!-- <a id='kirokuB' href="kirokuB.xlsx" download="財取引実験_記録用紙Bグループ番号＊＊.xlsx">記録用紙をダウンロード</a>
+  <br />
+  <a id='tokutenB' href="tokutenB.xlsx" download="得点表B.xlsx">得点表をダウンロード</a> -->
+
+{% endif %}
+
+<br />
+ダウンロードした後，下のボタンを押してください．<br />
+
+<button type='button' id='visible_button' class='btn btn-success'>ダウンロードしました</button>
+
+<br /><br />
+それでは，本番を始めます．まず，本番用の得点表をご覧ください．
+得点表を十分に理解するため，これから5分間，得点表を検討する時間を与えます．
+この間に，実験のルールと得点表の見方を完全に理解するようにしてください.
+<br />
+
+<br />あなたのグループ番号は{{ player.id_in_group }}です．<br />
+この番号は必ずしもZoomのブレイクアウトルーム番号とは一致しません．<br />
+記録用紙にはグループ番号{{ player.id_in_group }}を記入してください．<br /><br />
+
+<div id='next_form'>
+  <br />「<strong>次へ</strong>」を押してください.<br />
+  5分後，取引が開始します．<br />
+  {% next_button %}
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+let visible_button = document.getElementById('visible_button');
+let next_form = document.getElementById('next_form');
+// let down_check = document.getElementById('down_check');
+
+next_form.style.visibility = "hidden";
+visible_button.onclick = function(){
+  next_form.style.visibility="visible";
+};
+
+</script>
+{% endblock %}

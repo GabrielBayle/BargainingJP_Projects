@@ -1,0 +1,70 @@
+{{ extends 'otree/WaitPage.html' }}
+{% load otree static %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+<style>
+.otree-btn-next {
+                 text-align: right;
+                }
+
+</style>
+
+
+{{ if player.is_playing == 1}}
+
+<div class="card bg-light ">
+
+       <div class="card-header">
+         <h4><center>
+ <b style="color: gray"> Welcome </b> — You have been selected to immediately participate
+         </center></h4>
+           <center>
+          Please wait until the other active participants complete the quiz and instructions. 
+           </center>
+       </div></div>
+<p></p><br>
+{{else}}
+
+{{ if player.is_buffering == 1 }}
+<div class="card bg-light ">
+
+  <div class="card-header">
+    <h4><center>
+<b style="color: gray"> Welcome </b> — You have not been selected to immediately participate but you will be very soon
+    </center></h4>
+      <center>
+     Please stay on your device and keep and eye on the timer. <br>
+      You will actively participate {{ if player.queue_position == 1 }} right after the next <b style="color:gray"> Replacement Event</b> occurs.  
+            {{else}} after a couple of  <b style="color:gray"> Replacement Events</b> occur. {{endif}}
+    </center>
+      </center>
+  </div></div>
+<p></p><br>
+
+{{else}}
+<div class="card bg-light ">
+
+  <div class="card-header">
+    <h4><center>
+<b style="color: gray"> Welcome </b> — You have not been selected to immediately join the study but you will be presented with instructions soon
+    </center></h4>
+      <center>
+     Please stay on your device and feel free to engage in other leisure activities. <br>
+     But keep and eye on the queue and timer that will soon be made available. 
+    </center>
+      </center>
+  </div></div>
+<p></p><br>
+
+
+{{endif}}
+{{endif}}
+
+
+  
+
+{% endblock %}

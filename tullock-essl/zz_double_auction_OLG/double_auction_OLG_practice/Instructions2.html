@@ -1,0 +1,255 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+   <b style="color:grey"> Summary of Instructions: Assignment Process </b>
+{% endblock %}
+
+{% block app_styles %}
+<style type="text/css">
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slidecontainer2 {
+  width: 100%;
+}
+
+.slider2 {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider2:hover {
+  opacity: 1;
+}
+
+.slider2::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider2::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.center {
+border: 5px solid #FFFF00;
+text-align: center;
+}
+
+.display {
+    border: 10px solid red;
+}
+
+.important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+th {
+    border: 1px solid black;
+    font-size: 10pt;
+    width: 200px;
+    text-align: center;
+    font-weight:bold;
+    background-color: lightgray;
+    }
+
+td {
+    font-size: 10pt;
+    border: 1px solid black;
+    text-align: center;
+    }
+
+table {
+    table-layout: fixed;
+    width: 600px;
+    }
+
+.history td {
+    font-size: 16pt;
+    }
+
+.history th {
+    font-size: 12pt;
+    width: 100px;
+    text-align: center;
+    }
+.frac {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    letter-spacing: 0.001em;
+    text-align: center;
+}
+.frac > span {
+    display: block;
+    padding: 0.1em;
+}
+.frac span.bottom {
+    border-top: thin solid black;
+}
+.frac span.symbol {
+    display: none;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+
+    <p>  </p>
+    <li><b>The assignment of roles (illustrated below) is as follows: </b>
+     
+  
+        <center><img src="https://i.imgur.com/ZUbcDk1.jpg" width="75%"/> </center>
+   
+
+<br></li>
+    
+
+
+
+   <ul> <li><b>At the beginning of each</b> <b style="color:gray">3-Period Sequence</b>:
+<ul>
+      
+        <li> Your <b>Type</b> for the sequence, <b> A, B or C</b>, is randomly assigned and  <u>privately communicated</u> to you, so no one else but you knows your <b>Type</b>. Same for every other participant.</li>
+
+        <li> The <b>"State of the world" A, B or C</b> is randomly selected, with each state being equally likely. The selected state is <u>NOT revealed</u> to anyone until after the end of the sequence.</li>
+        
+        <li> As explained below, dividends will be paid at the end of the sequence and depend on shareholders' <b>Type</b>  and the <b>State of the World</b>. </li>
+      <br>
+          <li> Five participants are randomly selected to be "old" members of Cohort Zero (G0), endowed with {{shares}} shares each. </li>
+          <li> Five participants are randomly selected to be "young" members of Cohort One (G1), and receive {#a loan of#} L${{money}} cash.</li> 
+          <li> The ten remaining participants stay "inactive" and partake in a prediction task  until called upon. </li>
+          <li> Members of these two cohorts  participate in trading in Period 1.</li>
+    </li></ul></ul>
+
+         <p></p>
+
+        <ul> <li><b>At the end of Period 1:</b>
+
+        <ul> <li>Five "inactive" participants are randomly selected to be "young" members of Cohort Two (G2), and receive {#a loan of#} L${{money}} cash.  </li>
+           <li>The five "young" members of Cohort One (G1) become "old", retaining whatever shares and cash they hold. </li>
+           <li>The five "old" members of Cohort Zero (G0) exit the market, get to keep whatever cash they have (which is added to their sequence payoff) and become "inactive" participating in the prediction task until called again to participate in the current or next sequence .  </li>
+        
+           <li> When Cohort 0 (G0) exits, any unsold shares (worthless to them) will be distributed randomly to the entering cohort at no cost.</li>
+           <li> Members of Cohort One (G1) and Two (G2) participate in trading in Period 2.</li>
+
+          </li>
+           <p></p>
+           </ul></ul> 
+          
+           <p></p>
+           <ul> <li><b>At the end of Period 2:</b>
+   
+           <ul> <li>The Five "inactive" participants that have not been "active" yet become "young" members of Cohort Three (G3), and receive {#a loan of#} L${{money}} cash.  </li>
+              <li>The five "young" members of Cohort Two (G2) become "old", retaining whatever shares and cash they hold. </li>
+              <li>The five "old" members of Cohort One (G1) exit the market, get to keep whatever cash they have {#after paying back the loan#} (which is added to their sequence payoff) and become "inactive" only participating in the prediction task until the next sequence.  </li>
+              <li> When Cohort One (G1) exits, any unsold shares (worthless to them) will be distributed randomly to the entering cohort at no cost.</li>
+             
+
+             
+
+             </li>
+              <p></p>
+              </ul></ul>
+              
+              <ul> <li><b>At the end of Period 3, which is the end  of the</b> <b style="color:gray">3-Period Sequence</b>:
+   
+                <ul>
+                  
+                    <li> <b style="color:green"> Dividends are paid to those holding shares only if they are of the  same <b>Type</b> as the <b>State of the world</b>  regardless of whether they are "old" or "young".</b></li>
+                    <li> <b style="color:red"> Shares held by anyone with a <b>Type</b> different from the <b>State of the World</b> will not pay dividends.</b></li> 
+                    <li>  Table below summarizes the dividend payments that depend on <b>Type</b> and <b>State of the World</b>:
+                      <br><br>
+                      <center>
+                        <table> 
+                          <tbody >
+                            <tr>
+                              <th colspan="2">State of the World = A</th><th colspan="2">State of the World = B </th><th colspan="2">State of the World = C </th>
+                            </tr>
+                            <tr>
+                              <th>Type </th> <th>Dividend</th> <th>Type </th> <th>Dividend</th> <th>Type </th> <th>Dividend</th>
+                            </tr>
+                              <tr><td style="background-color:lightgreen"><b>A</b></td><td style="background-color:lightgreen"><b>{{dividend_range_1|cu|to0}}</b></td><td style="color:red">A</td><td style="color:red">{{0|cu|to0}}</td>                                                               <td style="color:red">A</td><td style="color:red">{{0|cu|to0}}</td></tr>
+                              <tr><td style="color:red">B</td><td style="color:red">{{0|cu|to0}}</td>                                                             <td style="background-color:lightgreen"><b>B</b></td><td style="background-color:lightgreen"><b>{{dividend_range_2|cu|to0}}</b> </td> <td style="color:red">B</td><td style="color:red">{{0|cu|to0}}</td></tr>
+                              <tr><td style="color:red">C</td><td style="color:red">{{0|cu|to0}}</td>                                                             <td style="color:red">C</td><td style="color:red">{{0|cu|to0}}</td>                                                                   <td style="background-color:lightgreen"><b>C</b></td><td style="background-color:lightgreen"><b>{{dividend_range_3|cu|to0}}</b></td></tr>
+                          </tbody>
+                      </table></center>
+                      <br><br>
+                    </li>
+                    <li> Shares do not pay any other dividends in earlier periods and are worthless after paying the dividend at the end of Period 3</li>
+                    <li> Cohorts Two (G2) and Three (G3) exit the market and get to keep whatever cash they have {#after paying back the loan#} plus any corresponding dividends (which are all added to their sequence payoff).  </li>
+                  
+     
+                   
+                  </li>
+                   <p></p>
+                  </ul></ul>
+          
+          </li>
+
+
+   
+
+
+
+
+<p></p><br>
+{% next_button %}
+
+
+{% endblock %}

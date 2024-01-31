@@ -1,0 +1,67 @@
+{{ block content }}
+    <style>
+        .results-container {
+            font-family: Arial, sans-serif;
+            margin: 0 auto;
+            max-width: 600px;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .results-header {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .results-info {
+            font-size: 18px;
+            color: #555;
+            line-height: 1.6;
+        }
+        .highlight {
+            color: #007bff;
+            font-weight: bold;
+        }
+    </style>
+
+    <div class="results-container">
+        <div class="results-header">Bargaining Results</div>
+        <div class="results-info">
+            {% if player.session.config.get('treatment') == 'prisoner' or player.session.config.get('treatment') == 'test' and player.round_number == 2 %}
+                {% if player.stopped_by_player_id != 0 %}
+                    <p>Player <span class="highlight">{{ player.stopped_by_player_id }}</span> decided to stop the bargaining. You have to play the disagreement game to determine your payoffs.</p>
+                {% elif player.timeout_occurred %}
+                    <p>The time for negotiation has ended without an agreement. You have to play the disagreement game to determine your payoffs.</p>
+                {% else %}
+                    <p>An agreement has been reached.</p>
+                    <p>Player 1 will receive <span class="highlight">{{ player.player1_share }}</span> ECU and
+                    Player 2 will receive <span class="highlight">{{ player.player2_share }}</span> ECU.</p>
+                {% endif %}
+            {% elif player.session.config.get('treatment') == 'staghunt' or player.session.config.get('treatment') == 'test' and player.round_number == 3 %}
+                {% if player.stopped_by_player_id != 0 %}
+                    <p>Player <span class="highlight">{{ player.stopped_by_player_id }}</span> decided to stop the bargaining. You have to play the disagreement game to determine your payoffs.</p>
+                {% elif player.timeout_occurred %}
+                    <p>The time for negotiation has ended without an agreement. You have to play the disagreement game to determine your payoffs.</p>
+                {% else %}
+                    <p>An agreement has been reached.</p>
+                    <p>Player 1 will receive <span class="highlight">{{ player.player1_share }}</span> ECU and
+                    Player 2 will receive <span class="highlight">{{ player.player2_share }}</span> ECU.</p>
+                {% endif %}
+            {% else %}
+                {% if player.stopped_by_player_id != 0 %}
+                    <p>Player <span class="highlight">{{ player.stopped_by_player_id }}</span> decided to stop the bargaining. As a result, the shares have been automatically allocated.</p>
+                {% elif player.timeout_occurred %}
+                    <p>The time for negotiation has ended without an agreement. As a result, the shares have been automatically allocated.</p>
+                {% else %}
+                    <p>An agreement has been reached.</p>
+                {% endif %}
+                <p>Player 1 will receive <span class="highlight">{{ player.player1_share }}</span> ECU and
+                Player 2 will receive <span class="highlight">{{ player.player2_share }}</span> ECU.</p>
+            {% endif %}
+        </div>
+        {{ next_button }}
+    </div>
+{{ endblock }}
+

@@ -1,0 +1,65 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    実験終了
+{% endblock %}
+
+{% block content %}
+
+全ラウンドが終了し，実験は終了しました．<br />
+<p>
+最後にくじを引いてグループの得点を決定します．<br >
+</p>
+
+<!-- <button type="button" id="dicebutton" class="btn btn-success">くじを引く</button> -->
+
+<div id='utility_result'>
+くじは{{ player.chosen_round }}番でした．<br />
+
+よってグループの得点は第{{ player.chosen_round }}ラウンドの<strong>{{ player.chosen_utility }}</strong>です．<br />
+
+<br />
+実験，お疲れさまでした．
+<br />
+</div>
+所持金ランキングは以下のようになりました．<br />
+
+<div id='lanking'>
+
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+function sort_object_down(dict){
+  var items = Object.keys(dict).map(function(key) {
+    return [key, dict[key]];
+  });
+  items.sort(function(first, second) {
+    return second[1] - first[1];
+  });
+  return(items);
+}
+
+
+
+let lanking = document.getElementById('lanking');
+var lank_list = js_vars.lank_list;
+
+lanking.innerHTML = '';
+var lanking_sort = sort_object_down(lank_list);
+for (i=0;i<lanking_sort.length;i++){
+  lanking.innerHTML
+    += "<br>"
+    +"<small>グループ</small>" +"&nbsp;"
+    + "<small>" +lanking_sort[i][0]+ "</small>"
+    +':' +"&emsp;"
+    + "<strong>" +lanking_sort[i][1]+ "</strong>";
+}
+
+</script>
+{% endblock %}

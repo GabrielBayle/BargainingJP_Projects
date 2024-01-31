@@ -1,0 +1,840 @@
+{{ block title }}
+  <b style="color:grey">  Practice - {{group.title}}: You are "{{cohort}}"</b>
+{{ endblock }}
+{{ block content }}
+<style>
+
+div.a {
+  text-align: center;
+}
+
+div.b {
+  text-align: left;
+}
+
+div.c {
+  text-align: right;
+}
+
+#table {
+  border-collapse: separate;
+  border-spacing: 15px;
+}
+
+
+
+.history td {
+  font-size: 10pt;
+      text-align: center;
+  }
+
+.history th {
+  font-size: 8pt;
+  width: 100px;
+  text-align: center;
+  }
+
+  .important {
+      font-size: 14pt;
+      font-weight: bold;
+  }
+
+
+
+   .boton2 {
+          color:white;
+          background-color:  #4CAF50; //#4169E1;  //#4CAF50; //#e5e9ec;
+          border: 1px solid black;
+          border-radius: 10px;
+          padding: 5px;
+           margin: 2px 2px;
+           font-size : 0.875em
+    }
+
+    .boton2:hover {
+  background-color:  #3d8c40; //	#0F52BA;
+  color: white;
+  border: 2px solid black;
+    border-radius: 12px;
+
+    }
+
+
+
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+.slidecontainer2 {
+  width: 75%;
+}
+
+.slider2 {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider2:hover {
+  opacity: 1;
+}
+
+.slider2::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 10%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider2::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+ .frac {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    letter-spacing: 0.001em;
+    text-align: center;
+}
+.frac > span {
+    display: block;
+    padding: 0.1em;
+}
+.frac span.bottom {
+    border-top: thin solid black;
+}
+.frac span.symbol {
+    display: none;
+}
+</style>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.8.2.js"></script>
+<style type="text/css">
+#overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: #000;
+filter:alpha(opacity=70);
+-moz-opacity:0.7;
+-khtml-opacity: 0.7;
+opacity: 0.7;
+z-index: 100;
+display: none;
+}
+.cnt223 a{
+text-decoration: none;
+}
+.popup{
+width: 100%;
+margin: 0 auto;
+display: none;
+position: absolute;
+z-index: 101;
+}
+.cnt223{
+min-width: 600px;
+width: 600px;
+min-height: 150px;
+margin: 100px auto;
+background: #f3f3f3;
+position: relative;
+z-index: 103;
+padding: 15px 35px;
+border-radius: 5px;
+box-shadow: 0 2px 5px #000;
+}
+.cnt223 p{
+clear: both;
+    color: #555555;
+    /* text-align: justify; */
+    font-size: 20px;
+    font-family: sans-serif;
+}
+.cnt223 p a{
+color: #d91900;
+font-weight: bold;
+}
+.cnt223 .x{
+float: right;
+height: 35px;
+left: 22px;
+position: relative;
+top: -25px;
+width: 34px;
+}
+.cnt223 .x:hover{
+cursor: pointer;
+}
+
+
+.swal-button--confirm {
+  padding: 7px 19px;
+  border-radius: 2px;
+  background-color: #3d8c40;
+  font-size: 12px;
+  border: 1px solid #3e549a;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+}
+
+</style>
+<style>
+body {font-family: Arial;}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: white;//#f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: #f1f1f1;//inherit;
+  float: center;
+  border: 1 px;
+  outline: 1 px;
+  cursor: pointer;
+  padding: 12px 28px; //14px 16px;
+  transition: 0.3s;
+  font-size: 18px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+  border: 2px solid black;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+   border: 2px solid black;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 1px 1px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+</style>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.8.2.js"></script>
+<style type="text/css">
+#overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: #000;
+filter:alpha(opacity=70);
+-moz-opacity: 0.7;
+-khtml-opacity: 0.7;
+opacity: 0.7;
+z-index: 100;
+display: none;
+}
+.cnt223 a{
+text-decoration: none;
+}
+.popup{
+width: 100%;
+margin: 0 auto;
+display: none;
+position: absolute;
+z-index: 101;
+}
+.cnt223{
+min-width: 600px;
+width: 800px;
+min-height: 200px;
+height: 400px auto;
+margin: 25px 100px auto;
+background: #f3f3f3;
+position: absolute;
+z-index: 103;
+padding: 1px 35px;
+border-radius: 5px;
+box-shadow: 0 2px 5px #000;
+}
+.cnt223 p{
+clear: both;
+    color: #555555;
+    /* text-align: justify; */
+    font-size: 20px;
+    font-family: sans-serif;
+}
+.cnt223 p a{
+color: #d91900;
+font-weight: bold;
+}
+.cnt223 .x{
+float: right;
+height: 35px;
+left: 22px;
+position: relative;
+top: -25px;
+width: 34px;
+}
+.cnt223 .x:hover{
+cursor: pointer;
+}
+
+
+.swal-button--confirm {
+  padding: 7px 19px;
+  border-radius: 2px;
+  background-color: #3d8c40;
+  font-size: 12px;
+  border: 1px solid #3e549a;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+}
+</style>
+
+
+
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+<p id="news" style="color: green; font-size: 14pt;
+font-weight: bold;"></p>
+
+
+
+
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+      <!--  <h5 class="card-title">Special title treatment</h5> -->
+        <p class="card-text">
+
+
+
+<p><b>Would you like to place a Bid or Ask for an Asset:</b></p>
+
+
+</head>
+
+{{ if player.is_buyer == 1}}
+<div class="tab">
+    <center>
+        <button class="tablinks" onclick="openCity(event, 'London', 1)" id="defaultOpen" type="button" > <b>Bid (Buy Assets) </b> </button>
+        <button class="tablinks" onclick="openCity(event, 'Paris', 0)" type="button">   <b>Ask (Sell Assets)</b> </button>
+    </center>
+</div>
+{{else}}
+<div class="tab">
+  <center>
+      <button class="tablinks" onclick="openCity(event, 'London', 1)"  type="button" > <b>Bid (Buy Assets) </b> </button>
+      <button class="tablinks" onclick="openCity(event, 'Paris', 0)" id="defaultOpen" type="button">   <b>Ask (Sell Assets)</b> </button>
+  </center>
+</div>
+
+{{endif}}
+
+<div id="London" class="tabcontent">
+
+  <table class="table">
+    <tr>
+        <td>You are </td>
+        <th>
+            Buying (placing Bid)
+        </th>
+    </tr>
+</table>
+</div>
+
+<div id="Paris" class="tabcontent">
+
+<table class="table">
+    <tr>
+        <td>You are </td>
+        <th>
+            Selling (placing Ask)
+        </th>
+    </tr>
+</table>
+</div>
+
+
+
+ <input      id="my_role" value="1" hidden>
+
+
+            <table class="table">
+
+
+    <tr>
+        <td>Assets in your possession</td>
+        <th id="num_items"></th>
+    </tr>
+    <tr>
+        <td>Money in your possession</td>
+        <th id="payoff"></th>
+    </tr>
+    <tr>
+        <td>Your current offer</td>
+        <th id="current_offer"></th>
+    </tr>
+</table>
+
+           <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 1px #000;">
+          <center>
+<div id="myDIV2"></div>
+<input type="number" id="my_offer" size="2">
+<button class="boton2" type="button" onclick="sendOffer()" id="btn-offer">Make offer</button>
+<br><br>
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <h4>Bids</h4>
+            <table id="bids_table"></table>
+        </div>
+        <div class="col-sm">
+            <h4>Asks</h4>
+            <table id="asks_table"></table>
+        </div>
+    </div>
+</div>
+</center>
+           </div>
+<br><br>
+
+
+        </p>
+
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+       <!-- <h5 class="card-title">Special title treatment</h5> -->
+
+       <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 1px #000;">
+        <b>Your Type is:</b>
+
+     <div ><b> &nbsp;&nbsp;&nbsp;&nbsp;&rarr; {{player.type}}</b></div>
+
+
+  </div>
+<br>
+{{ if player.is_informed == 0 and info_acquisition == 1 and public_information == 0 }}
+        <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 1px #000;">
+                <b>State of the World Information:</b>
+
+                <div id="myDIV">&nbsp;&nbsp;&nbsp;&nbsp;&rarr; State of the World can be either <b>{{dividend_range_1_text}}</b>  or <b>{{dividend_range_2_text}}</b>  </div>
+            </div>
+{{endif}}
+{{if player.is_informed == 1 and info_acquisition == 1 and public_information == 0  }}
+      <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 1px #000;">
+            <b>State of the World Information:</b>
+
+            <div id="myDIV">&nbsp;&nbsp;&nbsp;&nbsp;&rarr;  State of the World is <b> {{player.dividend_clue_text}}</b>  (i.e dividend paid if held by type {{player.dividend_clue_text}} is L${{player.dividend_clue|to0}}) </div>
+    </div>
+{{endif}}
+{{if   public_information == 1 and info_acquisition == 0 and player.is_informed == 1 }}
+      <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 1px #000;">
+            <b>State of the World Information:</b>
+
+            <div id="myDIV">&nbsp;&nbsp;&nbsp;&nbsp;&rarr; State of the World is <b>{{player.dividend_clue_text}}</b>  (i.e dividend paid if held by type {{player.dividend_clue_text}} is L${{player.dividend_clue|to0}}) </div>
+          </div>
+
+      </div>
+      {{endif}}
+{{if   public_information == 1 and info_acquisition == 0  and player.is_informed == 0 }}
+      <div style="border: thin solid lightgray; padding:10px; border-radius: 5px; box-shadow: 0 1px 1px #000;">
+            <b>State of the World Information:</b>
+
+            <div id="myDIV">&nbsp;&nbsp;&nbsp;&nbsp;&rarr; State of the World can be either <b>{{dividend_range_1_text}}</b>  or  <b>{{dividend_range_2_text}}</b>  </div>
+      </div>
+{{endif}}
+
+
+
+
+
+
+        <p class="card-text">{{ include 'double_auction_OLG/chart.html' }}.</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function openCity(evt, cityName, x) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+
+   my_role.innerHTML = x;
+   my_role.value = x;
+
+  if (my_role.value == 1) {
+    document.getElementById("myDIV2").innerHTML = "<b>Please enter your Bid:</b>";
+  } else {
+    document.getElementById("myDIV2").innerHTML = "<b>Please enter your Ask:</b>";
+  }
+
+
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+<script>
+
+    let bids_table = document.getElementById('bids_table');
+    let asks_table = document.getElementById('asks_table');
+    let my_id = js_vars.id_in_group;
+    let news_div = document.getElementById('news');
+    let is_buyer = js_vars.is_buyer;
+    let btnOffer = document.getElementById('btn-offer');
+    let my_offer = document.getElementById('my_offer');
+    let my_role = document.getElementById('my_role');
+
+
+
+
+    function showNews(msg) {
+        news_div.innerText = msg;
+        setTimeout(function () {
+            news_div.innerText = ''
+        }, 20000)
+    }
+
+    function cu(amount) {
+        return `L$${amount}`;
+    }
+
+    function liveRecv(data) {
+        console.log(data)
+        // javascript destructuring assignment
+        let {bids, asks, highcharts_series, num_items, current_offer, payoff, news} = data;
+        if (news) {
+            let {buyer, seller, price} = news;
+            if (buyer === my_id) {
+                showNews(` --> You bought a share from another participant for ${cu(price)}`);
+            } else if (seller === my_id) {
+                showNews(` --> You sold a share to another participant for ${cu(price)}`);
+            }
+        }
+        document.getElementById('num_items').innerText = num_items;
+
+        if ( current_offer == 999) {
+        document.getElementById('current_offer').innerText = 'NA';
+        } else {
+        document.getElementById('current_offer').innerText = cu(current_offer);
+        }
+
+        document.getElementById('payoff').innerText = cu(payoff);
+        document.getElementById('payoff').value = payoff;
+
+     //   if (!is_buyer && num_items === 0) {
+     //       btnOffer.disabled = true;
+     //   }
+     //   if (is_buyer && payoff <= 0){
+     //      btnOffer.disabled = true;
+     //   }
+
+        bids_table.innerHTML = bids.map(e => `<tr><td>${cu(e)}</td></tr>`).join('');
+        asks_table.innerHTML = asks.map(e => `<tr><td>${cu(e)}</td></tr>`).join('');
+        redrawChart(highcharts_series);
+    }
+
+   /* function sendOffer() {
+        liveSend({'offer': my_offer.value})
+    }
+*/
+    my_offer.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            sendOffer();
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        liveSend({});
+    });
+
+
+    function sendOffer() {
+            if (my_role.value==1 && my_offer.value > 0){
+                    if (my_offer.value>document.getElementById('payoff').value) {
+                        swal( "Oops" ,  "You can't offer more than your money holdings" ,  "error", {
+                        button: "Please try a lower  offer",
+                        } )
+                    }
+                    else {
+                        liveSend({'offer': my_offer.value, 'role': my_role.value });
+                    }
+            }
+            else if ((my_offer.value < 0)) {
+                      swal( "Oops" ,  "You can't make negative offers" ,  "error", {
+                      button: "Please try a lower  offer",
+                      } )
+            }
+            else if (my_role.value == 0 && document.getElementById('num_items').innerText == 0) {
+                      swal( "Oops" ,  "You don't have any more assets to offer" ,  "error", {
+                      button: "Please try something else",
+                      } )
+            }
+            else   {
+                liveSend({'offer': my_offer.value, 'role': my_role.value });
+            }
+   };
+
+
+
+</script>
+
+
+<br><br>
+
+<center>
+
+
+
+<h5>Previous Results </h5>
+    <table class="history">
+    <tr style="background-color:gainsboro">
+
+           <table style="table-layout: fixed;
+            width: 800px;"
+             class="history">
+    <tr style="background-color:gainsboro">
+            <th><b>Sequence</b></th>
+            <th><b>Your Role</b></th>
+            <th><b>Average Share Price </b></th>
+            <th><b>State of the World Information</b></th>
+            <th><b>Your Round Payoff </b></th>
+
+
+
+            </tr>
+        {% for p in player_in_previous_rounds %}
+
+
+        <tr>
+          {{ if p.round_number == 3 or p.round_number == 6 or  p.round_number == 9 or  p.round_number == 12 or  p.round_number == 15 or  p.round_number == 18  or p.round_number == 21  or p.round_number == 24  or p.round_number == 27 }}
+          <td>   - - - - - </td> <td>   - - - - - </td> <td>   - - - - - </td> <td>   - - - - - </td> <td>   - - - - - </td>
+                {{endif}}
+             </tr>
+
+                <tr style="background-color:white">
+
+                <td>
+                    {{ if p.round_number >= 28 }}
+                    X
+                    {{endif}}
+
+                    {{ if p.round_number == 27 }}
+                    IX
+                    {{endif}}
+                    {{ if p.round_number == 26 }}
+                    IX
+                    {{endif}}
+                    {{ if p.round_number == 25 }}
+                    IX
+                    {{endif}}
+
+
+
+                    {{ if p.round_number == 24 }}
+                    VIII
+                    {{endif}}
+                    {{ if p.round_number == 23 }}
+                    VIII
+                    {{endif}}
+                    {{ if p.round_number == 22 }}
+                    VIII
+                    {{endif}}
+
+                    {{ if p.round_number == 21 }}
+                    VII
+                    {{endif}}
+                    {{ if p.round_number == 20 }}
+                    VII
+                    {{endif}}
+                    {{ if p.round_number == 19 }}
+                    VII
+                    {{endif}}
+
+                    {{ if p.round_number == 18 }}
+                    VI
+                    {{endif}}
+                    {{ if p.round_number == 17 }}
+                    VI
+                    {{endif}}
+                    {{ if p.round_number == 16 }}
+                    VI
+                    {{endif}}
+
+                    {{ if p.round_number == 15 }}
+                    V
+                    {{endif}}
+                    {{ if p.round_number == 14 }}
+                    V
+                    {{endif}}
+                    {{ if p.round_number == 13 }}
+                    V
+                    {{endif}}
+
+                    {{ if p.round_number == 12 }}
+                    IV
+                    {{endif}}
+                    {{ if p.round_number == 11 }}
+                    IV
+                    {{endif}}
+                    {{ if p.round_number == 10 }}
+                    IV
+                    {{endif}}
+
+                    {{ if p.round_number == 9 }}
+                    III
+                    {{endif}}
+                    {{ if p.round_number == 8 }}
+                    III
+                    {{endif}}
+                    {{ if p.round_number == 7 }}
+                    III
+                    {{endif}}
+
+                    {{ if p.round_number == 6 }}
+                    II
+                    {{endif}}
+                    {{ if p.round_number == 5 }}
+                    II
+                    {{endif}}
+                    {{ if p.round_number == 4 }}
+                    II
+                    {{endif}}
+
+                    {{ if p.round_number <= 3 }}
+                    I
+                    {{endif}}
+                </td>
+                <td>
+                    {% if p.is_playing == 1 %}
+                        {% if p.is_young == 1 %}
+                        Young
+                        {% else%}
+                        Old
+                        {% endif %}
+                    {% else %}
+                        Predictor
+                    {% endif %}
+                </td>
+
+                <td>{{ p.group.average_price|cu|to1 }}</td>
+
+                <td>
+
+        
+                    
+                  {{if info_acquisition == 1}}
+
+                  {{if p.is_informed == 1}}
+                       {{p.dividend_clue_text}} 
+                  {{ else }}
+                      Either {{dividend_range_1_text}} or L${{dividend_range_2_text}}
+                  {{endif}}
+
+              {{ else }} 
+                  
+                  {{if public_information == 1 and p.is_informed == 1}}
+                  {{p.dividend_clue_text}} 
+                  {{else}}
+                  Either {{dividend_range_1_text}} or {{dividend_range_2_text}}
+                  {{endif}}
+              
+                  {{if public_information == 0}}
+                  Either {{dividend_range_1_text}} or {{dividend_range_2_text}}
+                  {{endif}}
+
+              {{ endif }}
+                </td>
+
+            
+               
+                <td>{{ p.round_payoff|cu|to0 }} </td>
+
+
+
+            </tr>
+
+ 
+        {% endfor %}
+     </table></center>
+
+
+
+
+
+{{ endblock }}

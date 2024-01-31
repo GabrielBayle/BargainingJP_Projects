@@ -1,0 +1,201 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+   <b style="color:grey"> Summary of Instructions: Seller </b>
+{% endblock %}
+
+{% block app_styles %}
+<style type="text/css">
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slidecontainer2 {
+  width: 100%;
+}
+
+.slider2 {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider2:hover {
+  opacity: 1;
+}
+
+.slider2::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider2::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.center {
+border: 5px solid #FFFF00;
+text-align: center;
+}
+
+.display {
+    border: 10px solid red;
+}
+
+.important {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+th {
+    border: 1px solid black;
+    font-size: 16pt;
+    width: 650px;
+    text-align: right;
+    font-weight:normal;
+    }
+
+td {
+    font-size: 14pt;
+    border: 1px solid black;
+    text-align: center;
+    }
+
+table {
+    table-layout: fixed;
+    width: 800px;
+    }
+
+.history td {
+    font-size: 16pt;
+    }
+
+.history th {
+    font-size: 12pt;
+    width: 100px;
+    text-align: center;
+    }
+.frac {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    letter-spacing: 0.001em;
+    text-align: center;
+}
+.frac > span {
+    display: block;
+    padding: 0.1em;
+}
+.frac span.bottom {
+    border-top: thin solid black;
+}
+.frac span.symbol {
+    display: none;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<ul>
+    <p>  </p>
+    <li><b>If you are selected to be a </b><span class="important" style="color:green">Seller</span><b> for the experiment:</b>
+       <ul>
+       <li>
+           In each round you'll be randomly paired with a Buyer, who carries a certain amount of money, known to both Seller and Buyer.
+       </li>
+           <p></p>
+           <li> You can make as many offers as you'd like regarding how much <b style="color:blue"> Output</b>  to produce and sell, and the <b>Payment</b> you'd like to receive for them.
+           </li>
+           <p></p>
+               <li> You will also receive offers from the Buyer regarding how much <b style="color:blue"> Output</b>  they'd like to buy, and the <b>Payment</b> they'd like to make for them.
+           </li>
+           <p></p>
+           <li>
+               The cost of producing  said <b style="color:blue">Output</b>, q, for you as a Seller (expressed in $) is: <em><span> C(q)={{B|to2}}q<sup>{{b}}</sup></span> </em>
+            </li>
+           <p></p>
+           <li>
+               <center><img src="https://i.imgur.com/tCwGy9J.png" width="75%"/> </center>
+            </li>
+           <p></p>
+           <li> The bargaining concludes if you accept an offer from the Buyer, they accept one of your offers, or you run out of time.
+             </li>
+           <p></p>
+            <li> If an agreement is reached you'll incur the cost of production and receive the agreed <b>Payment</b>, if NO agreement is reached there will be no production or <b>Payment</b>.
+             </li>
+           <p></p>
+            <li> At the end of each round, regardless of whether an agreement is reached, you will receive a fix amount of {{seller_endowment|cu|to0}}.
+             </li>
+           <p></p>
+           <li>Thus, your payoff for the round will be calculated as follows:<p></p>
+            <p></p>
+               <ul>
+                   <li> Agreed <b>Payment</b> minus the above-mentioned <b style="color:blue">Output production cost</b> plus your fix amount:</li> <br>
+           <center>
+
+           <h5> <em>Payoff = Payment  - Production Cost + Fix Amount</em></h5>
+
+               </center>
+
+       </ul></li> </ul>
+
+
+
+
+<p></p><br>
+{% next_button %}
+
+
+{% endblock %}

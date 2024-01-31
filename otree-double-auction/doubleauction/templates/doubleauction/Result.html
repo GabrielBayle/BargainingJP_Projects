@@ -1,0 +1,98 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+{% if subsession.round_number < Constants.num_rounds %}
+  第{{ subsession.round_number }}ラウンド結果表・作戦タイム
+{% else %}
+第{{ subsession.round_number }}ラウンド結果表
+{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<div id='result_table'>
+  <table class="table" align='center'>
+    <tr align='center'>
+      <th>取引番号</th>
+      <th>財Xの変化量</th>
+      <th>財Yの変化量</th>
+      <th>比率(Y/X)</th>
+      <th>取引相手</th>
+      <th>財Xの保有量</th>
+      <th>財Yの保有量</th>
+      <th>得点</th>
+    </tr>
+    <tr v-for='re_el in results' align='center'>
+      <th> [[ re_el.traded_number ]] </th>
+      <th> [[ re_el.diff_amount ]] </th>
+      <th> [[ re_el.diff_money ]] </th>
+      <th> [[ re_el.unit_of_price ]] </th>
+      <th> [[ re_el.partner ]] </th>
+      <th> [[ re_el.amount ]] </th>
+      <th> [[ re_el.money ]] </th>
+      <th> [[ re_el.utility ]] </th>
+    </tr>
+  </table>
+  <hr />
+</div>
+<div align='center'>
+  <table class='table' align='center' border='0' >
+    <tr><td><strong>今回の財Xの量:</strong></td><td><strong>{{ player.amount }}</strong></td></tr>
+    <tr><td><strong>今回の財Yの量:</strong></td><td><strong>{{ player.money }}</strong></td></tr>
+    <tr><td><strong>今回の得点:</strong></td><td><strong>{{ player.utility }}</strong></td></tr>
+  </table>
+    <!-- <strong>今回の財Xの量: {{ player.amount }} </strong><br />
+    <strong>今回の貨幣Yの量: {{ player.money }} </strong><br />
+    <strong>今回の得点: {{ player.utility }} </strong><br /> -->
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<!-- jQuery -->
+<!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script> -->
+<!-- Bootstrap -->
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
+<!-- Vue.js -->
+<script src="https://npmcdn.com/vue/dist/vue.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+
+<script>
+var result_table = new Vue({
+  delimiters: ['[[',']]'],
+  el: '#result_table',
+  data:{
+      results:[]
+  }
+});
+
+var traded_numbers   = js_vars.traded_numbers;
+var diff_amounts     = js_vars.diff_amounts;
+var diff_moneys      = js_vars.diff_moneys;
+var unit_of_prices   = js_vars.unit_of_prices;
+var partners         = js_vars.partners;
+var amounts          = js_vars.amounts;
+var moneys           = js_vars.moneys;
+var utilitys         = js_vars.utilitys;
+console.log(moneys);
+
+for (let i=0;i<amounts.length; i++){
+  console.log(i);
+  result_table.results.push({
+    traded_number  :traded_numbers[i],
+    diff_amount    :diff_amounts[i],
+    diff_money     :diff_moneys[i],
+    unit_of_price  :unit_of_prices[i],
+    partner        :partners[i],
+    amount         :amounts[i],
+    money          :moneys[i],
+    utility        :utilitys[i],
+  })
+}
+
+
+
+</script>
+{% endblock %}

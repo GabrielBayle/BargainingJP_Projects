@@ -1,0 +1,21 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    貢献
+{% endblock %}
+
+{% block content %}
+
+    <p>
+        これは１グループあたり{{ Constants.players_per_group }}人の公共財ゲームで　,
+         {{ Constants.endowment }}の寄付があって,
+        効率要素は {{ Constants.multiplier }}です.
+    </p>
+
+
+    {% formfields %}
+
+    {% next_button %}
+
+{% endblock %}

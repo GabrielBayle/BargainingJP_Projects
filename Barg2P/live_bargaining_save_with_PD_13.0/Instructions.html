@@ -1,0 +1,90 @@
+{{ block title }}
+    Bargaining Game Instructions
+{{ endblock }}
+
+{{ block content }}
+
+<style>
+    .instructions-container {
+        font-family: Arial, sans-serif;
+        margin: 0 auto;
+        max-width: 800px;
+        padding: 20px;
+    }
+    .section {
+        margin-bottom: 20px;
+    }
+    .section-header {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    .instructions-container img {
+        display: block; /* Allows margin auto to work for horizontal centering */
+        margin: 0 auto; /* Centers the image horizontally */
+        max-width: 100%; /* Ensures the image does not exceed the container width */
+        height: auto; /* Maintains the aspect ratio */
+    }
+</style>
+
+<div class="instructions-container">
+    <h1>Bargaining Game Instructions</h1>
+
+    <div class="section">
+        <div class="section-header">Welcome</div>
+        <p>Welcome to the Bargaining Experiment. In this game, you will be randomly paired with another participant to negotiate a division of a sum of money.</p>
+    </div>
+
+    <div class="section">
+        <div class="section-header">Objective</div>
+        <p>Your goal is to reach an agreement on how to divide {{ C.PIE_SIZE }} Experimental Currency Units (ECU) between the two of you.</p>
+    </div>
+
+    <div class="section">
+        <div class="section-header">Roles</div>
+        <p>You will be randomly assigned as either Player 1 or Player 2. The other participant will take the opposite role.</p>
+    </div>
+
+    <div class="section">
+        <div class="section-header">Making Offers</div>
+        <img src="{{ static 'images/instructions_offer.png' }}" alt="Making an Offer">
+        <p>Enter your proposed amount in the input field and click "Send Offer" to propose a split of the ECU.</p>
+    </div>
+
+    <div class="section">
+        <div class="section-header">Responding to Offers</div>
+        <img src="{{ static 'images/instructions_accept.png' }}" alt="Responding to an Offer">
+        <p>When you receive an offer from the other player, you can choose to accept it or ignore it and make a counteroffer.</p>
+    </div>
+
+    <div class="section">
+        <div class="section-header">Canceling Offers</div>
+        <img src="{{ static 'images/instructions_cancel.png' }}" alt="Canceling an Offer">
+        <p>If you wish to retract an offer before the other player responds, click "Cancel Offer".</p>
+    </div>
+
+    <div class="section">
+        <div class="section-header">Stopping Bargaining</div>
+        <img src="{{ static 'images/instructions_stop.png' }}" alt="Stopping Bargaining">
+        <p>If you prefer not to continue negotiating and accept the disagreement option, click "Stop Bargaining". This will end the game with a predefined disagreement payoff.</p>
+    </div>
+
+    <div class="section">
+        <div class="section-header">Time Limit</div>
+        <p>There is a time limit for the negotiation. If an agreement is not reached within this time, the game will end, and the disagreement payoff will be automatically allocated.</p>
+    </div>
+
+    <div class="section">
+        <div class="section-header">Payoffs</div>
+        <p>If an agreement is reached, the ECU will be split according to the agreed terms. In case of disagreement, both players receive a fixed disagreement payoff.</p>
+    </div>
+
+    <div class="section">
+        <div class="section-header">Communication</div>
+        <img src="{{ static 'images/instructions_chat.png' }}" alt="Chat">
+        <p>You can communicate with your partner using the chat feature during the game.</p>
+    </div>
+
+    {{ next_button }}
+</div>
+
+{{ endblock }}

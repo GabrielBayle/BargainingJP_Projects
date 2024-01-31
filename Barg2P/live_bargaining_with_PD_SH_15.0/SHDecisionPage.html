@@ -1,0 +1,142 @@
+{{ block content }}
+
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: Arial, sans-serif;
+    }
+
+    .instructions {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    .decision-table {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .clickable-cell {
+        cursor: pointer;
+        background-color: #f0f0f0;
+    }
+
+    .clickable-cell:hover {
+        background-color: #e0e0e0;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+
+    th {
+        background-color: #e0e0e0;
+    }
+
+    .bg-info {
+        background-color: #d0f0c0;
+    }
+
+    button {
+        background-color: #6495ED;
+        color: black;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 4px;
+        margin-top: 10px;
+    }
+</style>
+
+    <div class="instructions">
+        <h2>Instructions for Stag Hunt</h2>
+        <p>
+            In this game, you and your partner from the bargaining game must independently decide whether to play choice
+            1 or choice 2.
+            Your payoff depends on both your decision and the other player's decision. Here are the possible outcomes:
+        </p>
+        <ul>
+            <li>If both players play Choice 1, each earns {{ both_stag_payoff }} ECU.</li>
+            <li>If Player 1 plays Choice 1 and Player 2 plays Choice 2, Player 1 earns {{ stag_hare_payoff }} EC and
+                Player 2 earns {{ hare_stag_payoff_p2 }} ECU.</li>
+            <li>If Player 1 plays Choice 1 and Player 2 plays Choice 2, Player 1 earns {{ hare_stag_payoff_p1 }} ECU and
+                Player 2 earns {{ stag_hare_payoff }} ECU.</li>
+            <li>If both players play Choice 2, Player 1 earns {{ both_hare_payoff_p1 }} ECU, and Player 2 earns
+                {{ both_hare_payoff_p2 }} ECU.</li>
+        </ul>
+        <p>Select your decision by clicking on 'Choice 1' or 'Choice 2' in the table below:</p>
+    </div>
+    <div class="decision-table">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Other's Choice 1</th>
+                <th>Other's Choice 2</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td onclick="set_decision(true)" class="clickable-cell">Choice 1</td>
+                <td><strong>{{ both_stag_payoff }}</strong>, {{ both_stag_payoff }}</td>
+                {% if player_id == 1 %}
+                    <td><strong>{{ stag_hare_payoff }}</strong>, {{ hare_stag_payoff_p2 }}</td>
+                {% else %}
+                    <td><strong>{{ stag_hare_payoff }}</strong>, {{ hare_stag_payoff_p1 }}</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <td onclick="set_decision(false)" class="clickable-cell">Choice 2</td>
+                {% if player_id == 1 %}
+                    <td><strong>{{ hare_stag_payoff_p1 }}</strong>, {{ stag_hare_payoff }}</td>
+                {% else %}
+                    <td><strong>{{ hare_stag_payoff_p2 }}</strong>, {{ stag_hare_payoff }}</td>
+                {% endif %}
+                {% if player_id == 1 %}
+                    <td><strong>{{ both_hare_payoff_p1 }}</strong>, {{ both_hare_payoff_p2 }}</td>
+                {% else %}
+                    <td><strong>{{ both_hare_payoff_p2 }}</strong>, {{ both_hare_payoff_p1 }}</td>
+                {% endif %}
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+{{ next_button }}
+
+<input type="hidden" name="SH_decision" id="SH_decision" value="">
+
+{{ block scripts }}
+<script>
+    const btn_next = document.querySelector(".otree-btn-next");
+    const tdec = document.querySelector("table tbody");
+
+    function set_decision(decision) {
+        document.querySelector("input[name=SH_decision]").value = decision;
+        let rows = tdec.rows;
+        for (let i = 0; i < rows.length; i++) {
+            if ((decision && i === 0) || (!decision && i === 1)) {
+                rows[i].classList.add("bg-info");
+            } else {
+                rows[i].classList.remove("bg-info");
+            }
+        }
+        btn_next.disabled = false;
+    }
+
+    window.onload = function () {
+        btn_next.disabled = true;
+    }
+</script>
+{{ endblock }}
+
+{{ endblock }}
