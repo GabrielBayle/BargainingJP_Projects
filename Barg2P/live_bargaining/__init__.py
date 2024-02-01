@@ -92,8 +92,8 @@ class Player(BasePlayer):
     converted_payoff = models.IntegerField()
     total_payoff = models.CurrencyField()
     participation_fee = models.CurrencyField()
-    decision_making_feedback = models.LongStringField(blank=True)
-    experiment_feedback = models.LongStringField(blank=True)
+    decision_making_feedback = models.LongStringField()
+    experiment_feedback = models.LongStringField()
 
     # UNDERSTANDING
 
