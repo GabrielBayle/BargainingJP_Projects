@@ -27,7 +27,6 @@ ROOMS = [
     dict(
         name='Waseda_experiment_Bargaining_2024',
         display_name='Waseda_experiment_Bargaining_2024',
-        #participant_label_file='econ101.txt',
     )
 ]
 
