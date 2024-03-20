@@ -194,6 +194,73 @@ class Player(BasePlayer):
         else:
             return []
 
+########################################################################################################################
+########################################################################################################################
+########################################################################################################################
+
+class Introduction(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1
+
+class Instructions(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return (player.round_number == 1 or player.session.config.get('treatment') == C.TEST)
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        player.participation_fee = player.session.config.get('participation_fee', 0)
+
+    def before_next_page(player, timeout_happened):
+        player.has_read_instructions = True
+
+
+class UnderstandingTestPage(Page):
+    form_model = 'player'
+    form_fields = ['understanding_1', 'understanding_2', 'understanding_3',
+                   'understanding_4', 'understanding_5', 'understanding_6',
+                   'understanding_7', 'understanding_8']
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1 and player.session.config.get("instructions_relues", True)
+
+    @staticmethod
+    def before_next_page(player, timeout_happened):
+        player.calculate_faults()
+
+class UnderstandingReviewPage(Page):
+    @staticmethod
+    def vars_for_template(player: Player):
+        questions = QUESTIONS
+        answers = [
+            player.understanding_1, player.understanding_2, player.understanding_3,
+            player.understanding_4, player.understanding_5, player.understanding_6,
+            player.understanding_7, player.understanding_8
+        ]
+        results = []
+        for i, q in enumerate(questions):
+            result = {
+                'question': q['text'],
+                'selected': answers[i],
+                'correct': q['correct_answer'],
+                'explanation': q['explanation'],
+                'is_correct': answers[i] == q['correct_answer']
+            }
+            results.append(result)
+
+        return {'results': results}
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1 and player.session.config.get("instructions_relues", True)
+
+
+class InstructionsWaitMonitor(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1 and player.session.config.get("instructions_relues", True)
 
 class Bargain2(Page):
 
@@ -341,73 +408,13 @@ class Results(Page):
             'timeout_occurred': player.timeout_occurred
         }
 
-class Introduction(Page):
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.round_number == 1
-
-class Instructions(Page):
-    @staticmethod
-    def is_displayed(player: Player):
-        return (player.round_number == 1 or player.session.config.get('treatment') == C.TEST)
-
-    @staticmethod
-    def vars_for_template(player: Player):
-        player.participation_fee = player.session.config.get('participation_fee', 0)
-
-    def before_next_page(player, timeout_happened):
-        player.has_read_instructions = True
-
-class InstructionsWaitMonitor(Page):
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.round_number == 1 and player.session.config.get("instructions_relues", True)
-
-class UnderstandingTestPage(Page):
-    form_model = 'player'
-    form_fields = ['understanding_1', 'understanding_2', 'understanding_3',
-                   'understanding_4', 'understanding_5', 'understanding_6',
-                   'understanding_7', 'understanding_8']
-
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.round_number == 1 and player.session.config.get("instructions_relues", True)
-
-    @staticmethod
-    def before_next_page(player, timeout_happened):
-        player.calculate_faults()
-
-class UnderstandingReviewPage(Page):
-    @staticmethod
-    def vars_for_template(player: Player):
-        questions = QUESTIONS
-        answers = [
-            player.understanding_1, player.understanding_2, player.understanding_3,
-            player.understanding_4, player.understanding_5, player.understanding_6,
-            player.understanding_7, player.understanding_8
-        ]
-        results = []
-        for i, q in enumerate(questions):
-            result = {
-                'question': q['text'],
-                'selected': answers[i],
-                'correct': q['correct_answer'],
-                'explanation': q['explanation'],
-                'is_correct': answers[i] == q['correct_answer']
-            }
-            results.append(result)
-
-        return {'results': results}
-
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.round_number == 1 and player.session.config.get("instructions_relues", True)
-
-
 class InstructionsWaitForAll(WaitPage):
     wait_for_all_groups = True
 
 class WaitForGroup(WaitPage):
+    pass
+
+class WaitForAllGroup(WaitPage):
     wait_for_all_groups = True
 
     @staticmethod
@@ -811,7 +818,7 @@ class UGResultsPage(Page):
 
 page_sequence = [Introduction, Instructions, UnderstandingTestPage, UnderstandingReviewPage, InstructionsWaitMonitor, InstructionsWaitForAll,
                  Bargain2, BLWaitForGroup, Results, WaitForGroup,
-                 PDDecisionPage, PDWaitForGroup, PDResultsPage, WaitForGroup,
-                 SHDecisionPage, SHWaitForGroup, SHResultsPage, WaitForGroup,
-                 UGPropositionPage, UGPropositionWaitPage, UGResponsePage, UGResponseWaitPage, UGWaitForGroup, UGResultsPage, WaitForGroup,
+                 PDDecisionPage, PDWaitForGroup, PDResultsPage, WaitForAllGroup,
+                 SHDecisionPage, SHWaitForGroup, SHResultsPage, WaitForAllGroup,
+                 UGPropositionPage, UGPropositionWaitPage, UGResponsePage, UGResponseWaitPage, UGWaitForGroup, UGResultsPage, WaitForAllGroup,
                  FinalWaitForAll, FinalResultsPage, FeedbackPage]
