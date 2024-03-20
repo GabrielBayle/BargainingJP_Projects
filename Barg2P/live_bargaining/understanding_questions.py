@@ -37,7 +37,7 @@ QUESTIONS = [
     },
     {
         "text": "What happens if the sum of the amounts proposed by both players does not equal the total pie size?",
-        "options": ["A) The offer is automatically accepted", "B) The offer is automatically rejected", "C) The players are penalized", "D) The offer is not sent and a new offer can be proposed"],
+        "options": ["A) The offer is automatically accepted", "B) The offer is automatically rejected", "C) The players are penalized", "D) The game continues until a valid offer is made"],
         "correct_answer": "D) The game continues until a valid offer is made",
         "explanation": "Offers where the combined total does not equal the total pie size are considered invalid, and players must make a valid offer."
     },
