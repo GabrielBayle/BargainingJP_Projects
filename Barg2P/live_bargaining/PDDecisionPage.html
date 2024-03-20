@@ -58,7 +58,7 @@
 </style>
 
     <div class="instructions">
-        <h2>Instructions for Prisoner's dilemma (Round {{ subsession.round_number }} on {{ C.NUM_ROUNDS }})</h2>
+        <h2>Instructions for the Disagreement Game (Round {{ subsession.round_number }} on {{ C.NUM_ROUNDS }})</h2>
         <p>
             In this game, you and your partner from the bargaining game must independently decide whether to play choice
             1 or choice 2.
@@ -79,18 +79,18 @@
             <thead>
             <tr>
                 <th></th>
-                <th>Other Cooperates</th>
-                <th>Other Defects</th>
+                <th>Other's Choice 1</th>
+                <th>Other's Choice 2</th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td onclick="set_decision(true)" class="clickable-cell">Cooperate</td>
+                <td onclick="set_decision(true)" class="clickable-cell">Choice 1</td>
                 <td><strong>{{ coop_coop_payoff }}</strong>, {{ coop_coop_payoff }}</td>
                 <td><strong>{{ coop_defect_payoff_p1 }}</strong>, {{ coop_defect_payoff_p2 }}</td>
             </tr>
             <tr>
-                <td onclick="set_decision(false)" class="clickable-cell">Defect</td>
+                <td onclick="set_decision(false)" class="clickable-cell">Choice 2</td>
                 <td><strong>{{ defect_coop_payoff_p1 }}</strong>, {{ defect_coop_payoff_p2 }}</td>
                 {% if player_id == 1 %}
                     <td><strong>{{ defect_defect_payoff_p1 }}</strong>, {{ defect_defect_payoff_p2 }}</td>

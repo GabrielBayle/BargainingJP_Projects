@@ -573,8 +573,8 @@ class PDResultsPage(Page):
         other_player = player.get_others_in_group()[0]
         return {
             'other_payoff': other_player.payoff,
-            'other_decision_display': "Cooperate" if other_player.PD_decision else "Defect",
-            'player_decision_display': "Cooperate" if player.PD_decision else "Defect",
+            'other_decision_display': "Choice 1" if other_player.PD_decision else "Choice 2",
+            'player_decision_display': "Choice 1" if player.PD_decision else "Choice 2",
         }
 
 ########################################################################################################################
@@ -667,8 +667,8 @@ class SHResultsPage(Page):
         other_player = player.get_others_in_group()[0]
         return {
             'other_payoff': other_player.payoff,
-            'other_decision_display': "Stag" if other_player.SH_decision else "Hare",
-            'player_decision_display': "Stag" if player.SH_decision else "Hare",
+            'other_decision_display': "Choice 1" if other_player.SH_decision else "Choice 2",
+            'player_decision_display': "Choice 1" if player.SH_decision else "Choice 2",
         }
 
 ########################################################################################################################

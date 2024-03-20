@@ -116,24 +116,24 @@
             </p>
         {% elif player.session.config.get('treatment') == 'prisoner' or player.session.config.get('treatment') == 'test' and player.round_number == 2 %}
             <p>
-                If no agreement is found, you will have to play the Prisoner's Dilemma game to determine your payoffs. The possible payoffs are displayed in the following table:
+                If no agreement is found, you will have to play the Disagreement Game to determine your payoffs. The possible payoffs are displayed in the following table:
             </p>
             <table class="table table-bordered text-center">
                 <thead>
                 <tr>
                     <th></th>
-                    <th>Other Cooperates</th>
-                    <th>Other Defects</th>
+                    <th>Other's Choice 1</th>
+                    <th>Other's Choice 2</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td>Cooperate</td>
+                    <td>Choice 1</td>
                     <td><strong>{{ C.mutual_cooperation_payoff_PD }}</strong>, {{ C.mutual_cooperation_payoff_PD }}</td>
                     <td><strong>{{ C.betrayed_payoff_PD }}</strong>, {{ C.betray_payoff_PD }}</td>
                 </tr>
                 <tr>
-                    <td>Defect</td>
+                    <td>Choice 2</td>
                     <td><strong>{{ C.betray_payoff_PD }}</strong>, {{ C.betrayed_payoff_PD }}</td>
                     {% if player.id_in_group == 1 %}
                         <td><strong>{{ C.mutual_betrayal_payoff_PD_p1 }}</strong>, {{ C.mutual_betrayal_payoff_PD_p2 }}</td>
@@ -145,19 +145,19 @@
             </table>
         {% elif player.session.config.get('treatment') == 'staghunt' or player.session.config.get('treatment') == 'test' and player.round_number == 3 %}
             <p>
-                If no agreement is found, you will have to play the Stag Hunt game to determine your payoffs. The possible payoffs are displayed in the following table:
+                If no agreement is found, you will have to play the Disagreement Game to determine your payoffs. The possible payoffs are displayed in the following table:
             </p>
             <table class="table table-bordered text-center">
                 <thead>
                 <tr>
                     <th></th>
-                    <th>Other Cooperates</th>
-                    <th>Other Defects</th>
+                    <th>Other's Choice 1</th>
+                    <th>Other's Choice 2</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td>Stag</td>
+                    <td>Choice 1</td>
                     <td><strong>{{ C.both_stag_payoff }}</strong>, {{ C.both_stag_payoff }}</td>
                     {% if player.id_in_group == 1 %}
                         <td><strong>{{ C.stag_hare_payoff }}</strong>, {{ C.hare_stag_payoff_p2 }}</td>
@@ -166,7 +166,7 @@
                     {% endif %}
                 </tr>
                 <tr>
-                    <td>Hare</td>
+                    <td>Choice 2</td>
                     {% if player.id_in_group == 1 %}
                         <td><strong>{{ C.hare_stag_payoff_p1 }}</strong>, {{ C.stag_hare_payoff }}</td>
                     {% else %}
@@ -182,9 +182,9 @@
             </table>
         {% elif player.session.config.get('treatment') == 'ultimatum' or player.session.config.get('treatment') == 'test' and player.round_number == 4 %}
             <p>
-                If no agreement is found, you will have to play the Ultimatum game to determine your payoffs.
+                If no agreement is found, you will have to play the Disagreement Game to determine your payoffs.
             </p>
-            <p>In the Ultimatum game, the Player 2 proposes a split of the {{ C.PIE_SIZE }} ECU between him and the
+            <p>In the Disagreement Game, the Player 2 proposes a split of the {{ C.PIE_SIZE }} ECU between him and the
                 Player 1.</p>
             <p>Then, the Player 1 receives the offer. He can either accept or reject it.</p>
             <p></p>

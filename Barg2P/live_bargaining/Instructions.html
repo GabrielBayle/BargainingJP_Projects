@@ -138,21 +138,19 @@
     {% if player.session.config.get('treatment') == 'prisoner' or player.session.config.get('treatment') == 'test' and player.round_number == 2 %}
         <div class="sectionbis">
             <div class="section-header">Disagreement option Instructions</div>
-            <p>In the Prisoner's Dilemma, you and the other player must independently decide whether to Cooperate or
-                Defect. Your payoff depends on both your decision and the other player's decision:</p>
+            <p>In the Disagreement Game, you and the other player must independently decide between two choices. Your payoff depends on both your decision and the other player's decision:</p>
             <ul>
-                <li>If both players Cooperate, each earns {{ C.mutual_cooperation_payoff_PD }} ECU.</li>
-                <li>If one Cooperates and the other Defects, the Defector earns {{ C.betray_payoff_PD }} ECU, and the
-                    Cooperator earns {{ C.betrayed_payoff_PD }} ECU.</li>
-                <li>If both players Defect, Player 1 earns {{ C.mutual_betrayal_payoff_PD_p1 }} ECU, and Player 2
+                <li>If both players play Choice 1, each earns {{ C.mutual_cooperation_payoff_PD }} ECU.</li>
+                <li>If one plays Choice 1 and the other plays Choice 2, the player choosing play Choice 2 earns {{ C.betray_payoff_PD }} ECU, and the
+                    other earns {{ C.betrayed_payoff_PD }} ECU.</li>
+                <li>If both players play Choice 2, Player 1 earns {{ C.mutual_betrayal_payoff_PD_p1 }} ECU, and Player 2
                     earns {{ C.mutual_betrayal_payoff_PD_p2 }} ECU.</li>
             </ul>
         </div>
     {% elif player.session.config.get('treatment') == 'staghunt' or player.session.config.get('treatment') == 'test' and player.round_number == 3 %}
         <div class="sectionbis">
             <div class="section-header">Disagreement option Instructions</div>
-            <p>In the Stag Hunt game, you and the other player must independently decide whether to hunt the Stag or
-                Hares. Your payoff depends on both your decision and the other player's decision:</p>
+            <p>In the Disagreement Game, you and the other player must independently decide between two choices. Your payoff depends on both your decision and the other player's decision:</p>
             <ul>
                 <li>If both players play Choice 1, each earns {{ C.both_stag_payoff }} ECU.</li>
                 <li>If Player 1 plays Choice 1 and Player 2 plays Choice 2, Player 1 earns {{ C.stag_hare_payoff }} ECU and
@@ -166,7 +164,7 @@
     {% elif player.session.config.get('treatment') == 'ultimatum' or player.session.config.get('treatment') == 'test' and player.round_number == 4 %}
         <div class="sectionbis">
             <div class="section-header">Disagreement option Instructions</div>
-            <p>In the Ultimatum game, the Player 2 proposes a split of the {{ C.PIE_SIZE }} ECU between him and the
+            <p>In the Disagreement Game, the Player 2 proposes a split of the {{ C.PIE_SIZE }} ECU between him and the
                 Player 1.</p>
             <p>Then, the Player 1 receives the offer. He can either accept or reject it.</p>
             <p></p>
