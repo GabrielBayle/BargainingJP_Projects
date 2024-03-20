@@ -285,8 +285,11 @@
         let offerError = document.getElementById('offer-error');
 
         // Check if either input is empty or if their sum exceeds the pie size
-        if (isNaN(offerPlayer1) || isNaN(offerPlayer2) || (offerPlayer1 + offerPlayer2) !== pieSize) {
-            offerError.textContent = "Invalid offer. Please ensure both fields are filled and the total equals " + pieSize + " points.";
+        if (isNaN(offerPlayer1) || isNaN(offerPlayer2)
+        || offerPlayer1 < 0 || offerPlayer2 < 0
+        || offerPlayer1 !== parseFloat(myOfferPlayer1.value) || offerPlayer2 !== parseFloat(myOfferPlayer2.value)
+        || (offerPlayer1 + offerPlayer2) !== pieSize) {
+            offerError.textContent = "Invalid offer. Please ensure both fields are filled and the total equals " + pieSize + " points and that both fields are non negative integers.";
             offerError.style.display = 'block';
             return;
         } else {

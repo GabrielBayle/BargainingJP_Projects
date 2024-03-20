@@ -112,17 +112,39 @@
         <form method="post">
             <div class="offer-table section">
                 <table class="table">
-                    <tr>
+                    <tr><div id="offer-error" style="color: red; display: none;"></div>
                         <td>Your Offer to Player 1 (ECU):</td>
-                        <td><input type="number" name="UG_proposer_decision" class="input-field"></td>
+                        <td><input type="number" name="UG_proposer_decision" id="UG_prop" class="input-field"></td>
                     </tr>
                     <tr>
-                        <td colspan="2"><button type="submit" class="btn btn-primary">Submit Offer</button></td>
+                        <td colspan="2"><button type="button" onclick="sendOffer()" class="btn btn-primary">Submit Offer</button></td>
                     </tr>
                 </table>
             </div>
         </form>
     </div>
 </div>
+
+<script>
+    let UG_proposer_decision = document.getElementById('UG_prop');
+function sendOffer() {
+        let offerPlayer = parseInt(UG_proposer_decision.value, 10);
+        let pieSize = 1000; // Assuming the total pie size is 1000
+        let offerError = document.getElementById('offer-error');
+
+        // Check if either input is empty or if their sum exceeds the pie size
+        if (isNaN(offerPlayer)
+        || offerPlayer < 0
+        || offerPlayer !== parseFloat(UG_proposer_decision.value)
+        || offerPlayer > pieSize) {
+            offerError.textContent = "Invalid offer. Please ensure the field is filled with a non negative integer lower than 1000.";
+            offerError.style.display = 'block';
+        } else {
+            offerError.style.display = 'none';
+            document.querySelector('form').submit();
+        }
+    }
+</script>
+
 
 {% endblock %}

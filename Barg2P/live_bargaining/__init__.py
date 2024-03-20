@@ -1,3 +1,5 @@
+from collections import deque
+
 from otree.api import *
 from datetime import datetime
 import random
@@ -411,25 +413,12 @@ class Results(Page):
 class InstructionsWaitForAll(WaitPage):
     wait_for_all_groups = True
 
-class WaitForGroup(WaitPage):
-    pass
-
 class WaitForAllGroup(WaitPage):
     wait_for_all_groups = True
 
     @staticmethod
     def after_all_players_arrive(subsession: Subsession):
-        players = subsession.get_players()
-
-        player1s = [p for p in players if p.role == C.PLAYER1_ROLE]
-        player2s = [p for p in players if p.role == C.PLAYER2_ROLE]
-
-        random.shuffle(player1s)
-        random.shuffle(player2s)
-
-        pairs = list(zip(player1s, player2s))
-
-        subsession.set_group_matrix(pairs)
+        subsession.group_randomly(fixed_id_in_group=True)
 
 
 class FinalWaitForAll(WaitPage):
@@ -817,8 +806,8 @@ class UGResultsPage(Page):
 
 
 page_sequence = [Introduction, Instructions, UnderstandingTestPage, UnderstandingReviewPage, InstructionsWaitMonitor, InstructionsWaitForAll,
-                 Bargain2, BLWaitForGroup, Results, WaitForGroup,
-                 PDDecisionPage, PDWaitForGroup, PDResultsPage, WaitForAllGroup,
-                 SHDecisionPage, SHWaitForGroup, SHResultsPage, WaitForAllGroup,
-                 UGPropositionPage, UGPropositionWaitPage, UGResponsePage, UGResponseWaitPage, UGWaitForGroup, UGResultsPage, WaitForAllGroup,
+                 WaitForAllGroup, Bargain2, BLWaitForGroup, Results,
+                 PDDecisionPage, PDWaitForGroup, PDResultsPage,
+                 SHDecisionPage, SHWaitForGroup, SHResultsPage,
+                 UGPropositionPage, UGPropositionWaitPage, UGResponsePage, UGResponseWaitPage, UGWaitForGroup, UGResultsPage,
                  FinalWaitForAll, FinalResultsPage, FeedbackPage]
