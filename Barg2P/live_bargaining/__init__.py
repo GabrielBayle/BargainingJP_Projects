@@ -36,6 +36,7 @@ class C(BaseConstants):
     DISAGREEMENT_PAYOFF_P1 = 100
     DISAGREEMENT_PAYOFF_P2 = 400
     timer = BARGAINING_TIME / 60
+    timer_result = 20
 
     # Treatments
     BG = "bargain"
@@ -409,6 +410,8 @@ class Results(Page):
             'player2_share': player2_share,
             'timeout_occurred': player.timeout_occurred
         }
+
+    timeout_seconds = C.timer_result
 
 class InstructionsWaitForAll(WaitPage):
     wait_for_all_groups = True
