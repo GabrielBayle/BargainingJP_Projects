@@ -108,19 +108,15 @@ class Player(BasePlayer):
     understanding_6 = models.StringField(label=QUESTIONS[5]['text'], choices=QUESTIONS[5]['options'])
     understanding_7 = models.StringField(label=QUESTIONS[6]['text'], choices=QUESTIONS[6]['options'])
     understanding_8 = models.StringField(label=QUESTIONS[7]['text'], choices=QUESTIONS[7]['options'])
+    understanding_faults1 = models.IntegerField(initial=0)
+    understanding_faults2 = models.IntegerField(initial=0)
+    understanding_faults3 = models.IntegerField(initial=0)
+    understanding_faults4 = models.IntegerField(initial=0)
+    understanding_faults5 = models.IntegerField(initial=0)
+    understanding_faults6 = models.IntegerField(initial=0)
+    understanding_faults7 = models.IntegerField(initial=0)
+    understanding_faults8 = models.IntegerField(initial=0)
     understanding_faults = models.IntegerField(initial=0)
-
-    def calculate_faults(self):
-        self.understanding_faults = 0
-        correct_answers = [QUESTIONS[0]['correct_answer'], QUESTIONS[1]['correct_answer'],
-                           QUESTIONS[2]['correct_answer'], QUESTIONS[3]['correct_answer'],
-                           QUESTIONS[4]['correct_answer'], QUESTIONS[5]['correct_answer'],
-                           QUESTIONS[6]['correct_answer'], QUESTIONS[7]['correct_answer']]
-        responses = [self.understanding_1, self.understanding_2, self.understanding_3, self.understanding_4,
-                     self.understanding_5, self.understanding_6, self.understanding_7, self.understanding_8]
-        for response, correct_answer in zip(responses, correct_answers):
-            if response != correct_answer:
-                self.understanding_faults += 1
 
     # PRISONER DILEMMA
 
@@ -197,6 +193,9 @@ class Player(BasePlayer):
         else:
             return []
 
+def calculate_faults(player):
+    player.understanding_faults = sum([getattr(player,f'understanding_faults{i}') for i in range(1,8)])
+
 ########################################################################################################################
 ########################################################################################################################
 ########################################################################################################################
@@ -223,7 +222,12 @@ class UnderstandingTestPage(Page):
     form_model = 'player'
     form_fields = ['understanding_1', 'understanding_2', 'understanding_3',
                    'understanding_4', 'understanding_5', 'understanding_6',
-                   'understanding_7', 'understanding_8']
+                   'understanding_7', 'understanding_8', 'understanding_faults1',
+                   'understanding_faults2', 'understanding_faults3', 'understanding_faults4',
+                   'understanding_faults5', 'understanding_faults6', 'understanding_faults7', 'understanding_faults8']
+
+    def js_vars(player):
+        return dict(questionnaire=understanding_questions.QUESTIONS)
 
     @staticmethod
     def is_displayed(player: Player):
@@ -231,7 +235,7 @@ class UnderstandingTestPage(Page):
 
     @staticmethod
     def before_next_page(player, timeout_happened):
-        player.calculate_faults()
+        calculate_faults(player)
 
 class UnderstandingReviewPage(Page):
     @staticmethod
@@ -813,4 +817,10 @@ page_sequence = [Introduction, Instructions, UnderstandingTestPage, Understandin
                  PDDecisionPage, PDWaitForGroup, PDResultsPage,
                  SHDecisionPage, SHWaitForGroup, SHResultsPage,
                  UGPropositionPage, UGPropositionWaitPage, UGResponsePage, UGResponseWaitPage, UGWaitForGroup, UGResultsPage,
+                 # PDDecisionPage, PDWaitForGroup, PDResultsPage,
+                 # SHDecisionPage, SHWaitForGroup, SHResultsPage,
+                 # UGPropositionPage, UGPropositionWaitPage, UGResponsePage, UGResponseWaitPage, UGWaitForGroup, UGResultsPage,
+                 # PDDecisionPage, PDWaitForGroup, PDResultsPage,
+                 # SHDecisionPage, SHWaitForGroup, SHResultsPage,
+                 # UGPropositionPage, UGPropositionWaitPage, UGResponsePage, UGResponseWaitPage, UGWaitForGroup, UGResultsPage,
                  FinalWaitForAll, FinalResultsPage, FeedbackPage]

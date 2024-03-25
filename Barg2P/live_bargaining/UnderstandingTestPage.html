@@ -55,12 +55,38 @@
     <h3>Understanding Test</h3>
     <form method="post">
         {% for field in form %}
-            <div class="mb-3">
-                <label>{{ field.label }}</label>
-                {{ field }}
-            </div>
+            {{ if 'fault' not in field.name }}
+                <div class="mb-3">
+                    <label>{{ field.label }}</label>
+                    {{ field }}
+                    <p class="form-control-errors" id="pid_{{ field.name }}" style="display:none">Incorrect answer.</p>
+                </div>
+            {{ else }}
+                <input type="hidden" name="{{ field.name }}" value="0">
+            {{ endif }}
         {% endfor %}
-        <button type="submit" class="btn btn-primary">Submit Answers</button>
+        <button type='button' onclick="validate()" class="btn btn-primary">Submit Answers</button>
     </form>
 </div>
+
 {% endblock %}
+
+{{ block scripts }}
+<script>
+    function validate(){
+        let all_correct=true;
+        document.querySelectorAll(".form-control-errors").forEach((paraph)=>{paraph.style.display="none";})
+        for(let i=1;i<9;i++){
+            let field_value = document.querySelector(`select[name=understanding_${i}]`).value;
+            if(field_value != js_vars.questionnaire[i-1]["correct_answer"]){
+                let fault=Number(document.querySelector(`input[name=understanding_faults${i}]`).value);
+                fault++;
+                document.querySelector(`input[name=understanding_faults${i}]`).value=fault;
+                document.querySelector(`#pid_understanding_${i}`).style.display="block";
+                all_correct=false;
+            }
+        }
+        if (all_correct==true) document.querySelector("form").submit();
+    }
+</script>
+{{ endblock }}

@@ -73,7 +73,6 @@
         {% for result in results %}
             <div class="mb-3">
                 <label>{{ result.question }}</label>
-                <p>Your Answer: <strong>{{ result.selected }}</strong></p>
                 <p>Correct Answer: <strong>{{ result.correct }}</strong></p>
                 <p {% if not result.is_correct %}class="text-danger"{% endif %}>
                     Explanation: {{ result.explanation }}
