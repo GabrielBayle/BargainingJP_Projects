@@ -135,7 +135,10 @@
         </div>
     {% endif %}
 
-    {% if player.session.config.get('treatment') == 'prisoner' or player.session.config.get('treatment') == 'test' and player.round_number == 2 %}
+    {% if player.session.config.get('treatment') == 'prisoner'
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 2
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 3
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 4 %}
         <div class="sectionbis">
             <div class="section-header">Disagreement option Instructions</div>
             <p>In the Disagreement Game, you and the other player must independently decide between two choices. Your payoff depends on both your decision and the other player's decision:</p>
@@ -147,7 +150,10 @@
                     earns {{ C.mutual_betrayal_payoff_PD_p2 }} ECU.</li>
             </ul>
         </div>
-    {% elif player.session.config.get('treatment') == 'staghunt' or player.session.config.get('treatment') == 'test' and player.round_number == 3 %}
+    {% elif player.session.config.get('treatment') == 'staghunt'
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 3
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 4
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 2 %}
         <div class="sectionbis">
             <div class="section-header">Disagreement option Instructions</div>
             <p>In the Disagreement Game, you and the other player must independently decide between two choices. Your payoff depends on both your decision and the other player's decision:</p>
@@ -161,7 +167,10 @@
                     {{ C.both_hare_payoff_p2 }} ECU.</li>
             </ul>
         </div>
-    {% elif player.session.config.get('treatment') == 'ultimatum' or player.session.config.get('treatment') == 'test' and player.round_number == 4 %}
+    {% elif player.session.config.get('treatment') == 'ultimatum'
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 4
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 2
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 3  %}
         <div class="sectionbis">
             <div class="section-header">Disagreement option Instructions</div>
             <p>In the Disagreement Game, the Player 2 proposes a split of the {{ C.PIE_SIZE }} ECU between him and the
