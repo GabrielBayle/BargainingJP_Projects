@@ -1,0 +1,36 @@
+{{ block title }}
+{{ endblock }}
+
+{{ block content }}
+    <h5 class="mb-3">Round {{ player.round_number }}</h5>
+
+    <div class="text-end mb-3">
+        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">Instructions</button>
+    </div>
+
+    <div class="card bg-light text-justify mb-3">
+        <div class="card-body">
+            <p class="card-text">
+                 The target is {{ player.NLE_nombre_cible }}.
+            </p>
+        </div>
+    </div>
+
+    <div class="text-center mb-3">
+        0&nbsp;<input type="range" style="width: 80%" min="0" max="100" value="0" step="0.01" list="input_ticks"
+                      name="NLE_curseur_position">&nbsp;100
+        <datalist id="input_ticks">
+            <option label="0">0</option>
+            <option label="100">100</option>
+        </datalist>
+    </div>
+
+    {{ next_button }}
+
+    {{ include "targetNLE/InstructionsModal.html" }}
+
+{{ endblock }}
+
+{{ block scripts }}
+
+{{ endblock }}

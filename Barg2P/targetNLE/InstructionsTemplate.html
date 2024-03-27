@@ -1,0 +1,52 @@
+<div class="card bg-light text-justify mb-3">
+    <div class="card-body">
+        <p class="card-text">
+            In this part, you must indicate the position of a number on a line. You
+            will do this exercise {{ C.NUM_ROUNDS }} times, with a different number each time.
+            The line goes from 0 to 100, and the cursor is initially positioned at 0.
+            You will have {{ C.DECISION_TIME }}
+            seconds to move the cursor, using the mouse, to get closer to the target value.
+            If you have not responded by the end of the
+            {{ C.DECISION_TIME }} seconds, the program will consider your answer to be 0 and will
+            automatically move on to the next exercise.
+        </p>
+        <p class="text-center">
+            The figure below shows the line that will be displayed, with the cursor initially positioned at 0
+        </p>
+        <div class="text-center">
+            0&nbsp;<input type="range" style="width: 60%;" min="0" max="100" value="0" step="0.1" list="input_ticks">&nbsp;100
+            <datalist id="input_ticks">
+                <option label="0">0</option>
+                <option label="100">100</option>
+            </datalist>
+        </div>
+        <h6 class="mt-3 mb-3">Calculation of gain</h6>
+        <p class="card-text">
+            The gain depends on the distance between the chosen position and the target number. Precisely,
+            if <i>d</i> is the distance between the chosen position and the target number, the gain is equal to
+            {{ subsession.constante|cu }} - {{ C.FACTEUR_DISTANCE }} x d, with
+            d = |target number - chosen position|. Let's illustrate this calculation with three examples.
+        </p>
+        <p class="card-text">
+            <u>Example 1</u>: the target number is 12.2, and you position the cursor at the value 11.5. <br>
+            Your gain is
+            then equal to {{ subsession.constante|cu }} - {{ C.FACTEUR_DISTANCE }} x |12.2 - 11.5| = €2.96.
+        </p>
+        <p class="card-text">
+            <u>Example 2</u>: the target number is 12.2, and you position the cursor at the value 55. <br>
+            Your gain is
+            then equal to {{ subsession.constante|cu }} - {{ C.FACTEUR_DISTANCE }} x |12.2 - 55| = €0.86.
+        </p>
+        <p class="card-text">
+            <u>Example 3</u>: the target number is 12.2, and you position the cursor at the value 90. <br>
+            Your gain is
+            then equal to {{ subsession.constante|cu }} - {{ C.FACTEUR_DISTANCE }} x |12.2 - 90| = -€0.89.
+            In this case, your gain is €0.
+        </p>
+        <p class="card-text">
+            At the end of this part, one of the {{ C.NUM_ROUNDS }} exercises will be randomly selected by the computer
+            program. Your gain in this exercise will determine your gain for this part. The minimum gain is {{ 0|cu }}
+            and the maximum gain is {{ subsession.constante|cu }}.
+        </p>
+    </div>
+</div>
