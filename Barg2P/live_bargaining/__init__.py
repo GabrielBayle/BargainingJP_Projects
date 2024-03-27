@@ -496,7 +496,10 @@ class FeedbackPage(Page):
         return player.round_number == C.NUM_ROUNDS
 
 class EndingPage(Page):
-    pass
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == C.NUM_ROUNDS
 
 
 
