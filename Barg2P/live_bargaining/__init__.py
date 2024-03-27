@@ -90,17 +90,14 @@ def creating_session(subsession: Subsession):
     if subsession.round_number == 1:
         pairs = get_pairs(subsession)
 
-        for group in subsession.get_groups():
-            players = group.get_players()
-
-            group.treatment = selected_treatment
-            group.order = selected_order
-            for player in players:
-                player.treatment = selected_treatment
-                player.order = selected_order
-
     subsession.set_group_matrix(next(pairs))
 
+    for group in subsession.get_groups():
+        players = group.get_players()
+        for player in players:
+            player.treatment = selected_treatment
+            player.treatment_order = selected_order
+            player.round = subsession.round_number
 
 class Group(BaseGroup):
     share_price = models.CurrencyField()
@@ -117,6 +114,9 @@ class Player(BasePlayer):
     participation_fee = models.CurrencyField()
     decision_making_feedback = models.LongStringField()
     experiment_feedback = models.LongStringField()
+    round = models.IntegerField()
+    treatment = models.StringField()
+    treatment_order = models.IntegerField()
 
     # UNDERSTANDING
 
@@ -442,7 +442,6 @@ class InstructionsWaitForAll(WaitPage):
 
 class WaitForAllGroup(WaitPage):
     wait_for_all_groups = True
-
 
 class FinalWaitForAll(WaitPage):
     wait_for_all_groups = True
