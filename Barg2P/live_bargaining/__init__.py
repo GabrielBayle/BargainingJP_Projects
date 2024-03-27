@@ -29,7 +29,7 @@ class C(BaseConstants):
 
     # Parameters
     PLAYERS_PER_GROUP = 2
-    NUM_ROUNDS = 4
+    NUM_ROUNDS = 8
     CONVERSION_RATE = 1
     PIE_SIZE = 1000
     BARGAINING_TIME = 300
@@ -164,6 +164,12 @@ class Player(BasePlayer):
     bargain_start_time = models.StringField()
     bargain_end_time = models.StringField()
     stopped_by_player_id = models.IntegerField(initial=0)
+
+    def swap_roles(self):
+        if self.role == C.PLAYER1_ROLE:
+            self.role = C.PLAYER2_ROLE
+        else:
+            self.role = C.PLAYER1_ROLE
 
     def set_accepted_shares(self, player1_share, player2_share):
         self.accepted_shares = str([player1_share, player2_share])
@@ -430,6 +436,10 @@ class WaitForAllGroup(WaitPage):
     def after_all_players_arrive(subsession: Subsession):
         subsession.group_randomly(fixed_id_in_group=True)
 
+    @staticmethod
+    def before_next_page(player):
+        if player.round_number == 5:
+            player.swap_roles()
 
 class FinalWaitForAll(WaitPage):
     wait_for_all_groups = True
@@ -500,11 +510,9 @@ class PDDecisionPage(Page):
     @staticmethod
     def is_displayed(player: Player):
         group = player.group
-        return ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 2) or
-                (player.session.config.get('treatment') == C.TEST and player.session.config.get(
-                    'order') == 2 and player.round_number == 3) or
-                (player.session.config.get('treatment') == C.TEST and player.session.config.get(
-                    'order') == 3 and player.round_number == 4) or
+        return ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and (player.round_number == 2 or player.round_number == 6)) or
+                (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and (player.round_number == 3 or player.round_number == 7)) or
+                (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and (player.round_number == 4 or player.round_number == 8)) or
             player.session.config.get('treatment') == C.PD) and (player.stopped_by_player_id != 0 or player.timeout_occurred)
 
     @staticmethod
@@ -524,11 +532,9 @@ class PDWaitForGroup(WaitPage):
     @staticmethod
     def is_displayed(player: Player):
         group = player.group
-        return ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 2) or
-                (player.session.config.get('treatment') == C.TEST and player.session.config.get(
-                    'order') == 2 and player.round_number == 3) or
-                (player.session.config.get('treatment') == C.TEST and player.session.config.get(
-                    'order') == 3 and player.round_number == 4) or
+        return ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and (player.round_number == 2 or player.round_number == 6)) or
+                (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and (player.round_number == 3 or player.round_number == 7)) or
+                (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and (player.round_number == 4 or player.round_number == 8)) or
             player.session.config.get('treatment') == C.PD) and (player.stopped_by_player_id != 0 or player.timeout_occurred)
 
     @staticmethod
@@ -580,11 +586,9 @@ class PDResultsPage(Page):
     @staticmethod
     def is_displayed(player: Player):
         group = player.group
-        return ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 2) or
-                (player.session.config.get('treatment') == C.TEST and player.session.config.get(
-                    'order') == 2 and player.round_number == 3) or
-                (player.session.config.get('treatment') == C.TEST and player.session.config.get(
-                    'order') == 3 and player.round_number == 4) or
+        return ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and (player.round_number == 2 or player.round_number == 6)) or
+                (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and (player.round_number == 3 or player.round_number == 7)) or
+                (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and (player.round_number == 4 or player.round_number == 8)) or
             player.session.config.get('treatment') == C.PD) and (player.stopped_by_player_id != 0 or player.timeout_occurred)
 
     @staticmethod
@@ -607,11 +611,9 @@ class SHDecisionPage(Page):
     @staticmethod
     def is_displayed(player: Player):
         group = player.group
-        return ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 3) or
-                (player.session.config.get('treatment') == C.TEST and player.session.config.get(
-                    'order') == 2 and player.round_number == 4) or
-                (player.session.config.get('treatment') == C.TEST and player.session.config.get(
-                    'order') == 3 and player.round_number == 2) or
+        return ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and (player.round_number == 3 or player.round_number == 7)) or
+                (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and (player.round_number == 4 or player.round_number == 8)) or
+                (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and (player.round_number == 2 or player.round_number == 6)) or
             player.session.config.get('treatment') == C.SH) and (player.stopped_by_player_id != 0 or player.timeout_occurred)
 
     @staticmethod
@@ -630,11 +632,9 @@ class SHWaitForGroup(WaitPage):
     @staticmethod
     def is_displayed(player: Player):
         group = player.group
-        return ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 3) or
-                (player.session.config.get('treatment') == C.TEST and player.session.config.get(
-                    'order') == 2 and player.round_number == 4) or
-                (player.session.config.get('treatment') == C.TEST and player.session.config.get(
-                    'order') == 3 and player.round_number == 2) or
+        return ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and (player.round_number == 3 or player.round_number == 7)) or
+                (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and (player.round_number == 4 or player.round_number == 8)) or
+                (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and (player.round_number == 2 or player.round_number == 6)) or
             player.session.config.get('treatment') == C.SH) and (player.stopped_by_player_id != 0 or player.timeout_occurred)
 
     @staticmethod
@@ -686,11 +686,9 @@ class SHResultsPage(Page):
     @staticmethod
     def is_displayed(player: Player):
         group = player.group
-        return ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 3) or
-                (player.session.config.get('treatment') == C.TEST and player.session.config.get(
-                    'order') == 2 and player.round_number == 4) or
-                (player.session.config.get('treatment') == C.TEST and player.session.config.get(
-                    'order') == 3 and player.round_number == 2) or
+        return ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and (player.round_number == 3 or player.round_number == 7)) or
+                (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and (player.round_number == 4 or player.round_number == 8)) or
+                (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and (player.round_number == 2 or player.round_number == 6)) or
             player.session.config.get('treatment') == C.SH) and (player.stopped_by_player_id != 0 or player.timeout_occurred)
 
     @staticmethod
@@ -713,11 +711,9 @@ class UGPropositionPage(Page):
     def is_displayed(player: Player):
         group = player.group
         return (player.role == C.PLAYER2_ROLE and \
-                ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 4) or
-                (player.session.config.get('treatment') == C.TEST and player.session.config.get(
-                    'order') == 2 and player.round_number == 2) or
-                (player.session.config.get('treatment') == C.TEST and player.session.config.get(
-                    'order') == 3 and player.round_number == 3) or
+                ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and (player.round_number == 4 or player.round_number == 8)) or
+                (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and (player.round_number == 2 or player.round_number == 6)) or
+                (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and (player.round_number == 3 or player.round_number == 7)) or
                  player.session.config.get('treatment') == C.UG) and \
                 (player.stopped_by_player_id != 0 or player.timeout_occurred))
 
@@ -734,11 +730,9 @@ class UGPropositionWaitPage(WaitPage):
     def is_displayed(player: Player):
         group = player.group
         return (player.role == C.PLAYER1_ROLE and \
-                ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 4) or
-                (player.session.config.get('treatment') == C.TEST and player.session.config.get(
-                    'order') == 2 and player.round_number == 2) or
-                (player.session.config.get('treatment') == C.TEST and player.session.config.get(
-                    'order') == 3 and player.round_number == 3) or
+                ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and (player.round_number == 4 or player.round_number == 8)) or
+                (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and (player.round_number == 2 or player.round_number == 6)) or
+                (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and (player.round_number == 3 or player.round_number == 7)) or
                  player.session.config.get('treatment') == C.UG) and \
                 (player.stopped_by_player_id != 0 or player.timeout_occurred))
 
@@ -750,11 +744,9 @@ class UGResponsePage(Page):
     def is_displayed(player: Player):
         group = player.group
         return (player.role == C.PLAYER1_ROLE and \
-                ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 4) or
-                (player.session.config.get('treatment') == C.TEST and player.session.config.get(
-                    'order') == 2 and player.round_number == 2) or
-                (player.session.config.get('treatment') == C.TEST and player.session.config.get(
-                    'order') == 3 and player.round_number == 3) or
+                ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and (player.round_number == 4 or player.round_number == 8)) or
+                (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and (player.round_number == 2 or player.round_number == 6)) or
+                (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and (player.round_number == 3 or player.round_number == 7)) or
                  player.session.config.get('treatment') == C.UG) and \
                 (player.stopped_by_player_id != 0 or player.timeout_occurred))
 
@@ -773,11 +765,9 @@ class UGResponseWaitPage(WaitPage):
     def is_displayed(player: Player):
         group = player.group
         return (player.role == C.PLAYER2_ROLE and \
-                ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 4) or
-                (player.session.config.get('treatment') == C.TEST and player.session.config.get(
-                    'order') == 2 and player.round_number == 2) or
-                (player.session.config.get('treatment') == C.TEST and player.session.config.get(
-                    'order') == 3 and player.round_number == 3) or
+                ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and (player.round_number == 4 or player.round_number == 8)) or
+                (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and (player.round_number == 2 or player.round_number == 6)) or
+                (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and (player.round_number == 3 or player.round_number == 7)) or
                  player.session.config.get('treatment') == C.UG) and \
                 (player.stopped_by_player_id != 0 or player.timeout_occurred))
 
@@ -785,11 +775,9 @@ class UGWaitForGroup(WaitPage):
     @staticmethod
     def is_displayed(player: Player):
         group = player.group
-        return ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 4) or
-                (player.session.config.get('treatment') == C.TEST and player.session.config.get(
-                    'order') == 2 and player.round_number == 2) or
-                (player.session.config.get('treatment') == C.TEST and player.session.config.get(
-                    'order') == 3 and player.round_number == 3) or
+        return ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and (player.round_number == 4 or player.round_number == 8)) or
+                (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and (player.round_number == 2 or player.round_number == 6)) or
+                (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and (player.round_number == 3 or player.round_number == 7)) or
                  player.session.config.get('treatment') == C.UG) and \
                 (player.stopped_by_player_id != 0 or player.timeout_occurred)
 
@@ -837,11 +825,9 @@ class UGResultsPage(Page):
     @staticmethod
     def is_displayed(player: Player):
         group = player.group
-        return ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 4) or
-                (player.session.config.get('treatment') == C.TEST and player.session.config.get(
-                    'order') == 2 and player.round_number == 2) or
-                (player.session.config.get('treatment') == C.TEST and player.session.config.get(
-                    'order') == 3 and player.round_number == 3) or
+        return ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and (player.round_number == 4 or player.round_number == 8)) or
+                (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and (player.round_number == 2 or player.round_number == 6)) or
+                (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and (player.round_number == 3 or player.round_number == 7)) or
                  player.session.config.get('treatment') == C.UG) and \
                 (player.stopped_by_player_id != 0 or player.timeout_occurred)
 

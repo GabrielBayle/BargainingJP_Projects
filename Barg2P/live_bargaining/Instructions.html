@@ -38,10 +38,17 @@
 
     <h2>General instructions</h2>
 
-    {% if player.session.config.get('treatment') == 'test' and player.round_number > 1 %}
+    {% if player.session.config.get('treatment') == 'test' and player.round_number > 1 and player.round_number != 5 %}
     <div class="sectionbis">
         <div class="section-header">New rules</div>
         <p>Please read carefully the red sections of the instructions. The gray sections remain similar to the
+            previous round.</p>
+    </div>
+    {% elif player.round_number == 5 %}
+    <div class="sectionbis">
+        <div class="section-header">New rules</div>
+        <p>For the following rounds, you will now change role. If you were Player 1, you will be Player 2 and if you were Player 2, you will be Player 1.
+            Please read carefully the red sections of the instructions. The gray sections remain similar to the
             previous round.</p>
     </div>
     {% endif %}
@@ -118,7 +125,9 @@
 
     <h2>If No Agreement Is Reached</h2>
 
-    {% if player.session.config.get('treatment') == 'bargain' or player.session.config.get('treatment') == 'test' and player.round_number == 1 %}
+    {% if player.session.config.get('treatment') == 'bargain'
+    or player.session.config.get('treatment') == 'test' and player.round_number == 1
+    or player.session.config.get('treatment') == 'test' and player.round_number == 5 %}
         <div class="section">
             <div class="section-header">If No Agreement Is Reached</div>
                 <p>If no agreement is reached before the end of the negotiation time or if a player decides to end the

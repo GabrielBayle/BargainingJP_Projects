@@ -58,7 +58,7 @@
             {% elif player.session.config.get('treatment') == 'ultimatum'
                 or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 4
                 or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 2
-                or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 3  %}
+                or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == .  %}
                 {% if player.stopped_by_player_id != 0 %}
                     <p>Player <span class="highlight">{{ player.stopped_by_player_id }}</span> decided to stop the bargaining. You have to play the disagreement game to determine your payoffs.</p>
                 {% elif player.timeout_occurred %}
