@@ -495,6 +495,9 @@ class FeedbackPage(Page):
     def is_displayed(player: Player):
         return player.round_number == C.NUM_ROUNDS
 
+class EndingPage(Page):
+    pass
+
 
 
 ########################################################################################################################
@@ -859,4 +862,4 @@ page_sequence = [Introduction, Instructions, UnderstandingTestPage, Understandin
                  SHDecisionPage, SHWaitForGroup, SHResultsPage,
                  UGPropositionPage, UGPropositionWaitPage, UGResponsePage, UGResponseWaitPage, UGWaitForGroup, UGResultsPage,
 
-                 FinalWaitForAll, FinalResultsPage, FeedbackPage]
+                 FinalWaitForAll, FinalResultsPage, FeedbackPage, EndingPage]
