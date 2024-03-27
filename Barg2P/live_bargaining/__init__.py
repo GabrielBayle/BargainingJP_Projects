@@ -17,6 +17,8 @@ The number of players have to be multiple of 2. If you want to ensure perfect st
 players.
 """
 
+PLAYERS1, PLAYERS2, pairs, swap = None, None, None, None
+
 class C(BaseConstants):
     NAME_IN_URL = 'live_bargaining'
 
@@ -67,21 +69,37 @@ class C(BaseConstants):
 
 class Subsession(BaseSubsession):
     treatment = models.StringField()
+    order = models.StringField
 
-    def creating_session(self):
-        selected_treatment = self.session.config.get('treatment', 'default_treatment')
-        selected_order = self.session.config.get('order', 'default_order')
+def get_pairs(subsession: Subsession):
+    nb_participants = len(subsession.get_players())
+    PLAYERS1 = [p.id_in_subsession for p in subsession.get_players()[: nb_participants // 2]]
+    PLAYERS2 = [p.id_in_subsession for p in subsession.get_players()[nb_participants // 2:]]
+    PLAYERS2 = deque(PLAYERS2)
 
-        for group in self.get_groups():
+    while True:
+        yield list(zip(PLAYERS1, PLAYERS2))
+        PLAYERS2.rotate(1)
+
+def creating_session(subsession: Subsession):
+    selected_treatment = subsession.session.config.get('treatment', 'default_treatment')
+    selected_order = subsession.session.config.get('order', 'default_order')
+
+    global pairs, swap
+
+    if subsession.round_number == 1:
+        pairs = get_pairs(subsession)
+
+        for group in subsession.get_groups():
             players = group.get_players()
-            players[0].role = C.PLAYER1_ROLE
-            players[1].role = C.PLAYER2_ROLE
 
             group.treatment = selected_treatment
             group.order = selected_order
             for player in players:
                 player.treatment = selected_treatment
                 player.order = selected_order
+
+    subsession.set_group_matrix(next(pairs))
 
 
 class Group(BaseGroup):
@@ -163,12 +181,6 @@ class Player(BasePlayer):
     bargain_start_time = models.StringField()
     bargain_end_time = models.StringField()
     stopped_by_player_id = models.IntegerField(initial=0)
-
-    def swap_roles(self):
-        if self.role == C.PLAYER1_ROLE:
-            self.role = C.PLAYER2_ROLE
-        else:
-            self.role = C.PLAYER1_ROLE
 
     def set_accepted_shares(self, player1_share, player2_share):
         self.accepted_shares = str([player1_share, player2_share])
@@ -431,14 +443,6 @@ class InstructionsWaitForAll(WaitPage):
 class WaitForAllGroup(WaitPage):
     wait_for_all_groups = True
 
-    @staticmethod
-    def after_all_players_arrive(subsession: Subsession):
-        subsession.group_randomly(fixed_id_in_group=True)
-
-    @staticmethod
-    def before_next_page(player):
-        if player.round_number == 5:
-            player.swap_roles()
 
 class FinalWaitForAll(WaitPage):
     wait_for_all_groups = True
