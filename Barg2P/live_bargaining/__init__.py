@@ -9,12 +9,11 @@ from .understanding_questions import QUESTIONS
 doc = """
 Fill the following fields: "order" and "treatment".
 
-If you want to run X rounds of the same treatment enter either "bargain", "prisoner, "staghunt" or "ultimatum". If you
-want to run one session including all games, enter "test".
+Do not change the "treatment" field "TEST".
 
-The orders correspond to: (1: PD, SG, UG), (2: UG, PD, SG), (3: SG, UG, PD)
+The orders correspond to: (1: PD, SH, UG), (2: UG, PD, SH), (3: SH, UG, PD).
 
-The number of players have to be multiple of 2. If you want to ensure perfect stranger matching, you need at least 10
+The number of players have to be multiple of 2. If you want to ensure perfect stranger matching, you need at least 16
 players.
 """
 
