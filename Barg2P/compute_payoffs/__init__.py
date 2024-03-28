@@ -46,6 +46,10 @@ class Player(BasePlayer):
 #     return dict(infos=infos)
 
 def compute_final_payoff(player: Player):
+    paid_round = player.participant.vars['bargain_paid_round']
+    nle_paid_round = player.participant.vars["targetNLE"]["nle_paid_round"]
+    part1 = player.participant.vars["bargain_payoff"]
+    part2 = player.participant.vars["targetNLE"]["payoff"]
 
     player.payoff = player.participant.vars["bargain_payoff"]
     player.payoff += player.participant.vars["targetNLE"]["payoff"]
@@ -56,9 +60,11 @@ def compute_final_payoff(player: Player):
 
     player.participant.payoff = player.payoff
 
-    final_text = f"Your final payoff for the experiment is {player.participant.payoff}."
-
-    player.participant.vars["final_text"] = final_text
+    player.participant.vars["paid_round"] = paid_round
+    player.participant.vars["nle_paid_round"] = nle_paid_round
+    player.participant.vars["part1"] = part1
+    player.participant.vars["part2"] = part2
+    player.participant.vars["participation_fee"] = participation_fee
 
 
 ########################################################################################################################

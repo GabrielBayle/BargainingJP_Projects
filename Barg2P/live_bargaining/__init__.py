@@ -484,7 +484,7 @@ class FinalResultsPage(Page):
 
     def before_next_page(player, timeout_happened):
         player.participant.vars['bargain_payoff'] = player.total_payoff
-
+        player.participant.vars['bargain_paid_round'] = player.paid_round
 
 
 

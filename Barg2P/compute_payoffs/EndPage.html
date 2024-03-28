@@ -29,8 +29,12 @@
     <div class="results-container">
         <div class="results-header">End of the experiment</div>
         <div class="results-info">
-            {{ participant.vars.final_text }} Thank you for your participation.
-            Please stay on your seat until you are called by the experimenter for the payment.
+            <p>Your final payoff for the experiment is <span class="highlight">{{player.participant.payoff}}</span>.</p>
+            <p>For the Part 1, the round {{ participant.vars.paid_round }} is paid and you receive <span class="highlight">{{ participant.vars.part1 }}</span>.</p>
+            <p>For the Part 2, the round {{ participant.vars.nle_paid_round }} is paid and you receive <span class="highlight">{{ participant.vars.part2 }}</span>.</p>
+            <p>Additionally, you receive a participation fee of <span class="highlight">{{ participant.vars.participation_fee }}</span>.</p>
+            <p>Thank you for your participation.
+            Please stay on your seat until you are called by the experimenter for the payment.</p>
         </div>
     </div>
 {{ endblock }}
