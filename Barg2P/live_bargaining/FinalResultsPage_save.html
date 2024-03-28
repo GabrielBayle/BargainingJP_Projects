@@ -44,9 +44,24 @@
 <div class="results-container">
     <div class="results-header">Part 1 Results</div>
     <div class="results-info">
-        <p>You finished the Part 1. You will be informed about the randomly selected period and the
-            corresponding payoff at the end of the experiment.</p>
-        <p>You will now play the Part 2. Click on the next button to read the instructions.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Round</th>
+                    <th>Payoff</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for detail in round_details %}
+                <tr {% if detail.is_paid_round %}class="paid-round"{% endif %}>
+                    <td>{{ detail.round_number }}</td>
+                    <td>{{ detail.payoff }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p>The payment will be based on the results of Round <span class="highlight">{{ paid_round }}</span>.</p>
+        <p>Your payment for this part is: <span class="highlight">{{ main_task_payoff }} ECU</span> (converted to <span class="highlight">{{ converted_payoff }} JPY</span>).</p>
     </div>
     {{ next_button }}
 </div>
