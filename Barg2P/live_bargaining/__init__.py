@@ -112,8 +112,6 @@ class Player(BasePlayer):
     converted_payoff = models.IntegerField()
     total_payoff = models.CurrencyField()
     participation_fee = models.CurrencyField()
-    decision_making_feedback = models.LongStringField()
-    experiment_feedback = models.LongStringField()
     round = models.IntegerField()
     treatment = models.StringField()
     treatment_order = models.IntegerField()
@@ -485,20 +483,9 @@ class FinalResultsPage(Page):
             'total_payoff': player.total_payoff
         }
 
+    def before_next_page(player, timeout_happened):
+        player.participant.vars['bargain_payoff'] = player.total_payoff
 
-class FeedbackPage(Page):
-    form_model = 'player'
-    form_fields = ['decision_making_feedback', 'experiment_feedback']
-
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.round_number == C.NUM_ROUNDS
-
-class EndingPage(Page):
-
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.round_number == C.NUM_ROUNDS
 
 
 
@@ -864,4 +851,4 @@ page_sequence = [Introduction, Instructions, UnderstandingTestPage, Understandin
                  SHDecisionPage, SHWaitForGroup, SHResultsPage,
                  UGPropositionPage, UGPropositionWaitPage, UGResponsePage, UGResponseWaitPage, UGWaitForGroup, UGResultsPage,
 
-                 FinalWaitForAll, FinalResultsPage, FeedbackPage, EndingPage]
+                 FinalWaitForAll, FinalResultsPage]

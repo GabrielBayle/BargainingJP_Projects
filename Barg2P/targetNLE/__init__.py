@@ -20,7 +20,7 @@ class C(BaseConstants):
             [12.2, 39.87, 68.02, 77.42, 47.95, 16.33, 26.76, 84.58, 94.21, 5.87, 64.9, 45.49, 74.67, 37.6, 7.76]))
 
     # pour le gain
-    CONSTANTE = 3  # gain si cible exacte
+    CONSTANTE = 300  # gain si cible exacte
     FACTEUR_DISTANCE = 0.05  # donc gain = CONSTANTE - 0.05 x distance où distance = | cible - valeur sélectionnée |
 
 
@@ -103,6 +103,9 @@ class Results(Page):
     @staticmethod
     def js_vars(player: Player):
         return dict(fill_auto=player.session.config.get("fill_auto", False))
+
+    def before_next_page(player, timeout_happened):
+        player.participant.vars['nle_payoff'] = player.payoff
 
 
 page_sequence = [Instructions, Decision,

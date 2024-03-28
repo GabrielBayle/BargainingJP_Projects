@@ -5,7 +5,7 @@ SESSION_CONFIGS = [
     {
         'name': 'bargain',
         'display_name': "Bargain",
-        'app_sequence':['live_bargaining','targetNLE'],
+        'app_sequence':['live_bargaining','targetNLE','compute_payoffs'],
         'num_demo_participants':2,
         'treatment':'test',
         'order':1,
