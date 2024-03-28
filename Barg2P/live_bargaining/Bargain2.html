@@ -93,6 +93,9 @@
 
 <div class="top-block">
     <h1>Experiment: Bargaining (Round {{ subsession.round_number }} on {{ C.NUM_ROUNDS }})</h1>
+    <div class="text-end mb-3">
+        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">Instructions</button>
+    </div>
 </div>
 
 <div class="main-content">
@@ -275,6 +278,8 @@
         </div>
     </div>
 </div>
+
+{{ include "live_bargaining/InstructionsModal.html" }}
 
 <script>
     let myOfferPlayer1 = document.getElementById('my_offer_player1');
