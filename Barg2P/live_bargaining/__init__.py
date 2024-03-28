@@ -464,8 +464,7 @@ class FinalResultsPage(Page):
 
         player.converted_payoff = int(player.main_task_payoff * C.CONVERSION_RATE)
 
-        participation_fee = player.session.config.get('participation_fee', 0)
-        player.total_payoff = player.converted_payoff + participation_fee
+        player.total_payoff = player.converted_payoff
 
         round_details = []
         for round_number, p in enumerate(player.in_all_rounds(), start=1):
@@ -485,6 +484,8 @@ class FinalResultsPage(Page):
 
     def before_next_page(player, timeout_happened):
         player.participant.vars['bargain_payoff'] = player.total_payoff
+
+
 
 
 

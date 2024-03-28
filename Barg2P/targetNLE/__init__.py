@@ -20,12 +20,14 @@ class C(BaseConstants):
             [12.2, 39.87, 68.02, 77.42, 47.95, 16.33, 26.76, 84.58, 94.21, 5.87, 64.9, 45.49, 74.67, 37.6, 7.76]))
 
     # pour le gain
-    CONSTANTE = 300  # gain si cible exacte
+    CONSTANTE = 3  # gain si cible exacte
+    CONVERSION = 100
     FACTEUR_DISTANCE = 0.05  # donc gain = CONSTANTE - 0.05 x distance où distance = | cible - valeur sélectionnée |
 
 
 class Subsession(BaseSubsession):
     constante = models.FloatField()
+    conversion = models.FloatField()
 
 
 class Group(BaseGroup):
@@ -42,6 +44,7 @@ class Player(BasePlayer):
 
 def creating_session(subsession: Subsession):
     subsession.constante = subsession.session.config.get("targetNLE_constante", C.CONSTANTE)
+    subsession.conversion = C.CONVERSION
 
     for p in subsession.get_players():
         p.NLE_nombre_cible = C.CIBLES[subsession.round_number]
@@ -54,7 +57,8 @@ def creating_session(subsession: Subsession):
 
 def compute_payoff(player: Player):
     player.payoff = cu(
-        player.subsession.constante - C.FACTEUR_DISTANCE * abs(player.NLE_curseur_position - player.NLE_nombre_cible))
+        (player.subsession.constante - C.FACTEUR_DISTANCE * abs(player.NLE_curseur_position - player.NLE_nombre_cible))
+        * player.subsession.conversion)
 
     if player.payoff < 0:
         player.payoff = cu(0)
@@ -66,7 +70,7 @@ def compute_payoff(player: Player):
                     f"The target was {paid_round.NLE_nombre_cible} and you selected {paid_round.NLE_curseur_position}." \
                     f"Your payoff for this part is {paid_round.payoff}."
 
-        player.participant.vars["targetNLE"] = dict(txt_final=txt_final, payoff=paid_round.payoff)
+        player.participant.vars["targetNLE"] = dict(final_text_nle=txt_final, payoff=paid_round.payoff)
 
 
 # PAGES ================================================================================================================

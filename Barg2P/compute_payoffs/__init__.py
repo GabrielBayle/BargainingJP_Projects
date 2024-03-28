@@ -46,9 +46,13 @@ class Player(BasePlayer):
 #     return dict(infos=infos)
 
 def compute_final_payoff(player: Player):
+
     player.payoff = player.participant.vars["bargain_payoff"]
     player.payoff += player.participant.vars["targetNLE"]["payoff"]
     # player.payoff += player.participant.vars["svo"]["payoff"]
+
+    participation_fee = player.session.config.get('participation_fee', 0)
+    player.payoff += participation_fee
 
     player.participant.payoff = player.payoff
 
@@ -77,7 +81,9 @@ class FeedbackPage(Page):
         return player.round_number == C.NUM_ROUNDS
 
 class EndPage(Page):
-    pass
+
+    def vars_for_template(player):
+        participation_fee = player.session.config.get('participation_fee', 0)
 
 
 
