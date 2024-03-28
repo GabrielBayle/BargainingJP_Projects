@@ -487,7 +487,42 @@ class FinalResultsPage(Page):
         player.participant.vars['bargain_paid_round'] = player.paid_round
 
 
+class FinalResultsPage_save(Page):
 
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == C.NUM_ROUNDS
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        player.paid_round = random.randint(1, C.NUM_ROUNDS)
+
+        selected_round_player = player.in_round(player.paid_round)
+        player.main_task_payoff = int(selected_round_player.payoff)
+
+        player.converted_payoff = int(player.main_task_payoff * C.CONVERSION_RATE)
+
+        player.total_payoff = player.converted_payoff
+
+        round_details = []
+        for round_number, p in enumerate(player.in_all_rounds(), start=1):
+            round_details.append({
+                'round_number': round_number,
+                'payoff': p.payoff,
+                'is_paid_round': (round_number == player.paid_round)
+            })
+
+        return {
+            'round_details': round_details,
+            'paid_round': player.paid_round,
+            'main_task_payoff': player.main_task_payoff,
+            'converted_payoff': player.converted_payoff,
+            'total_payoff': player.total_payoff
+        }
+
+    def before_next_page(player, timeout_happened):
+        player.participant.vars['bargain_payoff'] = player.total_payoff
+        player.participant.vars['bargain_paid_round'] = player.paid_round
 
 
 ########################################################################################################################
@@ -852,4 +887,7 @@ page_sequence = [Introduction, Instructions, UnderstandingTestPage, Understandin
                  SHDecisionPage, SHWaitForGroup, SHResultsPage,
                  UGPropositionPage, UGPropositionWaitPage, UGResponsePage, UGResponseWaitPage, UGWaitForGroup, UGResultsPage,
 
-                 FinalWaitForAll, FinalResultsPage]
+                 FinalWaitForAll,
+                 # FinalResultsPage,
+                 FinalResultsPage_save
+                 ]

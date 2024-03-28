@@ -70,7 +70,7 @@ def compute_payoff(player: Player):
                     f"The target was {paid_round.NLE_nombre_cible} and you selected {paid_round.NLE_curseur_position}." \
                     f"Your payoff for this part is {paid_round.payoff}."
 
-        player.participant.vars["targetNLE"] = dict(final_text_nle=txt_final, payoff=paid_round.payoff, nle_paid_round=player.NLE_paid_decision)
+        player.participant.vars["targetNLE"] = dict(txt_final=txt_final, payoff=paid_round.payoff, nle_paid_round=player.NLE_paid_decision)
 
 
 
@@ -109,7 +109,17 @@ class Results(Page):
     def js_vars(player: Player):
         return dict(fill_auto=player.session.config.get("fill_auto", False))
 
+class FinalResultsPage(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == C.NUM_ROUNDS
+
+    @staticmethod
+    def js_vars(player: Player):
+        return dict(fill_auto=player.session.config.get("fill_auto", False))
+
 
 page_sequence = [Instructions, Decision,
-                 # Results
+                 Results,
+                 # FinalResultsPage
                  ]
