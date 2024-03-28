@@ -22,28 +22,9 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    paid_round = models.IntegerField()
-    main_task_payoff = models.IntegerField()
-    converted_payoff = models.IntegerField()
-    total_payoff = models.CurrencyField()
-    participation_fee = models.CurrencyField()
     decision_making_feedback = models.LongStringField()
     experiment_feedback = models.LongStringField()
 
-# def vars_for_admin_report(subsession: Subsession):
-#     infos = list()
-#     for p in subsession.get_players():
-#         infos.append(
-#             dict(
-#                 label=p.participant.label,
-#                 part_1=cu(0) if not "live_bargaining" in p.participant.vars.keys() else
-#                 p.participant.vars["live_bargaining"]["payoff"],
-#                 part_2=cu(0) if not "targetNLE" in p.participant.vars.keys() else
-#                 p.participant.vars["targetNLE"]["payoff"],
-#                 payoff=p.participant.payoff
-#             )
-#         )
-#     return dict(infos=infos)
 
 def compute_final_payoff(player: Player):
     paid_round = player.participant.vars['bargain_paid_round']
