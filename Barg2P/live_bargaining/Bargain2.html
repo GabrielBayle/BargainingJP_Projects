@@ -106,7 +106,7 @@
             You are randomly matched with one participant in the room. You have to decide together how to split <span class="highlight">{{ C.PIE_SIZE }}</span> ECU. If you don't find an agreement before the end of the timer, which is visible at the top of the page, the disagreement option below will be implement.
         </p>
         <p>
-            You are the <span class="highlight">{{ player.type }}</span>. The other participant is the {{ other_type }}.
+            You are the <span class="highlight">{{ player.type }}</span>. The other participant is the {{ if player.type == "Player 1"  }} Player 2. {{ else }} Player 1. {{ endif }}
         </p>
         <button id="stop-bargaining-btn" onclick="stopBargaining()">Stop Bargaining</button>
     </div>
