@@ -106,7 +106,7 @@
             You are randomly matched with one participant in the room. You have to decide together how to split <span class="highlight">{{ C.PIE_SIZE }}</span> ECU. If you don't find an agreement before the end of the timer, which is visible at the top of the page, the disagreement option below will be implement.
         </p>
         <p>
-            You are the <span class="highlight">{{ player.role }}</span>. The other participant is the {{ other_role }}.
+            You are the <span class="highlight">{{ player.type }}</span>. The other participant is the {{ other_type }}.
         </p>
         <button id="stop-bargaining-btn" onclick="stopBargaining()">Stop Bargaining</button>
     </div>
@@ -224,12 +224,12 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td class="col-player" {% if player.role == "Player 1" %}style="color: #007bff;"{% endif %}>Player 1</td>
+                    <td class="col-player" {% if player.type == "Player 1" %}style="color: #007bff;"{% endif %}>Player 1</td>
                     <td><input type="number" id="my_offer_player1" class="input-field"></td>
                     <td id="my-proposal1">(no offer)</td>
                 </tr>
                 <tr>
-                    <td class="col-player" {% if player.role == "Player 2" %}style="color: #007bff;"{% endif %}>Player 2</td>
+                    <td class="col-player" {% if player.type == "Player 2" %}style="color: #007bff;"{% endif %}>Player 2</td>
                     <td><input type="number" id="my_offer_player2" class="input-field"></td>
                     <td id="my-proposal2">(no offer)</td>
                 </tr>
@@ -250,16 +250,16 @@
                 <table class="table" style="border-color:#D0D0D0; border-style:solid; border-width:1px; border-spacing:0;">
                     <thead>
                     <tr>
-                        <th colspan="2">{{ other_role }}'s offer</th>
+                        <th colspan="2">{{ other_type }}'s offer</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td {% if player.role == "Player 1" %}style="color: #007bff;"{% endif %}>Player 1</td>
+                        <td {% if player.type == "Player 1" %}style="color: #007bff;"{% endif %}>Player 1</td>
                         <td id="other-proposal1">(no offer)</td>
                     </tr>
                     <tr>
-                        <td {% if player.role == "Player 2" %}style="color: #007bff;"{% endif %}>Player 2</td>
+                        <td {% if player.type == "Player 2" %}style="color: #007bff;"{% endif %}>Player 2</td>
                         <td id="other-proposal2">(no offer)</td>
                     </tr>
                     <tr>
@@ -274,7 +274,7 @@
 
         <div class="chat section">
             <h4>Chat</h4>
-            {{ chat nickname=player.role }}
+            {{ chat nickname=player.type }}
         </div>
     </div>
 </div>

@@ -17,7 +17,7 @@ The number of players have to be multiple of 2. If you want to ensure perfect st
 players.
 """
 
-PLAYERS1, PLAYERS2, pairs, swap = None, None, None, None
+PLAYERS1, PLAYERS2, pairs = None, None, None
 
 class C(BaseConstants):
     NAME_IN_URL = 'live_bargaining'
@@ -25,8 +25,8 @@ class C(BaseConstants):
     #### BARGAINING
 
     # Players roles
-    PLAYER1_ROLE = 'Player 1'
-    PLAYER2_ROLE = 'Player 2'
+    PLAYER1_ROLE = 'A'
+    PLAYER2_ROLE = 'B'
 
     # Parameters
     PLAYERS_PER_GROUP = 2
@@ -85,10 +85,16 @@ def creating_session(subsession: Subsession):
     selected_treatment = subsession.session.config.get('treatment', 'default_treatment')
     selected_order = subsession.session.config.get('order', 'default_order')
 
-    global pairs, swap
+    global pairs
 
     if subsession.round_number == 1:
         pairs = get_pairs(subsession)
+
+    for player in subsession.get_players():
+        if player.role == C.PLAYER1_ROLE:
+            player.type = "Player 1"
+        else:
+            player.type = "Player 2"
 
     subsession.set_group_matrix(next(pairs))
 
@@ -98,6 +104,16 @@ def creating_session(subsession: Subsession):
             player.treatment = selected_treatment
             player.treatment_order = selected_order
             player.round = subsession.round_number
+
+    if subsession.round_number > 4:
+        for player in subsession.get_players():
+            if player.id_in_group == 1:
+                player.id_in_group = 2
+                player.type = "Player 2"
+            else:
+                player.id_in_group = 1
+                player.type = "Player 1"
+
 
 class Group(BaseGroup):
     share_price = models.CurrencyField()
@@ -115,6 +131,7 @@ class Player(BasePlayer):
     round = models.IntegerField()
     treatment = models.StringField()
     treatment_order = models.IntegerField()
+    type = models.StringField()
 
     # UNDERSTANDING
 
@@ -214,6 +231,7 @@ class Player(BasePlayer):
 def calculate_faults(player):
     player.understanding_faults = sum([getattr(player,f'understanding_faults{i}') for i in range(1,8)])
 
+
 ########################################################################################################################
 ########################################################################################################################
 ########################################################################################################################
@@ -297,7 +315,7 @@ class Bargain2(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
-        return dict(other_role=player.get_others_in_group()[0].role)
+        return dict(other_type=player.get_others_in_group()[0].type)
 
     @staticmethod
     def js_vars(player: Player):
@@ -741,7 +759,7 @@ class UGPropositionPage(Page):
     @staticmethod
     def is_displayed(player: Player):
         group = player.group
-        return (player.role == C.PLAYER2_ROLE and \
+        return (player.type == "Player 2" and \
                 ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and (player.round_number == 4 or player.round_number == 8)) or
                 (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and (player.round_number == 2 or player.round_number == 6)) or
                 (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and (player.round_number == 3 or player.round_number == 7)) or
@@ -760,7 +778,7 @@ class UGPropositionWaitPage(WaitPage):
     @staticmethod
     def is_displayed(player: Player):
         group = player.group
-        return (player.role == C.PLAYER1_ROLE and \
+        return (player.type == "Player 1" and \
                 ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and (player.round_number == 4 or player.round_number == 8)) or
                 (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and (player.round_number == 2 or player.round_number == 6)) or
                 (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and (player.round_number == 3 or player.round_number == 7)) or
@@ -774,7 +792,7 @@ class UGResponsePage(Page):
     @staticmethod
     def is_displayed(player: Player):
         group = player.group
-        return (player.role == C.PLAYER1_ROLE and \
+        return (player.type == "Player 1" and \
                 ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and (player.round_number == 4 or player.round_number == 8)) or
                 (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and (player.round_number == 2 or player.round_number == 6)) or
                 (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and (player.round_number == 3 or player.round_number == 7)) or
@@ -784,7 +802,7 @@ class UGResponsePage(Page):
     @staticmethod
     def vars_for_template(player: Player):
         group = player.group
-        proposer = group.get_player_by_role(C.PLAYER2_ROLE)
+        proposer = group.get_player_by_id(2)
         return {
             'proposed_amount': proposer.UG_proposer_decision,
             'reject_payoff_p1': C.reject_payoff_p1,
@@ -795,7 +813,7 @@ class UGResponseWaitPage(WaitPage):
     @staticmethod
     def is_displayed(player: Player):
         group = player.group
-        return (player.role == C.PLAYER2_ROLE and \
+        return (player.type == "Player 2" and \
                 ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and (player.round_number == 4 or player.round_number == 8)) or
                 (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and (player.round_number == 2 or player.round_number == 6)) or
                 (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and (player.round_number == 3 or player.round_number == 7)) or
