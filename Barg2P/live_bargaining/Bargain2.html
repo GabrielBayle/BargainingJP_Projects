@@ -120,7 +120,10 @@
         {% elif player.session.config.get('treatment') == 'prisoner'
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 2
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 3
-        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 4 %}
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 4
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 6
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 7
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 8 %}
             <p>
                 If no agreement is found, you will have to play the Disagreement Game to determine your payoffs. The possible payoffs are displayed in the following table:
             </p>
@@ -152,7 +155,10 @@
         {% elif player.session.config.get('treatment') == 'staghunt'
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 3
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 4
-        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 2 %}
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 2
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 7
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 8
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 6 %}
             <p>
                 If no agreement is found, you will have to play the Disagreement Game to determine your payoffs. The possible payoffs are displayed in the following table:
             </p>
@@ -192,7 +198,10 @@
         {% elif player.session.config.get('treatment') == 'ultimatum'
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 4
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 2
-        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 3  %}
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 3
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 8
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 6
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 7 %}
             <p>
                 If no agreement is found, you will have to play the Disagreement Game to determine your payoffs.
             </p>
