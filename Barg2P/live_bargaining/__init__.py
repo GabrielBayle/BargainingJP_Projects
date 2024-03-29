@@ -132,6 +132,8 @@ class Player(BasePlayer):
     treatment = models.StringField()
     treatment_order = models.IntegerField()
     type = models.StringField()
+    instructions_start_time = models.StringField()
+    instructions_end_time = models.StringField()
 
     # UNDERSTANDING
 
@@ -242,6 +244,10 @@ class Introduction(Page):
         return player.round_number == 1
 
 class Instructions(Page):
+    def get(self):
+        self.player.instructions_start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        return super().get()
+
     @staticmethod
     def is_displayed(player: Player):
         return (player.round_number == 1 or player.session.config.get('treatment') == C.TEST)
@@ -252,6 +258,8 @@ class Instructions(Page):
 
     def before_next_page(player, timeout_happened):
         player.has_read_instructions = True
+
+        player.instructions_end_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 class UnderstandingTestPage(Page):
