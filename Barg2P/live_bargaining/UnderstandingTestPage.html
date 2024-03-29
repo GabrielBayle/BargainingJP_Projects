@@ -52,7 +52,7 @@
 </style>
 
 <div class="container_under">
-    <h3>Understanding Test</h3>
+    <h3>Understanding Test <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">Instructions</button></h3>
     <form method="post">
         {% for field in form %}
             {{ if 'fault' not in field.name }}
@@ -68,6 +68,8 @@
         <button type='button' onclick="validate()" class="btn btn-primary">Submit Answers</button>
     </form>
 </div>
+
+{{ include "live_bargaining/InstructionsModal.html" }}
 
 {% endblock %}
 
