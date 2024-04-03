@@ -9,7 +9,7 @@ Social Value Orientation (Murphy et al)
 
 
 def read_csv():
-    with open('svo/SVO.csv', encoding='utf-8-sig') as f:
+    with open('gb_svo/SVO.csv', encoding='utf-8-sig') as f:
         return [
             dict(
                 round_number=int(row['round_number']),
@@ -31,11 +31,11 @@ def group_rows():
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'svo'
+    NAME_IN_URL = 'gb_svo'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 15  # change to 15 for the full task
-    CHART_TEMPLATE = 'svo/chart.html'
-    INSTRUCTIONS_TEMPLATE = 'svo/instructions.html'
+    CHART_TEMPLATE = 'gb_svo/chart.html'
+    INSTRUCTIONS_TEMPLATE = 'gb_svo/instructions.html'
     ROWS = group_rows()
 
 

@@ -8,7 +8,7 @@ doc = """
 PLAYERS1, PLAYERS2, pairs, swap = None, None, None, None
 
 class C(BaseConstants):
-    NAME_IN_URL = 'compute_payoffs'
+    NAME_IN_URL = 'gb_compute_payoffs'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
 
@@ -28,16 +28,16 @@ class Player(BasePlayer):
 
 def compute_final_payoff(player: Player):
     paid_round = player.participant.vars['bargain_paid_round']
-    nle_paid_round = player.participant.vars["targetNLE"]["nle_paid_round"]
-    svo_paid_table = player.participant.vars["svo"]["svo_paid_table"]
-    svo_decider = player.participant.vars["svo"]["svo_decider"]
+    nle_paid_round = player.participant.vars["gb_targetNLE"]["nle_paid_round"]
+    svo_paid_table = player.participant.vars["gb_svo"]["svo_paid_table"]
+    svo_decider = player.participant.vars["gb_svo"]["svo_decider"]
     part1 = player.participant.vars["bargain_payoff"]
-    part2 = player.participant.vars["targetNLE"]["payoff"]
-    part3 = player.participant.vars["svo"]["payoff"]
+    part2 = player.participant.vars["gb_targetNLE"]["payoff"]
+    part3 = player.participant.vars["gb_svo"]["payoff"]
 
     player.payoff = player.participant.vars["bargain_payoff"]
-    player.payoff += player.participant.vars["targetNLE"]["payoff"]
-    player.payoff += player.participant.vars["svo"]["payoff"]
+    player.payoff += player.participant.vars["gb_targetNLE"]["payoff"]
+    player.payoff += player.participant.vars["gb_svo"]["payoff"]
 
     participation_fee = player.session.config.get('participation_fee', 0)
     player.payoff += participation_fee

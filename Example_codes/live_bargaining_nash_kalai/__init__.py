@@ -40,7 +40,7 @@ Continuous time bargaining game over P and Q b/w Seller and Buyer
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'live_bargaining'
+    NAME_IN_URL = 'gb_live_bargaining'
     PLAYERS_PER_GROUP = 2
     NUM_ROUNDS = 28
     SELLER_ROLE = 'Seller'

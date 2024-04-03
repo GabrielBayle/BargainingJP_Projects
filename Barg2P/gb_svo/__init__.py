@@ -9,7 +9,7 @@ SVO - 6 matrices
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'svo'
+    NAME_IN_URL = 'gb_svo'
     PLAYERS_PER_GROUP = 2
     NUM_ROUNDS = 1
 
@@ -116,7 +116,7 @@ def compute_payoff(player: Player):
                       f"{cu(player.group.selected_player_decision_self * C.conversion_rate)} .")
         player.decider = "the other's decision"
 
-    player.participant.vars["svo"] = dict(txt_final=txt_final, payoff=player.payoff,
+    player.participant.vars["gb_svo"] = dict(txt_final=txt_final, payoff=player.payoff,
                                           svo_paid_table=player.group.selected_choice,
                                           svo_decider=player.decider)
 

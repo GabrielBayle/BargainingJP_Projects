@@ -70,7 +70,7 @@ def compute_payoff(player: Player):
                     f"The target was {paid_round.NLE_nombre_cible} and you selected {paid_round.NLE_curseur_position}." \
                     f"Your payoff for this part is {paid_round.payoff}."
 
-        player.participant.vars["targetNLE"] = dict(txt_final=txt_final, payoff=paid_round.payoff, nle_paid_round=player.NLE_paid_decision)
+        player.participant.vars["gb_targetNLE"] = dict(txt_final=txt_final, payoff=paid_round.payoff, nle_paid_round=player.NLE_paid_decision)
 
 
 

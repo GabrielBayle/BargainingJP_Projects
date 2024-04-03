@@ -5,7 +5,7 @@ SESSION_CONFIGS = [
     {
         'name': 'bargain',
         'display_name': "Bargain",
-        'app_sequence':['live_bargaining'],
+        'app_sequence':['gb_live_bargaining'],
         'num_demo_participants':2
     },
 
