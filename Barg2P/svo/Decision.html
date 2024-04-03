@@ -1,0 +1,118 @@
+{{ block styles }}
+<style>
+    .matrice table, .matrice tr, .matrice td {
+        border: 2px solid black;
+        border-collapse: collapse;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .matrice td {
+        cursor: pointer;
+    }
+</style>
+{{ endblock }}
+{{ block title }}
+
+{{ endblock }}
+
+
+{{ block content }}
+
+<div class="card bg-light text-justify mb-3">
+    <div class="card-body">
+        <h2 class="mb-3">Part 3</h2>
+        <p>
+            You are part of a pair randomly formed by the computer program. You cannot identify the other player in your pair, and they cannot identify you.
+        </p>
+        <p>
+            For each of the {{ C.matrices|length }} tables below, you must choose a distribution of money between you and the other player in your pair. The amounts are expressed in experimental currency, the ECU. The exchange rate of ECU to Euros is 1 ECU = {{ C.conversion_rate|c }}.
+        </p>
+        <p>
+            In each table, the top row indicates the amount for you, and the bottom row the amount for the other player in your pair. To choose a distribution, you must click on the column corresponding to your choice. You must have chosen a distribution in each table to be able to validate the page.
+        </p>
+        <p>
+            To determine the earnings of each of the two players in the pair, the computer program will first randomly select one of the {{ C.matrices|length }} tables. Then, it will randomly determine whether it's your distribution or that of the other player that will apply to your pair. If it's your distribution, then for the selected table your distribution will determine the earnings of each: your earnings will be equal to the amount on the "For you" line and the other player's earnings will be equal to the amount on the "For the other player" line. If it's the other player's distribution, then their distribution for the selected table will determine the earnings of each: your earnings will be equal to the amount on the "For the other player" line, and their earnings will be equal to the amount on the "For you" line.
+        </p>
+    </div>
+</div>
+
+{{ for matrice in C.matrices }}
+<div class="card mb-3">
+    <div class="card-header">
+        <h5 class="mb-3">Table {{ forloop.counter }}</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered mb-3 matrice" id="matrice_{{forloop.counter0}}">
+            <tr>
+                <th>Pour vous</th>
+                {{ for partage in matrice }}
+                <td onclick="select_cell(this);">{{ partage.0 }}</td>
+                {{ endfor }}
+            </tr>
+            <tr>
+                <th>Pour l'autre</th>
+                {{ for partage in matrice }}
+                <td onclick="select_cell(this)">{{ partage.1 }}</td>
+                {{ endfor }}
+            </tr>
+        </table>
+        <input type="hidden" name="svo_choice_{{forloop.counter}}_self" value="">
+        <input type="hidden" name="svo_choice_{{forloop.counter}}_other" value="">
+    </div>
+</div>
+{{ endfor }}
+
+
+{{ next_button }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelector(".otree-btn-next").disabled = true;
+        document.querySelectorAll("table.matrice").forEach((table, table_index) => {
+            Array.from(table.rows).forEach((row, row_index) => {
+                Array.from(row.cells).forEach((cell, cell_index) => {
+                    cell.id = `m_${table_index}_${row_index}_${cell_index - 1}`;
+                });
+            });
+        });
+    });
+
+
+    function select_cell(cell) {
+        let [m, matrice, ligne, cellule] = cell.id.split("_");
+        Array.from(document.querySelectorAll(`#matrice_${matrice} td`)).forEach((cell) => {
+            cell.classList.remove("bg-info");
+        });
+        document.querySelector(`#m_${matrice}_0_${cellule}`).classList.add("bg-info");
+        document.querySelector(`#m_${matrice}_1_${cellule}`).classList.add("bg-info");
+        let value_self = js_vars.matrices[matrice][cellule][0];
+        let value_other = js_vars.matrices[matrice][cellule][1];
+        document.querySelector(`input[name=svo_choice_${parseInt(matrice) + 1}_self]`).value = value_self;
+        document.querySelector(`input[name=svo_choice_${parseInt(matrice) + 1}_other]`).value = value_other;
+
+        for (let i = 1; i < js_vars.matrices.length + 1; i++) {
+            if (document.querySelector(`input[name=svo_choice_${i}_self]`).value === "")
+                return false;
+        }
+        document.querySelector(".otree-btn-next").disabled = false;
+    }
+
+    function fill_auto() {
+        document.querySelectorAll("table.matrice").forEach(table => {
+            // Sélectionne toutes les cellules <td> de la première ligne, en excluant les cellules <th>
+            let table_cells = Array.from(table.rows[0].cells).slice(1); // Utilise slice(1) pour exclure le premier <th>
+            let random_selection = Math.floor(Math.random() * table_cells.length);
+            select_cell(table_cells[random_selection]);
+        });
+        setTimeout(function () {
+            document.querySelector("form").submit();
+        }, 2000);
+    }
+
+</script>
+{% endblock %}
+

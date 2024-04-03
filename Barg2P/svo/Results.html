@@ -1,0 +1,16 @@
+{{ block title }}
+Résultat
+{{ endblock }}
+
+{{ block content }}
+<div class="card bg-light text-justify mb-3">
+    <div class="card-body">
+        <p>
+          {{ participant.vars.svo.txt_final }}
+        </p>
+    </div>
+</div>
+
+{{ next_button }}
+
+{{ endblock }}
