@@ -1,0 +1,408 @@
+{{ block content }}
+
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: Arial, sans-serif;
+    }
+
+    .top-block {
+        height: 12.5%;
+        background-color: #f0f0f0;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .main-content {
+        display: flex;
+        height: 87.5%;
+    }
+
+    .left-block, .right-block {
+        padding: 10px;
+        background-color: #e0e0e0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .left-block {
+        flex: 2;
+    }
+
+    .right-block {
+        flex: 3;
+    }
+
+    .section {
+        background-color: #f9f9f9;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .section h4 {
+        margin-top: 0;
+    }
+
+    .input-field {
+        width: 100%;
+        padding: 5px;
+        margin: 5px 0;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+
+    .col-player {
+        width: 25%;
+    }
+
+    .col-input {
+        width: 35%;
+    }
+
+    .col-current-offer {
+        width: 40%;
+    }
+
+    .highlight {
+        color: #007bff;
+        font-weight: bold;
+    }
+
+    button {
+        background-color: #6495ED;
+        color: black;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 4px;
+        margin-top: 10px;
+    }
+
+    #stop-bargaining-btn {
+        background-color: #FF5733;
+    }
+
+    #btn-accept {
+        background-color: #4CBB17;
+    }
+</style>
+
+<div class="top-block">
+    <h1>実験: 交渉 ({{ subsession.round_number }} ラウンド目 / 全 {{ C.NUM_ROUNDS }} ラウンド) <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">指示</button></h1>
+</div>
+
+<div class="main-content">
+    <div class="left-block">
+    <div class="section">
+        <h4>指示</h4>
+        <p>
+            あなたは部屋の中の参加者と無作為にマッチングされます。共に <span class="highlight">{{ C.PIE_SIZE }}</span> ECUをどのように分割するかを決定しなければなりません。ページの上部に表示されるタイマーの終了前に合意に達しない場合、以下の不一致オプションが実装されます。
+        </p>
+        <p>
+            あなたは<span class="highlight">{{ player.type }}</span>です。他の参加者は{{ if player.type == "Player 1"  }}プレイヤー2{{ else }}プレイヤー1{{ endif }}です。
+        </p>
+        <button id="stop-bargaining-btn" onclick="stopBargaining()">交渉停止</button>
+    </div>
+
+    <div class="section">
+        <h4>合意に至らない場合</h4>
+        {% if player.session.config.get('treatment') == 'bargain' or player.session.config.get('treatment') == 'test' and player.round_number == 1 %}
+            <p>
+                合意に達しない場合、割り当ては自動的に行われます。プレイヤー1は<span class="highlight">{{ C.DISAGREEMENT_PAYOFF_P1 }}</span> ECUを受け取り、プレイヤー2は<span class="highlight">{{ C.DISAGREEMENT_PAYOFF_P2 }}</span> ECUを受け取ります。
+            </p>
+        {% elif player.session.config.get('treatment') == 'prisoner'
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 2
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 3
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 4
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 6
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 7
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 8 %}
+            <p>
+                合意に至らない場合、あなたは不一致ゲームを行い、支払いを決定する必要があります。可能な支払いは以下の表に表示されます：
+            </p>
+            <table class="table table-bordered text-center">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>他者の選択1</th>
+                    <th>他者の選択2</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>選択1</td>
+                    <td><strong>{{ C.mutual_cooperation_payoff_PD }}</strong>, {{ C.mutual_cooperation_payoff_PD }}</td>
+                    <td><strong>{{ C.betrayed_payoff_PD }}</strong>, {{ C.betray_payoff_PD }}</td>
+                </tr>
+                <tr>
+                    <td>選択2</td>
+                    <td><strong>{{ C.betray_payoff_PD }}</strong>, {{ C.betrayed_payoff_PD }}</td>
+                    {% if player.id_in_group == 1 %}
+                        <td><strong>{{ C.mutual_betrayal_payoff_PD_p1 }}</strong>, {{ C.mutual_betrayal_payoff_PD_p2 }}</td>
+                    {% else %}
+                        <td><strong>{{ C.mutual_betrayal_payoff_PD_p2 }}</strong>, {{ C.mutual_betrayal_payoff_PD_p1 }}</td>
+                    {% endif %}
+                </tr>
+                </tbody>
+            </table>
+        {% elif player.session.config.get('treatment') == 'staghunt'
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 3
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 4
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 2
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 7
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 8
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 6 %}
+            <p>
+                合意に至らない場合、あなたは不一致ゲームを行い、支払いを決定する必要があります。可能な支払いは以下の表に表示されます：
+            </p>
+            <table class="table table-bordered text-center">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>他者の選択1</th>
+                    <th>他者の選択2</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>選択1</td>
+                    <td><strong>{{ C.both_stag_payoff }}</strong>, {{ C.both_stag_payoff }}</td>
+                    {% if player.id_in_group == 1 %}
+                        <td><strong>{{ C.stag_hare_payoff }}</strong>, {{ C.hare_stag_payoff_p2 }}</td>
+                    {% else %}
+                        <td><strong>{{ C.stag_hare_payoff }}</strong>, {{ C.hare_stag_payoff_p1 }}</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td>選択2</td>
+                    {% if player.id_in_group == 1 %}
+                        <td><strong>{{ C.hare_stag_payoff_p1 }}</strong>, {{ C.stag_hare_payoff }}</td>
+                    {% else %}
+                        <td><strong>{{ C.hare_stag_payoff_p2 }}</strong>, {{ C.stag_hare_payoff }}</td>
+                    {% endif %}
+                    {% if player.id_in_group == 1 %}
+                        <td><strong>{{ C.both_hare_payoff_p1 }}</strong>, {{ C.both_hare_payoff_p2 }}</td>
+                    {% else %}
+                        <td><strong>{{ C.both_hare_payoff_p2 }}</strong>, {{ C.both_hare_payoff_p1 }}</td>
+                    {% endif %}
+                </tr>
+                </tbody>
+            </table>
+        {% elif player.session.config.get('treatment') == 'ultimatum'
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 4
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 2
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 3
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 8
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 6
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 7 %}
+            <p>
+                合意に達しない場合、不一致ゲームを行って支払いを決定する必要があります。
+            </p>
+            <p>不一致ゲームでは、プレイヤー2が{{ C.PIE_SIZE }} ECUの分割を提案します。</p>
+            <p>その後、プレイヤー1がオファーを受け取ります。彼はそれを受け入れるか拒否するか選べます。</p>
+            <p></p>
+            <ul>
+                <li>プレイヤー1がオファーを受け入れた場合、{{ C.PIE_SIZE }} ECUはプレイヤー2によって提案された通りに割り当てられます。</li>
+                <li>プレイヤー1がオファーを拒否した場合、プレイヤー1は{{ C.reject_payoff_p1 }} ECUを受け取り、プレイヤー2は{{ C.reject_payoff_p2 }} ECUを受け取ります。</li>
+            </ul>
+
+        {% endif %}
+    </div>
+</div>
+
+
+
+    <div class="right-block">
+        <div class="offer-table section">
+            <table class="table" style="border-color:#D0D0D0; border-style:solid; border-width:1px; border-spacing:0; vertical-align: middle;">
+                <thead>
+                <tr>
+                    <th colspan="2">新しいオファーを作成</th>
+                    <th colspan="1" class="col-current-offer">現在のオファー</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="col-player" {% if player.type == "Player 1" %}style="color: #007bff;"{% endif %}>プレイヤー1</td>
+                    <td><input type="number" id="my_offer_player1" class="input-field"></td>
+                    <td id="my-proposal1">(オファーなし)</td>
+                </tr>
+                <tr>
+                    <td class="col-player" {% if player.type == "Player 2" %}style="color: #007bff;"{% endif %}>プレイヤー2</td>
+                    <td><input type="number" id="my_offer_player2" class="input-field"></td>
+                    <td id="my-proposal2">(オファーなし)</td>
+                </tr>
+                <tr>
+                    <td style="text-align:right" colspan="2">
+                        <button type="button" onclick="sendOffer()" id="btn-offer" style="background-color: #6495ED; color: black; padding: 5px 10px; cursor: pointer;">オファーを送る</button>
+                    </td>
+                    <div id="offer-error" style="color: red; display: none;"></div></td>
+                    <td>
+                        <button type="button" onclick="sendCancelOffer()" id="btn-cancel" style="background-color: #FF5733; color: black; padding: 5px 10px; cursor: pointer; display: none;">オファーをキャンセル</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="accept-table section">
+                <table class="table" style="border-color:#D0D0D0; border-style:solid; border-width:1px; border-spacing:0;">
+                    <thead>
+                    <tr>
+                        <th colspan="2">{{ other_type }}のオファー</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td {% if player.type == "Player 1" %}style="color: #007bff;"{% endif %}>プレイヤー1</td>
+                        <td id="other-proposal1">(オファーなし)</td>
+                    </tr>
+                    <tr>
+                        <td {% if player.type == "Player 2" %}style="color: #007bff;"{% endif %}>プレイヤー2</td>
+                        <td id="other-proposal2">(オファーなし)</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <button type="button" id="btn-accept" onclick="sendAccept(this)" style="background-color: #4CBB17; color: black; padding: 5px 10px; cursor: pointer; display: none;">受け入れる</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+        </div>
+
+        <div class="chat section">
+            <h4>チャット</h4>
+            {{ chat nickname=player.type }}
+        </div>
+    </div>
+</div>
+
+{{ include "gb_live_bargaining/InstructionsModal.html" }}
+
+<script>
+    let myOfferPlayer1 = document.getElementById('my_offer_player1');
+    let myOfferPlayer2 = document.getElementById('my_offer_player2');
+    let btnAccept = document.getElementById('btn-accept');
+    let msgOtherProposal1 = document.getElementById('other-proposal1');
+    let msgOtherProposal2 = document.getElementById('other-proposal2');
+    let msgMyProposal1 = document.getElementById('my-proposal1');
+    let msgMyProposal2 = document.getElementById('my-proposal2');
+    let otherProposalPlayer1;
+    let otherProposalPlayer2;
+
+    function sendOffer() {
+        let offerPlayer1 = parseInt(myOfferPlayer1.value, 10);
+        let offerPlayer2 = parseInt(myOfferPlayer2.value, 10);
+        let pieSize = 1000; // Assuming the total pie size is 1000
+        let offerError = document.getElementById('offer-error');
+
+        // Check if either input is empty or if their sum exceeds the pie size
+        if (isNaN(offerPlayer1) || isNaN(offerPlayer2)
+        || offerPlayer1 < 0 || offerPlayer2 < 0
+        || offerPlayer1 !== parseFloat(myOfferPlayer1.value) || offerPlayer2 !== parseFloat(myOfferPlayer2.value)
+        || (offerPlayer1 + offerPlayer2) !== pieSize) {
+            offerError.textContent = "無効なオファーです。両方のフィールドが埋められ、合計が" + pieSize + "ポイントであり、両方のフィールドが非負の整数であることを確認してください。";
+            offerError.style.display = 'block';
+            return;
+        } else {
+            offerError.style.display = 'none';
+        }
+
+        liveSend({
+            'type': 'propose',
+            'amount_player1': offerPlayer1,
+            'amount_player2': offerPlayer2
+        });
+        myOfferPlayer1.value = '';
+        myOfferPlayer2.value = '';
+    }
+
+    function sendAccept() {
+        // Confirmation dialog
+        let isConfirmed = confirm("このオファーを受け入れますか？");
+        if (isConfirmed) {
+            // Proceed with the acceptance logic if confirmed
+            liveSend({
+                'type': 'accept',
+                'amount_player1': otherProposalPlayer1,
+                'amount_player2': otherProposalPlayer2
+            });
+        }
+        // If cancelled, do nothing
+    }
+
+    function sendCancelOffer() {
+        // Send a fake offer with values 9999 for both players
+        liveSend({
+            'type': 'propose',
+            'amount_player1': 9999,
+            'amount_player2': 9999
+        });
+        myOfferPlayer1.value = '';
+        myOfferPlayer2.value = '';
+    }
+
+    function stopBargaining() {
+        let isConfirmed2 = confirm("交渉を停止してもよろしいですか？これは合意に達していないと認め、不一致オプションを選択することを意味します。");
+        if (isConfirmed2) {
+            liveSend({
+                'type': 'stop_bargaining',
+                'amount_player1': 8888,
+                'amount_player2': 8888
+            });
+        }
+    }
+
+    function cu(amount) {
+        return `${amount} ECU`;
+    }
+
+    function liveRecv(data) {
+        let pieSize = 1000;
+        if ('proposals' in data) {
+            for (let [id_in_group, proposalPlayer1, proposalPlayer2] of data.proposals) {
+                if (id_in_group === js_vars.my_id) {
+                    if (proposalPlayer1 + proposalPlayer2 === pieSize) {
+                        msgMyProposal1.innerHTML = `${cu(proposalPlayer1)}`;
+                        msgMyProposal2.innerHTML = `${cu(proposalPlayer2)}`;
+                        document.getElementById('btn-cancel').style.display = 'block';
+                    } else {
+                        msgMyProposal1.innerHTML = `(オファーをキャンセルしました)`;
+                        msgMyProposal2.innerHTML = `(オファーをキャンセルしました)`;
+                        document.getElementById('btn-cancel').style.display = 'none';
+                    }
+                } else {
+                    if (proposalPlayer1 + proposalPlayer2 === pieSize) {
+                        btnAccept.style.display = 'block';
+                        msgOtherProposal1.innerHTML = `${cu(proposalPlayer1)}`;
+                        msgOtherProposal2.innerHTML = `${cu(proposalPlayer2)}`;
+                        otherProposalPlayer1 = proposalPlayer1;
+                        otherProposalPlayer2 = proposalPlayer2;
+                    } else {
+                        btnAccept.style.display = 'none';
+                        msgOtherProposal1.innerHTML = `(オファーをキャンセルしました)`;
+                        msgOtherProposal2.innerHTML = `(オファーをキャンセルしました)`;
+                        otherProposalPlayer1 = proposalPlayer1;
+                        otherProposalPlayer2 = proposalPlayer2;
+                    }
+                }
+            }
+        }
+
+        if ('finished' in data) {
+            document.getElementById('form').submit();
+        }
+    }
+    window.addEventListener('DOMContentLoaded', (event) => {
+        liveSend({});
+    });
+
+
+</script>
+
+{{ endblock }}

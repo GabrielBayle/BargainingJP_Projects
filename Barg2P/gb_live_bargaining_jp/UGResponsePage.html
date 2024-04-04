@@ -1,0 +1,136 @@
+{% block content %}
+
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: Arial, sans-serif;
+    }
+
+    .top-block {
+        height: 12.5%;
+        background-color: #f0f0f0;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .main-content {
+        display: flex;
+        height: 87.5%;
+    }
+
+    .left-block, .right-block {
+        padding: 10px;
+        background-color: #e0e0e0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .left-block {
+        flex: 2;
+    }
+
+    .right-block {
+        flex: 3;
+    }
+
+    .section {
+        background-color: #f9f9f9;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .section h4 {
+        margin-top: 0;
+    }
+
+    .input-field {
+        width: 100%;
+        padding: 5px;
+        margin: 5px 0;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+
+    .col-player {
+        width: 25%;
+    }
+
+    .col-input {
+        width: 35%;
+    }
+
+    .col-current-offer {
+        width: 40%;
+    }
+
+    .highlight {
+        color: #007bff;
+        font-weight: bold;
+    }
+
+    button {
+        background-color: #6495ED;
+        color: black;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 4px;
+        margin-top: 10px;
+    }
+
+    #stop-bargaining-btn {
+        background-color: #FF5733;
+    }
+
+    #btn-accept {
+        background-color: #4CBB17;
+    }
+</style>
+
+<div class="top-block">
+    <h1>不一致ゲーム：応答 (ラウンド {{ subsession.round_number }} / {{ C.NUM_ROUNDS }})</h1>
+</div>
+
+<div class="main-content">
+    <div class="left-block">
+        <div class="section">
+            <h4>指示</h4>
+            <p>
+                プレイヤー2が<span class="highlight">{{ C.PIE_SIZE }}</span> ECUの分割を提案しました。この提案を受け入れるか、または拒否することができます。
+            </p>
+            <p>
+                提案を受け入れた場合、ECUは提案された通りに分割されます。提案を拒否した場合、プレイヤー1として<span class="highlight">{{ C.DISAGREEMENT_PAYOFF_P1 }}</span> ECUを受け取り、もう一人のプレイヤーはプレイヤー2として<span class="highlight">{{ C.DISAGREEMENT_PAYOFF_P2 }}</span> ECUを受け取ります。
+            </p>
+        </div>
+    </div>
+
+    <div class="right-block">
+        <form method="post">
+            <div class="response-table section">
+                <table class="table">
+                    <tr>
+                        <td>プレイヤー2からの提案：</td>
+                        <td><span class="highlight">{{ proposed_amount }}</span> ECU</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="radio" name="UG_responder_decision" value="True" id="accept">
+                            <label for="accept">受け入れる</label><br>
+                            <input type="radio" name="UG_responder_decision" value="False" id="reject">
+                            <label for="reject">拒否する</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><button type="submit" class="btn btn-primary">決定を提出</button></td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

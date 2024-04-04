@@ -1,0 +1,66 @@
+{% block content %}
+<style>
+    .feedback-container {
+        font-family: Arial, sans-serif;
+        margin: 0 auto;
+        max-width: 600px;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: left;
+    }
+    .feedback-header {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 20px;
+    }
+    .feedback-section {
+        font-size: 18px;
+        color: #555;
+        margin-bottom: 20px;
+    }
+    .feedback-section textarea {
+        width: 100%;
+        height: 100px;
+        margin-top: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+    }
+    button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        margin-top: 20px;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<div class="feedback-container">
+    <div class="feedback-header">あなたのフィードバック</div>
+
+    <div class="feedback-section">
+        <p>パート1（交渉タスク）での意思決定方法を説明してください。</p>
+        {{ formfield player.decision_making_feedback label="" }}
+    </div>
+
+    <div class="feedback-section">
+        <p>（おそらく、私が作成した動機に関するリッカート尺度のアンケートを尋ねるべきです。）</p>
+    </div>
+
+    <div class="feedback-section">
+        <p>実験や他のタスクについてのフィードバックがあれば、お聞かせください。</p>
+        {{ formfield player.experiment_feedback label="" }}
+    </div>
+
+    <button type="submit">フィードバックを送信</button>
+</div>
+{% endblock %}

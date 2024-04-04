@@ -1,0 +1,47 @@
+{% block content %}
+<style>
+    .results-container {
+        font-family: Arial, sans-serif;
+        margin: 0 auto;
+        max-width: 600px;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    .results-header {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 20px;
+    }
+    .results-info {
+        font-size: 18px;
+        color: #555;
+        line-height: 1.6;
+    }
+    .highlight {
+        color: #007bff;
+        font-weight: bold;
+    }
+</style>
+
+<div class="results-container">
+    <div class="results-header">ゲーム結果</div>
+    <div class="results-info">
+        <p>提案者（プレイヤー2）の提案：
+            <span class="highlight">{{ proposer_offer }}</span> ECU。
+        </p>
+        <p>応答者（プレイヤー1）の決定：
+            <span class="highlight">{{ responder_decision }}</span>。
+        </p>
+        <p>プレイヤー1の報酬は：
+            <span class="highlight">{{ responder_payoff }}</span> ECUです。
+        </p>
+        <p>プレイヤー2の報酬は：
+            <span class="highlight">{{ proposer_payoff }}</span> ECUです。
+        </p>
+    </div>
+    {{ next_button }}
+</div>
+{% endblock %}

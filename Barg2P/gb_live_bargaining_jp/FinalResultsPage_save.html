@@ -1,0 +1,68 @@
+{% block content %}
+<style>
+    .results-container {
+        font-family: Arial, sans-serif;
+        margin: 0 auto;
+        max-width: 600px;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    .results-header {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 20px;
+    }
+    .results-info {
+        font-size: 18px;
+        color: #555;
+        line-height: 1.6;
+    }
+    .highlight {
+        color: #007bff;
+        font-weight: bold;
+    }
+    table {
+        margin: 20px auto;
+        width: 100%;
+    }
+    th, td {
+        padding: 10px;
+        text-align: center;
+    }
+    th {
+        background-color: #e9e9e9;
+    }
+    .paid-round {
+        background-color: #007bff;
+        color: white;
+    }
+</style>
+
+<div class="results-container">
+    <div class="results-header">パート1の結果</div>
+    <div class="results-info">
+        <table>
+            <thead>
+                <tr>
+                    <th>ラウンド</th>
+                    <th>報酬</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for detail in round_details %}
+                <tr {% if detail.is_paid_round %}class="paid-round"{% endif %}>
+                    <td>{{ detail.round_number }}</td>
+                    <td>{{ detail.payoff }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p>支払いはラウンド<span class="highlight">{{ paid_round }}</span>の結果に基づきます。</p>
+        <p>このパートのあなたの報酬は：<span class="highlight">{{ main_task_payoff }} ECU</span>（<span class="highlight">{{ converted_payoff }} JPY</span>に換算）です。</p>
+    </div>
+    {{ next_button }}
+</div>
+{% endblock %}

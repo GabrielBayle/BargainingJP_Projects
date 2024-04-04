@@ -1,0 +1,253 @@
+<style>
+    .instructions-container {
+        font-family: Arial, sans-serif;
+        margin: 0 auto;
+        max-width: 800px;
+        padding: 20px;
+    }
+    .section {
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 15px;
+        background-color: #f8f8f8;
+    }
+    .sectionbis {
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 15px;
+        background-color: #ffcccb;
+    }
+    .section-header {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    .instructions-container img {
+        display: block;
+        margin: 0 auto;
+        max-width: 100%;
+        height: auto;
+    }
+</style>
+
+<div class="instructions-container">
+    <h1>指示</h1>
+
+    <h2>一般的な指示</h2>
+
+    {% if player.session.config.get('treatment') == 'test' and player.round_number > 1 and player.round_number != 5 %}
+    <div class="sectionbis">
+        <div class="section-header">新しいルール</div>
+        <p>指示の赤いセクションを注意深くお読みください。灰色のセクションは前のラウンドと同様です。</p>
+    </div>
+    {% elif player.round_number == 5 %}
+    <div class="sectionbis">
+        <div class="section-header">新しいルール</div>
+        <p>次のラウンドからは、役割が変わります。プレイヤー1だった場合はプレイヤー2になり、プレイヤー2だった場合はプレイヤー1になります。
+            指示の赤いセクションを注意深くお読みください。灰色のセクションは前のラウンドと同様です。</p>
+    </div>
+    {% endif %}
+
+    <div class="section">
+        <div class="section-header">ようこそ</div>
+        <p>交渉実験へようこそ。このゲームでは、別の参加者とランダムにペアになり、ある金額を分割するための交渉を行います。各ラウンドの後、新しい参加者とペアになります。</p>
+    </div>
+
+    <div class="section">
+        <div class="section-header">目的</div>
+        <p>あなたの目標は、{{ C.PIE_SIZE }}実験通貨単位(ECU)を二人でどのように分割するかについて合意に達することです。</p>
+        <p>そうでない場合、不一致のオプションが自動的に実施されます。このオプションは「合意に達しない場合」のセクションに記載されています。</p>
+    </div>
+
+    <div class="section">
+        <div class="section-header">時間制限</div>
+        <p>交渉には{{ C.timer|to0 }}分の時間制限があります。この時間内に合意に達しない場合、ゲームは終了し、不一致のオプションが自動的に実施されます。</p>
+    </div>
+
+    <div class="section">
+        <div class="section-header">役割</div>
+        <p>プレイヤー1またはプレイヤー2としてランダムに割り当てられます。他の参加者は逆の役割をとります。</p>
+    </div>
+
+    <h2>ゲームの進め方</h2>
+
+    <div class="section">
+        <div class="section-header">コミュニケーション</div>
+        <p>ゲーム中、チャット機能を使用してパートナーとコミュニケーションをとることができます。下の画像は、実験中に表示されるチャットの様子です。</p>
+        <img src="{{ static 'gb_live_bargaining/images/instructions_chat.png' }}" alt="チャット" width="450">
+    </div>
+
+    <div class="section">
+        <div class="section-header">オファーの提示</div>
+        <p>入力フィールドには、あなたと他のプレイヤーのための金額を入力できます。これらの金額は0から{{ C.PIE_SIZE }}の範囲で、二つの金額の合計は{{ C.PIE_SIZE }}でなければなりません。
+            両方の金額は非負の整数でなければなりません。オファーを入力したら、「オファーを送信」をクリックして他のプレイヤーに送信してください。オファーが送信されると、
+            「あなたの現在のオファー」として右側のフィールドに表示されます。</p>
+        <p>既にオファーを送信していても、新しいオファーを作成して送信することができます。そうすると、以前のオファーは置き換えられます。</p>
+        <img src="{{ static 'gb_live_bargaining/images/instructions_offer.png' }}" alt="オファーの提示">
+    </div>
+
+    <div class="section">
+        <div class="section-header">オファーへの対応</div>
+        <p>他のプレイヤーからオファーを受け取った場合、それを受け入れるか無視するかを選ぶことができます。それを受け入れると、ゲームは終了し、{{ C.PIE_SIZE }} ECUが受け入れられたとおりに分配されます。</p>
+        <img src="{{ static 'gb_live_bargaining/images/instructions_accept.png' }}" alt="オファーへの対応" width="320">
+    </div>
+
+    <div class="section">
+        <div class="section-header">オファーのキャンセル</div>
+        <p>他のプレイヤーが応答する前にオファーを撤回したい場合は、「オファーをキャンセル」をクリックしてください。そうすると、以前のオファーは他のプレイヤーによって受け入れることができなくなります。新しいオファーを作成することは引き続き可能です。</p>
+        <img src="{{ static 'gb_live_bargaining/images/instructions_cancel.png' }}" alt="オファーのキャンセル" width="400">
+    </div>
+
+    <div class="section">
+        <div class="section-header">交渉の停止</div>
+        <p>交渉を続けずに不一致のオプションを受け入れたい場合は、「交渉を停止」をクリックしてください。
+            これにより、事前に定義された不一致の支払いでゲームが終了します。ポップアップウィンドウが表示され、交渉を停止する決定を確認する必要があります。</p>
+        <img src="{{ static 'gb_live_bargaining/images/instructions_stop.png' }}" alt="交渉の停止" width="150">
+    </div>
+
+    <h2>合意に達しない場合</h2>
+
+    {% if player.session.config.get('treatment') == 'bargain'
+    or player.session.config.get('treatment') == 'test' and player.round_number == 1
+    or player.session.config.get('treatment') == 'test' and player.round_number == 5 %}
+        <div class="section">
+            <div class="section-header">合意に達しない場合</div>
+                <p>交渉時間の終了前またはプレイヤーが合意なしで交渉を終了することを決定した場合、ECUは以下のように自動的に割り当てられます：プレイヤー1は{{ C.DISAGREEMENT_PAYOFF_P1 }} ECUを受け取り、プレイヤー2は{{ C.DISAGREEMENT_PAYOFF_P2 }}
+                    ECUを受け取ります。</p>
+        </div>
+    {% else %}
+        <div class="sectionbis">
+            <div class="section-header">合意に達しない場合</div>
+                <p>交渉時間の終了前またはプレイヤーが合意なしで交渉を終了することを決定した場合、不一致オプションゲームを行って支払いを決定する必要があります。</p>
+        </div>
+    {% endif %}
+
+    {% if player.session.config.get('treatment') == 'prisoner'
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 2
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 3
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 4
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 6
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 7
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 8 %}
+        <div class="sectionbis">
+            <div class="section-header">不一致オプションの指示</div>
+            <p>不一致ゲームでは、あなたと他のプレイヤーは二つの選択肢の中から独立して決定を下す必要があります。あなたの支払いは、あなたの決定と他のプレイヤーの決定の両方に依存します：</p>
+            <ul>
+                <li>両方のプレイヤーが選択肢1を選んだ場合、それぞれ{{ C.mutual_cooperation_payoff_PD }} ECUを獲得します。</li>
+                <li>一方が選択肢1を選び、もう一方が選択肢2を選んだ場合、選択肢2を選んだプレイヤーは{{ C.betray_payoff_PD }} ECUを獲得し、
+                    他方は{{ C.betrayed_payoff_PD }} ECUを獲得します。</li>
+                <li>両方のプレイヤーが選択肢2を選んだ場合、プレイヤー1は{{ C.mutual_betrayal_payoff_PD_p1 }} ECUを獲得し、プレイヤー2は
+                    {{ C.mutual_betrayal_payoff_PD_p2 }} ECUを獲得します。</li>
+            </ul>
+            <p>不一致ゲーム中に選択を行うには、表の選択肢1または選択肢2をクリックするだけです。</p>
+            <table class="table table-bordered text-center">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>他者の選択1</th>
+                    <th>他者の選択2</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>選択1</td>
+                    <td><strong>{{ C.mutual_cooperation_payoff_PD }}</strong>, {{ C.mutual_cooperation_payoff_PD }}</td>
+                    <td><strong>{{ C.betrayed_payoff_PD }}</strong>, {{ C.betray_payoff_PD }}</td>
+                </tr>
+                <tr>
+                    <td>選択2</td>
+                    <td><strong>{{ C.betray_payoff_PD }}</strong>, {{ C.betrayed_payoff_PD }}</td>
+                    {% if player.id_in_group == 1 %}
+                        <td><strong>{{ C.mutual_betrayal_payoff_PD_p1 }}</strong>, {{ C.mutual_betrayal_payoff_PD_p2 }}</td>
+                    {% else %}
+                        <td><strong>{{ C.mutual_betrayal_payoff_PD_p2 }}</strong>, {{ C.mutual_betrayal_payoff_PD_p1 }}</td>
+                    {% endif %}
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    {% elif player.session.config.get('treatment') == 'staghunt'
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 3
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 4
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 2
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 7
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 8
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 6 %}
+        <div class="sectionbis">
+            <div class="section-header">不一致オプションの指示</div>
+            <p>不一致ゲームでは、あなたと他のプレイヤーは二つの選択肢の中から独立して決定を下す必要があります。あなたの支払いは、あなたの決定と他のプレイヤーの決定の両方に依存します：</p>
+            <ul>
+                <li>両方のプレイヤーが選択肢1を選んだ場合、それぞれ{{ C.both_stag_payoff }} ECUを獲得します。</li>
+                <li>プレイヤー1が選択肢1を選び、プレイヤー2が選択肢2を選んだ場合、プレイヤー1は{{ C.stag_hare_payoff }} ECUを獲得し、
+                    プレイヤー2は{{ C.hare_stag_payoff_p2 }} ECUを獲得します。</li>
+                <li>プレイヤー1が選択肢2を選び、プレイヤー2が選択肢1を選んだ場合、プレイヤー1は{{ C.hare_stag_payoff_p1 }} ECUを獲得し、
+                    プレイヤー2は{{ C.stag_hare_payoff }} ECUを獲得します。</li>
+                <li>両方のプレイヤーが選択肢2を選んだ場合、プレイヤー1は{{ C.both_hare_payoff_p1 }} ECUを獲得し、プレイヤー2は
+                    {{ C.both_hare_payoff_p2 }} ECUを獲得します。</li>
+            </ul>
+            <p>不一致ゲーム中に選択を行うには、表の選択肢1または選択肢2をクリックするだけです。</p>
+            <table class="table table-bordered text-center">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>他者の選択1</th>
+                    <th>他者の選択2</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>選択1</td>
+                    <td><strong>{{ C.both_stag_payoff }}</strong>, {{ C.both_stag_payoff }}</td>
+                    {% if player.id_in_group == 1 %}
+                        <td><strong>{{ C.stag_hare_payoff }}</strong>, {{ C.hare_stag_payoff_p2 }}</td>
+                    {% else %}
+                        <td><strong>{{ C.stag_hare_payoff }}</strong>, {{ C.hare_stag_payoff_p1 }}</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td>選択2</td>
+                    {% if player.id_in_group == 1 %}
+                        <td><strong>{{ C.hare_stag_payoff_p1 }}</strong>, {{ C.stag_hare_payoff }}</td>
+                    {% else %}
+                        <td><strong>{{ C.hare_stag_payoff_p2 }}</strong>, {{ C.stag_hare_payoff }}</td>
+                    {% endif %}
+                    {% if player.id_in_group == 1 %}
+                        <td><strong>{{ C.both_hare_payoff_p1 }}</strong>, {{ C.both_hare_payoff_p2 }}</td>
+                    {% else %}
+                        <td><strong>{{ C.both_hare_payoff_p2 }}</strong>, {{ C.both_hare_payoff_p1 }}</td>
+                    {% endif %}
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    {% elif player.session.config.get('treatment') == 'ultimatum'
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 4
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 2
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 3
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 8
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 6
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 7 %}
+        <div class="sectionbis">
+            <div class="section-header">不一致オプションの指示</div>
+            <p>不一致ゲームでは、プレイヤー2が{{ C.PIE_SIZE }} ECUの分割を提案します。</p>
+            <p>その後、プレイヤー1がオファーを受け取ります。彼はそれを受け入れるか拒否するか選べます。</p>
+            <p></p>
+            <ul>
+                <li>プレイヤー1がオファーを受け入れた場合、{{ C.PIE_SIZE }} ECUはプレイヤー2によって提案された通りに割り当てられます。</li>
+                <li>プレイヤー1がオファーを拒否した場合、プレイヤー1は{{ C.reject_payoff_p1 }} ECUを受け取り、
+                    プレイヤー2は{{ C.reject_payoff_p2 }} ECUを受け取ります。</li>
+            </ul>
+        </div>
+    {% endif %}
+
+    <h2>支払い</h2>
+
+    <div class="section">
+        <div class="section-header">報酬</div>
+        <p>実験の終わりに、コンピューターによってランダムに選ばれた1ラウンドで獲得したECUがJPYに変換されます。変換レートは1 ECU = {{ C.CONVERSION_RATE|c }}です。</p>
+        <p>さらに、実験への参加料として{{ player.participation_fee }}を受け取ります。</p>
+    </div>
+
+</div>

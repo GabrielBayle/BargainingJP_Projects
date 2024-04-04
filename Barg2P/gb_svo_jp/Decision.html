@@ -1,0 +1,167 @@
+{{ block styles }}
+<style>
+    .matrice table, .matrice tr, .matrice td {
+        border: 2px solid black;
+        border-collapse: collapse;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .matrice td {
+        cursor: pointer;
+    }
+</style>
+{{ endblock }}
+{{ block title }}
+
+{{ endblock }}
+
+
+{{ block content }}
+
+<style>
+    .container_under {
+        font-family: Arial, sans-serif;
+        margin: 20px auto;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #f8f9fa;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    h3 {
+        font-size: 28px;
+        margin-bottom: 30px;
+    }
+    .mb-3 {
+        text-align: left;
+        padding: 15px;
+        margin-bottom: 20px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    label {
+        font-weight: bold;
+        color: #333333;
+        margin-bottom: 10px;
+        display: block;
+        text-align: left;
+    }
+    select, input[type="text"], input[type="radio"] {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 18px;
+        margin-top: 20px;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<div class="container_under">
+    <h3>パート3</h3>
+    <p>
+        あなたは、コンピュータープログラムによってランダムに形成されたペアの一部です。あなたはペアのもう一人のプレイヤーを特定することができず、彼らもあなたを特定することはできません。
+    </p>
+    <p>
+        下記の{{ C.matrices|length }}つの表のそれぞれについて、あなたとあなたのペアのもう一人のプレイヤー間でお金の分配を選択する必要があります。金額は実験通貨、ECUで表現されます。ECUからユーロへの換算レートは1 ECU = {{ C.conversion_rate|c }}です。
+    </p>
+    <p>
+        各表で、上段はあなたに対する金額、下段はペアのもう一人のプレイヤーに対する金額を示します。分配を選択するには、あなたの選択に対応する列をクリックする必要があります。ページを確定するには、各表で分配を選択する必要があります。
+    </p>
+    <p>
+        ペアの両プレイヤーの収益を決定するために、コンピュータープログラムはまず{{ C.matrices|length }}つの表の中からランダムに1つを選択します。次に、あなたの分配かもう一人のプレイヤーの分配のどちらがペアに適用されるかをランダムに決定します。あなたの分配が選ばれた場合、選ばれた表に対してあなたの分配が各々の収益を決定します：あなたの収益は「あなたに対して」の行の金額と等しく、もう一人のプレイヤーの収益は「もう一人のプレイヤーに対して」の行の金額と等しくなります。もう一人のプレイヤーの分配が選ばれた場合、選ばれた表に対して彼らの分配が各々の収益を決定します：あなたの収益は「もう一人のプレイヤーに対して」の行の金額と等しく、彼らの収益は「あなたに対して」の行の金額と等しくなります。
+    </p>
+</div>
+
+{{ for matrice in C.matrices }}
+<div class="card mb-3">
+    <div class="card-header">
+        <h5>表 {{ forloop.counter }}</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered mb-3 matrice" id="matrice_{{forloop.counter0}}">
+            <tr>
+                <th>あなたに対して</th>
+                {{ for partage in matrice }}
+                <td onclick="select_cell(this);">{{ partage.0 }}</td>
+                {{ endfor }}
+            </tr>
+            <tr>
+                <th>もう一人に対して</th>
+                {{ for partage in matrice }}
+                <td onclick="select_cell(this)">{{ partage.1 }}</td>
+                {{ endfor }}
+            </tr>
+        </table>
+        <input type="hidden" name="svo_choice_{{forloop.counter}}_self" value="">
+        <input type="hidden" name="svo_choice_{{forloop.counter}}_other" value="">
+    </div>
+</div>
+{{ endfor }}
+
+
+{{ next_button }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelector(".otree-btn-next").disabled = true;
+        document.querySelectorAll("table.matrice").forEach((table, table_index) => {
+            Array.from(table.rows).forEach((row, row_index) => {
+                Array.from(row.cells).forEach((cell, cell_index) => {
+                    cell.id = `m_${table_index}_${row_index}_${cell_index - 1}`;
+                });
+            });
+        });
+    });
+
+
+    function select_cell(cell) {
+        let [m, matrice, ligne, cellule] = cell.id.split("_");
+        Array.from(document.querySelectorAll(`#matrice_${matrice} td`)).forEach((cell) => {
+            cell.classList.remove("bg-info");
+        });
+        document.querySelector(`#m_${matrice}_0_${cellule}`).classList.add("bg-info");
+        document.querySelector(`#m_${matrice}_1_${cellule}`).classList.add("bg-info");
+        let value_self = js_vars.matrices[matrice][cellule][0];
+        let value_other = js_vars.matrices[matrice][cellule][1];
+        document.querySelector(`input[name=svo_choice_${parseInt(matrice) + 1}_self]`).value = value_self;
+        document.querySelector(`input[name=svo_choice_${parseInt(matrice) + 1}_other]`).value = value_other;
+
+        for (let i = 1; i < js_vars.matrices.length + 1; i++) {
+            if (document.querySelector(`input[name=svo_choice_${i}_self]`).value === "")
+                return false;
+        }
+        document.querySelector(".otree-btn-next").disabled = false;
+    }
+
+    function fill_auto() {
+        document.querySelectorAll("table.matrice").forEach(table => {
+            // Select all <td> cells in the first row, excluding <th> cells
+            let table_cells = Array.from(table.rows[0].cells).slice(1); // Use slice(1) to exclude the first <th>
+            let random_selection = Math.floor(Math.random() * table_cells.length);
+            select_cell(table_cells[random_selection]);
+        });
+        setTimeout(function () {
+            document.querySelector("form").submit();
+        }, 2000);
+    }
+
+</script>
+{% endblock %}

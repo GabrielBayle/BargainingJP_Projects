@@ -1,0 +1,85 @@
+{{ block content }}
+    <style>
+        .results-container {
+            font-family: Arial, sans-serif;
+            margin: 0 auto;
+            max-width: 600px;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .results-header {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .results-info {
+            font-size: 18px;
+            color: #555;
+            line-height: 1.6;
+        }
+        .highlight {
+            color: #007bff;
+            font-weight: bold;
+        }
+    </style>
+
+    <div class="results-container">
+        <div class="results-header">交渉結果</div>
+        <div class="results-info">
+            {% if player.session.config.get('treatment') == 'prisoner'
+                or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 2
+                or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 3
+                or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 4  %}
+                {% if player.stopped_by_player_id != 0 %}
+                    <p>プレイヤー<span class="highlight">{{ player.stopped_by_player_id }}</span>が交渉を停止することを決定しました。不一致ゲームをプレイして報酬を決定する必要があります。</p>
+                {% elif player.timeout_occurred %}
+                    <p>合意に達する前に交渉時間が終了しました。不一致ゲームをプレイして報酬を決定する必要があります。</p>
+                {% else %}
+                    <p>合意に達しました。</p>
+                    <p>プレイヤー1は<span class="highlight">{{ player.player1_share }}</span> ECUを、
+                    プレイヤー2は<span class="highlight">{{ player.player2_share }}</span> ECUを受け取ります。</p>
+                {% endif %}
+            {% elif player.session.config.get('treatment') == 'staghunt'
+                or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 3
+                or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 4
+                or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 2  %}
+                {% if player.stopped_by_player_id != 0 %}
+                    <p>プレイヤー<span class="highlight">{{ player.stopped_by_player_id }}</span>が交渉を停止することを決定しました。不一致ゲームをプレイして報酬を決定する必要があります。</p>
+                {% elif player.timeout_occurred %}
+                    <p>合意に達する前に交渉時間が終了しました。不一致ゲームをプレイして報酬を決定する必要があります。</p>
+                {% else %}
+                    <p>合意に達しました。</p>
+                    <p>プレイヤー1は<span class="highlight">{{ player.player1_share }}</span> ECUを、
+                    プレイヤー2は<span class="highlight">{{ player.player2_share }}</span> ECUを受け取ります。</p>
+                {% endif %}
+            {% elif player.session.config.get('treatment') == 'ultimatum'
+                or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 4
+                or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 2
+                or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 3  %}
+                {% if player.stopped_by_player_id != 0 %}
+                    <p>プレイヤー<span class="highlight">{{ player.stopped_by_player_id }}</span>が交渉を停止することを決定しました。不一致ゲームをプレイして報酬を決定する必要があります。</p>
+                {% elif player.timeout_occurred %}
+                    <p>合意に達する前に交渉時間が終了しました。不一致ゲームをプレイして報酬を決定する必要があります。</p>
+                {% else %}
+                    <p>合意に達しました。</p>
+                    <p>プレイヤー1は<span class="highlight">{{ player.player1_share }}</span> ECUを、
+                    プレイヤー2は<span class="highlight">{{ player.player2_share }}</span> ECUを受け取ります。</p>
+                {% endif %}
+            {% else %}
+                {% if player.stopped_by_player_id != 0 %}
+                    <p>プレイヤー<span class="highlight">{{ player.stopped_by_player_id }}</span>が交渉を停止することを決定しました。その結果、株式は自動的に割り当てられました。</p>
+                {% elif player.timeout_occurred %}
+                    <p>合意に達する前に交渉時間が終了しました。その結果、株式は自動的に割り当てられました。</p>
+                {% else %}
+                    <p>合意に達しました。</p>
+                {% endif %}
+                <p>プレイヤー1は<span class="highlight">{{ player.player1_share }}</span> ECUを、
+                プレイヤー2は<span class="highlight">{{ player.player2_share }}</span> ECUを受け取ります。</p>
+            {% endif %}
+        </div>
+        {{ next_button }}
+    </div>
+{{ endblock }}

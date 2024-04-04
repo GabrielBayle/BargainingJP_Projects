@@ -1,0 +1,132 @@
+{{ block content }}
+
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: Arial, sans-serif;
+    }
+
+    .instructions {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    .decision-table {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .clickable-cell {
+        cursor: pointer;
+        background-color: #f0f0f0;
+    }
+
+    .clickable-cell:hover {
+        background-color: #e0e0e0;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+
+    th {
+        background-color: #e0e0e0;
+    }
+
+    .bg-info {
+        background-color: #d0f0c0;
+    }
+
+    button {
+        background-color: #6495ED;
+        color: black;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 4px;
+        margin-top: 10px;
+    }
+</style>
+
+    <div class="instructions">
+        <h2>不一致ゲームの指示（ラウンド {{ subsession.round_number }} / {{ C.NUM_ROUNDS }}）</h2>
+        <p>
+            このゲームでは、交渉ゲームのあなたのパートナーと独立して、選択1か選択2をプレイするか決定する必要があります。
+            あなたの報酬は、あなたの決定ともう一人のプレイヤーの決定の両方に依存します。ここに可能な結果があります：
+        </p>
+        <ul>
+            <li>両方のプレイヤーが選択1をプレイした場合、それぞれ{{ coop_coop_payoff }} ECUを獲得します。</li>
+            <li>一方が選択1を、もう一方が選択2をプレイした場合、選択2を選んだプレイヤーは
+                {{ defect_coop_payoff_p1 }} ECUを獲得し、選択1を選んだプレイヤーは {{ defect_coop_payoff_p2 }}
+                ECUを獲得します。</li>
+            <li>両方のプレイヤーが選択2をプレイした場合、プレイヤー1は {{ defect_defect_payoff_p1 }} ECUを獲得し、プレイヤー2は
+                {{ defect_defect_payoff_p2 }} ECUを獲得します。</li>
+        </ul>
+        <p>以下の表で「選択1」または「選択2」をクリックしてあなたの決定を選択してください：</p>
+    </div>
+    <div class="decision-table">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th></th>
+                <th>他者の選択1</th>
+                <th>他者の選択2</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td onclick="set_decision(true)" class="clickable-cell">選択1</td>
+                <td><strong>{{ coop_coop_payoff }}</strong>, {{ coop_coop_payoff }}</td>
+                <td><strong>{{ coop_defect_payoff_p1 }}</strong>, {{ coop_defect_payoff_p2 }}</td>
+            </tr>
+            <tr>
+                <td onclick="set_decision(false)" class="clickable-cell">選択2</td>
+                <td><strong>{{ defect_coop_payoff_p1 }}</strong>, {{ defect_coop_payoff_p2 }}</td>
+                {% if player_id == 1 %}
+                    <td><strong>{{ defect_defect_payoff_p1 }}</strong>, {{ defect_defect_payoff_p2 }}</td>
+                {% else %}
+                    <td><strong>{{ defect_defect_payoff_p2 }}</strong>, {{ defect_defect_payoff_p1 }}</td>
+                {% endif %}
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+{{ next_button }}
+
+<input type="hidden" name="PD_decision" id="PD_decision" value="">
+
+{{ block scripts }}
+<script>
+    const btn_next = document.querySelector(".otree-btn-next");
+    const tdec = document.querySelector("table tbody");
+
+    function set_decision(decision) {
+        document.querySelector("input[name=PD_decision]").value = decision;
+        let rows = tdec.rows;
+        for (let i = 0; i < rows.length; i++) {
+            if ((decision && i === 0) || (!decision && i === 1)) {
+                rows[i].classList.add("bg-info");
+            } else {
+                rows[i].classList.remove("bg-info");
+            }
+        }
+        btn_next.disabled = false;
+    }
+
+    window.onload = function () {
+        btn_next.disabled = true;
+    }
+</script>
+{{ endblock }}
+
+{{ endblock }}

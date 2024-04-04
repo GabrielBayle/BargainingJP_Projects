@@ -1,0 +1,46 @@
+{{ block title }}
+結果
+{{ endblock }}
+
+{{ block content }}
+    <div class="text-end mb-3">
+        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">指示</button>
+    </div>
+
+<div class="card bg-light text-justify mb-3">
+    <div class="card-body">
+        <p class="card-text">
+            {{ participant.vars.gb_targetNLE.txt_final }}
+        </p>
+    </div>
+</div>
+
+<table class="table table-sm">
+    <thead class="bg-light">
+    <tr>
+        <th>演習</th>
+        <th>目標</th>
+        <th>位置</th>
+        <th>報酬</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{ for p in player.in_all_rounds }}
+    {{ if p.round_number == p.NLE_paid_decision }}<tr class="bg-info">{{ else }}<tr>{{ endif }}
+        <td>{{ p.round_number }}</td>
+        <td>{{ p.NLE_nombre_cible }}</td>
+        <td>{{ p.NLE_curseur_position}}</td>
+        <td>{{ p.payoff }}</td>
+    </tr>
+    {{ endfor }}
+    </tbody>
+</table>
+
+{{ next_button }}
+{{ include "gb_targetNLE/InstructionsModal.html" }}
+
+{{ endblock }}
+
+{{ block scripts }}
+
+{{ endblock }}

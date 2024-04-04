@@ -1,0 +1,94 @@
+{% block content %}
+<style>
+    .container_under {
+        font-family: Arial, sans-serif;
+        margin: 20px auto;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #f8f9fa;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    h3 {
+        font-size: 28px;
+        margin-bottom: 30px;
+    }
+    .mb-3 {
+        text-align: left;
+        padding: 15px;
+        margin-bottom: 20px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    label {
+        font-weight: bold;
+        color: #333333;
+        margin-bottom: 10px;
+        display: block;
+        text-align: left;
+    }
+    select, input[type="text"], input[type="radio"] {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 18px;
+        margin-top: 20px;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<div class="container_under">
+    <h3>理解度テスト <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">指示</button></h3>
+    <form method="post">
+        {% for field in form %}
+            {{ if 'fault' not in field.name }}
+                <div class="mb-3">
+                    <label>{{ field.label }}</label>
+                    {{ field }}
+                    <p class="form-control-errors" id="pid_{{ field.name }}" style="display:none">不正解です。</p>
+                </div>
+            {{ else }}
+                <input type="hidden" name="{{ field.name }}" value="0">
+            {{ endif }}
+        {% endfor %}
+        <button type='button' onclick="validate()" class="btn btn-primary">回答を提出</button>
+    </form>
+</div>
+
+{{ include "gb_live_bargaining/InstructionsModal.html" }}
+
+{% endblock %}
+
+{{ block scripts }}
+<script>
+    function validate(){
+        let all_correct=true;
+        document.querySelectorAll(".form-control-errors").forEach((paraph)=>{paraph.style.display="none";})
+        for(let i=1;i<9;i++){
+            let field_value = document.querySelector(`select[name=understanding_${i}]`).value;
+            if(field_value != js_vars.questionnaire[i-1]["correct_answer"]){
+                let fault=Number(document.querySelector(`input[name=understanding_faults${i}]`).value);
+                fault++;
+                document.querySelector(`input[name=understanding_faults${i}]`).value=fault;
+                document.querySelector(`#pid_understanding_${i}`).style.display="block";
+                all_correct=false;
+            }
+        }
+        if (all_correct==true) document.querySelector("form").submit();
+    }
+</script>
+{{ endblock }}

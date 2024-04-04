@@ -1,0 +1,150 @@
+{{ block content }}
+
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: Arial, sans-serif;
+    }
+
+    .top-block {
+        height: 12.5%;
+        background-color: #f0f0f0;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .main-content {
+        display: flex;
+        height: 87.5%;
+    }
+
+    .left-block, .right-block {
+        padding: 10px;
+        background-color: #e0e0e0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .left-block {
+        flex: 2;
+    }
+
+    .right-block {
+        flex: 3;
+    }
+
+    .section {
+        background-color: #f9f9f9;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .section h4 {
+        margin-top: 0;
+    }
+
+    .input-field {
+        width: 100%;  /* 必要に応じて幅を調整 */
+        padding: 5px;
+        margin: 5px 0;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+
+    .col-player {
+        width: 25%;
+    }
+
+    .col-input {
+        width: 35%;
+    }
+
+    .col-current-offer {
+        width: 40%;
+    }
+
+    .highlight {
+        color: #007bff;
+        font-weight: bold;
+    }
+
+    button {
+        background-color: #6495ED;
+        color: black;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 4px;
+        margin-top: 10px;
+    }
+
+    #stop-bargaining-btn {
+        background-color: #FF5733;
+    }
+
+    #btn-accept {
+        background-color: #4CBB17;
+    }
+</style>
+
+<div class="top-block">
+    <h1>不一致ゲーム：提案 (ラウンド {{ subsession.round_number }} / {{ C.NUM_ROUNDS }})</h1>
+</div>
+
+<div class="main-content">
+    <div class="left-block">
+        <div class="section">
+            <h4>指示</h4>
+            <p>
+                あなたともう一人の参加者の間で分割する<span class="highlight">{{ C.PIE_SIZE }}</span> ECUがあります。提供したいECUの量を決めてください。
+            </p>
+            <p>
+                もう一人の参加者があなたの提案を受け入れた場合、ECUは提案した通りに分割されます。提案が拒否された場合、プレイヤー1としてのもう一人の参加者は<span class="highlight">{{ C.DISAGREEMENT_PAYOFF_P1 }}</span> ECUを受け取り、あなたはプレイヤー2として<span class="highlight">{{ C.DISAGREEMENT_PAYOFF_P2 }}</span> ECUを受け取ります。
+            </p>
+        </div>
+    </div>
+
+    <div class="right-block">
+        <form method="post">
+            <div class="offer-table section">
+                <table class="table">
+                    <tr><div id="offer-error" style="color: red; display: none;"></div>
+                        <td>プレイヤー1へのあなたの提案 (ECU):</td>
+                        <td><input type="number" name="UG_proposer_decision" id="UG_prop" class="input-field"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><button type="button" onclick="sendOffer()" class="btn btn-primary">提案を送信</button></td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    let UG_proposer_decision = document.getElementById('UG_prop');
+    function sendOffer() {
+        let offerPlayer = parseInt(UG_proposer_decision.value, 10);
+        let pieSize = 1000; // 全体のパイサイズを1000と仮定
+        let offerError = document.getElementById('offer-error');
+
+        // 入力が空か、合計がパイサイズを超えるかチェック
+        if (isNaN(offerPlayer)
+        || offerPlayer < 0
+        || offerPlayer !== parseFloat(UG_proposer_decision.value)
+        || offerPlayer > pieSize) {
+            offerError.textContent = "無効な提案です。フィールドが1000未満の非負の整数であることを確認してください。";
+            offerError.style.display = 'block';
+        } else {
+            offerError.style.display = 'none';
+            document.querySelector('form').submit();
+        }
+    }
+</script>
+
+
+{% endblock %}

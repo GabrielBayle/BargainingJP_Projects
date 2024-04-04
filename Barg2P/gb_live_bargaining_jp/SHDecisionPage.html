@@ -1,0 +1,140 @@
+{{ block content }}
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        .instructions {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .decision-table {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .clickable-cell {
+            cursor: pointer;
+            background-color: #f0f0f0;
+        }
+
+        .clickable-cell:hover {
+            background-color: #e0e0e0;
+        }
+
+        th, td {
+            padding: 10px;
+        }
+
+        th {
+            background-color: #e0e0e0;
+        }
+
+        .bg-info {
+            background-color: #d0f0c0;
+        }
+
+        button {
+            background-color: #6495ED;
+            color: black;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+    </style>
+
+    <div class="instructions">
+        <h2>不一致ゲームの説明 (ラウンド {{ subsession.round_number }} / {{ C.NUM_ROUNDS }})</h2>
+        <p>
+            このゲームでは、交渉ゲームのパートナーとそれぞれ独立して、選択1または選択2をプレイするか決める必要があります。
+            あなたの報酬は、あなたともう一人のプレイヤーの両方の決定に依存します。可能な結果は以下の通りです:
+        </p>
+        <ul>
+            <li>両方のプレイヤーが選択1をプレイする場合、それぞれ {{ both_stag_payoff }} ECUを獲得します。</li>
+            <li>プレイヤー1が選択1を、プレイヤー2が選択2をプレイする場合、プレイヤー1は {{ stag_hare_payoff }} ECUを、
+                プレイヤー2は {{ hare_stag_payoff_p2 }} ECUを獲得します。</li>
+            <li>プレイヤー1が選択2を、プレイヤー2が選択1をプレイする場合、プレイヤー1は {{ hare_stag_payoff_p1 }} ECUを、
+                プレイヤー2は {{ stag_hare_payoff }} ECUを獲得します。</li>
+            <li>両方のプレイヤーが選択2をプレイする場合、プレイヤー1は {{ both_hare_payoff_p1 }} ECUを、プレイヤー2は
+                {{ both_hare_payoff_p2 }} ECUを獲得します。</li>
+        </ul>
+        <p>以下のテーブルで「選択1」または「選択2」をクリックして、あなたの決定を選択してください:</p>
+    </div>
+    <div class="decision-table">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th></th>
+                <th>相手の選択1</th>
+                <th>相手の選択2</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td onclick="set_decision(true)" class="clickable-cell">選択1</td>
+                <td><strong>{{ both_stag_payoff }}</strong>, {{ both_stag_payoff }}</td>
+                {% if player_id == 1 %}
+                    <td><strong>{{ stag_hare_payoff }}</strong>, {{ hare_stag_payoff_p2 }}</td>
+                {% else %}
+                    <td><strong>{{ stag_hare_payoff }}</strong>, {{ hare_stag_payoff_p1 }}</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <td onclick="set_decision(false)" class="clickable-cell">選択2</td>
+                {% if player_id == 1 %}
+                    <td><strong>{{ hare_stag_payoff_p1 }}</strong>, {{ stag_hare_payoff }}</td>
+                {% else %}
+                    <td><strong>{{ hare_stag_payoff_p2 }}</strong>, {{ stag_hare_payoff }}</td>
+                {% endif %}
+                {% if player_id == 1 %}
+                    <td><strong>{{ both_hare_payoff_p1 }}</strong>, {{ both_hare_payoff_p2 }}</td>
+                {% else %}
+                    <td><strong>{{ both_hare_payoff_p2 }}</strong>, {{ both_hare_payoff_p1 }}</td>
+                {% endif %}
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+{{ next_button }}
+
+<input type="hidden" name="SH_decision" id="SH_decision" value="">
+
+{{ block scripts }}
+<script>
+    const btn_next = document.querySelector(".otree-btn-next");
+    const tdec = document.querySelector("table tbody");
+
+    function set_decision(decision) {
+        document.querySelector("input[name=SH_decision]").value = decision;
+        let rows = tdec.rows;
+        for (let i = 0; i < rows.length; i++) {
+            if ((decision && i === 0) || (!decision && i === 1)) {
+                rows[i].classList.add("bg-info");
+            } else {
+                rows[i].classList.remove("bg-info");
+            }
+        }
+        btn_next.disabled = false;
+    }
+
+    window.onload = function () {
+        btn_next.disabled = true;
+    }
+</script>
+{{ endblock }}
+
+{{ endblock }}

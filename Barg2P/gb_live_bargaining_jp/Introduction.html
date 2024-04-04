@@ -1,0 +1,82 @@
+{{ block content }}
+
+<style>
+    .intro-container {
+        font-family: Arial, sans-serif;
+        margin: 0 auto;
+        max-width: 800px;
+        padding: 20px;
+        text-align: left;
+    }
+
+    .intro-content {
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+    }
+
+    .intro-content h1 {
+        color: #333;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .intro-content p {
+        color: #555;
+        font-size: 18px;
+        text-align: left;
+    }
+
+    .hidden {
+        visibility: hidden;
+        text-align: center;
+    }
+</style>
+
+<div class="intro-container">
+    <div class="intro-content">
+        <h1>実験への導入</h1>
+        <p>当研究所の実験へようこそ。この研究の目的は、制御された環境下での意思決定プロセスを理解することです。ご参加は非常に重要であり、あなたの決定は直接的な影響を及ぼします。</p>
+        <p><b>基本ルール:</b></p>
+        <ul>
+            <li>あなたの決定は匿名であり、秘密にされます。</li>
+            <li>あなたが下す各決定は、この実験からの収入に影響を及ぼす可能性があります。</li>
+            <li>実験中は集中を保ち、気を散らさないようにすることが重要です。</li>
+            <li>指示に注意深く従い、何か明らかでないことがあれば質問してください。</li>
+        </ul>
+        <p>あなたの収入は、あなたの決定と他の参加者の決定に基づいて計算されます。実験の終わりに、タスクで指定されたルールに従って支払いを受け取ります。</p>
+        <p>3つのタスクに参加します。これらのタスクはそれぞれ独立しており、支払いが行われます。</p>
+
+        <div class="consent-section">
+            <p>参加するには、以下の条件に同意して読んでください:</p>
+            <ul>
+                <li>この実験に参加することに同意します。</li>
+                <li>実験中、他の参加者との通信を行わないことに同意します。</li>
+                <li>実験中、携帯電話の使用、インターネットへのアクセス、またはその他の形式の外部通信を使用しないことに同意します。</li>
+            </ul>
+
+            <label>
+                <input type="checkbox" id="consent-checkbox" name="consent_given">
+                これらの条件を理解し、同意します。
+            </label>
+        </div>
+    </div>
+</div>
+
+<div class="intro-container">
+        <div id="next-button-container" class="hidden">
+            {{ next_button }}
+        </div>
+</div>
+
+<script>
+    document.getElementById('consent-checkbox').addEventListener('change', function() {
+        var nextButtonContainer = document.getElementById('next-button-container');
+        nextButtonContainer.style.visibility = this.checked ? 'visible' : 'hidden';
+    });
+</script>
+
+{{ endblock }}

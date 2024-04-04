@@ -1,0 +1,48 @@
+<div class="card bg-light text-justify mb-3">
+    <div class="card-body">
+        <p class="card-text">
+            この部分では、数値が線上のどの位置にあるかを示す必要があります。この練習は{{ C.NUM_ROUNDS }}回行い、毎回異なる数値で行います。
+            線は0から100までで、カーソルは最初に0の位置にあります。
+            目標値に近づくためにマウスを使用してカーソルを移動させるために{{ C.DECISION_TIME }}
+            秒が与えられます。
+            {{ C.DECISION_TIME }}秒の終了時に応答がない場合、プログラムはあなたの回答を0とみなし、
+            自動的に次の練習に進みます。
+        </p>
+        <p class="text-center">
+            下記の図は表示される線を示しており、カーソルは最初に0の位置にあります
+        </p>
+        <div class="text-center">
+            0&nbsp;<input type="range" style="width: 60%;" min="0" max="100" value="0" step="0.1" list="input_ticks">&nbsp;100
+            <datalist id="input_ticks">
+                <option label="0">0</option>
+                <option label="100">100</option>
+            </datalist>
+        </div>
+        <h6 class="mt-3 mb-3">利得の計算</h6>
+        <p class="card-text">
+            利得は、選択した位置と目標数値との距離に依存します。正確には、<i>d</i>が選択した位置と目標数値との距離である場合、利得は
+            {{ subsession.constante|cu }} - {{ C.FACTEUR_DISTANCE }} x d、d = |目標数値 - 選択した位置|となります。この計算を3つの例で説明しましょう。
+        </p>
+        <p class="card-text">
+            <u>例 1</u>: 目標数値が12.2で、カーソルを値11.5に位置させた場合。 <br>
+            その場合の利得は
+            {{ subsession.constante|cu }} - {{ C.FACTEUR_DISTANCE }} x |12.2 - 11.5| = €2.96となります。
+        </p>
+        <p class="card-text">
+            <u>例 2</u>: 目標数値が12.2で、カーソルを値55に位置させた場合。 <br>
+            その場合の利得は
+            {{ subsession.constante|cu }} - {{ C.FACTEUR_DISTANCE }} x |12.2 - 55| = €0.86となります。
+        </p>
+        <p class="card-text">
+            <u>例 3</u>: 目標数値が12.2で、カーソルを値90に位置させた場合。 <br>
+            その場合の利得は
+            {{ subsession.constante|cu }} - {{ C.FACTEUR_DISTANCE }} x |12.2 - 90| = -€0.89となります。
+            この場合、あなたの利得は€0です。
+        </p>
+        <p class="card-text">
+            この部分の終わりに、{{ C.NUM_ROUNDS }}回の練習の中からコンピュータープログラムによってランダムに1つが選択されます。
+            この練習でのあなたの利得が、この部分でのあなたの利得を決定します。最小利得は{{ 0|cu }}
+            で、最大利得は{{ subsession.constante|cu }}です。
+        </p>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+{{ block content }}
+
+<style>
+    .wait-container {
+        font-family: Arial, sans-serif;
+        margin: 0 auto;
+        max-width: 800px;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .wait-message {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-top: 50px; /* 必要に応じて調整 */
+    }
+
+    .wait-message h1 {
+        color: #333;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .wait-message p {
+        color: #555;
+        font-size: 18px;
+    }
+</style>
+
+<div class="wait-container">
+    <div class="wait-message">
+        <h1>他のプレイヤーを待っています</h1>
+        <p>グループの他のプレイヤーが結果を読み終わるまでお待ちください。</p>
+    </div>
+</div>
+
+{{ endblock }}
