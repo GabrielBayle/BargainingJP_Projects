@@ -32,7 +32,7 @@
 </style>
 
 <div class="instructions-container">
-    <h1>Instructions (Round {{ subsession.round_number }} on {{ C.NUM_ROUNDS }})</h1>
+    <h1>Instructions</h1>
 
     <h2>General instructions</h2>
 
@@ -83,7 +83,7 @@
         <div class="section-header">Communication</div>
         <p>You can communicate with your partner using the chat feature during the game. The image below displays the
         chat as it will be displayed during the experiment.</p>
-        <img src="{{ static 'images/instructions_chat.png' }}" alt="Chat" width="450">
+        <img src="{{ static 'gb_live_bargaining/images/instructions_chat.png' }}" alt="Chat" width="450">
     </div>
 
     <div class="section">
@@ -95,14 +95,14 @@
             will see it displayed on the right in the fields "Your current offer".</p>
         <p>Even if you already sent an offer, you are free to make a new offer and send it. Doing so, it will replace
         your previous offer.</p>
-        <img src="{{ static 'images/instructions_offer.png' }}" alt="Making an Offer">
+        <img src="{{ static 'gb_live_bargaining/images/instructions_offer.png' }}" alt="Making an Offer">
     </div>
 
     <div class="section">
         <div class="section-header">Responding to Offers</div>
         <p>When you receive an offer from the other player, you can choose to accept it or ignore it. If you accept it,
         it will end the game and the {{ C.PIE_SIZE }} ECU will be shared as it has been accepted.</p>
-        <img src="{{ static 'images/instructions_accept.png' }}" alt="Responding to an Offer" width="320">
+        <img src="{{ static 'gb_live_bargaining/images/instructions_accept.png' }}" alt="Responding to an Offer" width="320">
     </div>
 
     <div class="section">
@@ -110,7 +110,7 @@
         <p>If you wish to retract an offer before the other player responds, click "Cancel Offer". If you do, your
             previous offer will not be acceptable anymore from the other player. You will still be able to make new
             offers.</p>
-        <img src="{{ static 'images/instructions_cancel.png' }}" alt="Canceling an Offer" width="400">
+        <img src="{{ static 'gb_live_bargaining/images/instructions_cancel.png' }}" alt="Canceling an Offer" width="400">
     </div>
 
     <div class="section">
@@ -118,7 +118,7 @@
         <p>If you prefer not to continue negotiating and accept the disagreement option, click "Stop Bargaining".
             This will end the game with a predefined disagreement payoff. A pop-up window will be displayed and you
             will have to confirm your decision to stop bargaining.</p>
-        <img src="{{ static 'images/instructions_stop.png' }}" alt="Stopping Bargaining" width="150">
+        <img src="{{ static 'gb_live_bargaining/images/instructions_stop.png' }}" alt="Stopping Bargaining" width="150">
     </div>
 
     <h2>If No Agreement Is Reached</h2>
@@ -268,7 +268,7 @@
     <div class="section">
         <div class="section-header">Payoffs</div>
         <p>At the end of the experiment, one round will be randomly chosen by the computer. The ECU you earned in the chosen
-            round will be converted in JPY at the rate of 1 ECU = {{ C.CONVERSION_RATE }} JPY.</p>
+            round will be converted in JPY at the rate of 1 ECU = {{ C.CONVERSION_RATE|c }}.</p>
         <p>Additionally, you will receive {{ player.participation_fee }} of participation fee for the experiment.</p>
     </div>
 

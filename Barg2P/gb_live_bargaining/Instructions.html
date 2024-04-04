@@ -1,4 +1,4 @@
-{{ block content }}
+{{ block styles }}
 
 <style>
     .instructions-container {
@@ -7,6 +7,7 @@
         max-width: 800px;
         padding: 20px;
     }
+
     .section {
         margin-bottom: 20px;
         border: 1px solid #ccc;
@@ -14,6 +15,7 @@
         padding: 15px;
         background-color: #f8f8f8;
     }
+
     .sectionbis {
         margin-bottom: 20px;
         border: 1px solid #ccc;
@@ -21,10 +23,12 @@
         padding: 15px;
         background-color: #ffcccb;
     }
+
     .section-header {
         font-weight: bold;
         margin-bottom: 10px;
     }
+
     .instructions-container img {
         display: block;
         margin: 0 auto;
@@ -32,249 +36,13 @@
         height: auto;
     }
 </style>
+{{ endblock }}
 
-<div class="instructions-container">
-    <h1>Instructions (Round {{ subsession.round_number }} on {{ C.NUM_ROUNDS }})</h1>
+{{ block content }}
 
-    <h2>General instructions</h2>
+{{ include_sibling "InstructionsTemplate.html" }}
 
-    {% if player.session.config.get('treatment') == 'test' and player.round_number > 1 and player.round_number != 5 %}
-    <div class="sectionbis">
-        <div class="section-header">New rules</div>
-        <p>Please read carefully the red sections of the instructions. The gray sections remain similar to the
-            previous round.</p>
-    </div>
-    {% elif player.round_number == 5 %}
-    <div class="sectionbis">
-        <div class="section-header">New rules</div>
-        <p>For the following rounds, you will now change role. If you were Player 1, you will be Player 2 and if you were Player 2, you will be Player 1.
-            Please read carefully the red sections of the instructions. The gray sections remain similar to the
-            previous round.</p>
-    </div>
-    {% endif %}
+{{ next_button }}
 
-    <div class="section">
-        <div class="section-header">Welcome</div>
-        <p>Welcome to the Bargaining Experiment. In this game, you will be randomly paired with another participant to
-            negotiate a division of a sum of money. After each round, you will be paired with a new participant.</p>
-    </div>
-
-    <div class="section">
-        <div class="section-header">Objective</div>
-        <p>Your goal is to reach an agreement on how to divide {{ C.PIE_SIZE }} Experimental Currency Units (ECU)
-            between the two of you.</p>
-        <p>If you do not, a disagreement option will be automatically implemented. This option is described in the
-            section "If No Agreement Is Reached".</p>
-    </div>
-
-    <div class="section">
-        <div class="section-header">Time Limit</div>
-        <p>There is a time limit of {{ C.timer|to0 }} minutes for the negotiation. If an agreement is not reached within this time, the game will
-            end, and the disagreement option will be automatically implemented.</p>
-    </div>
-
-    <div class="section">
-        <div class="section-header">Roles</div>
-        <p>You will be randomly assigned as either Player 1 or Player 2. The other participant will take the opposite
-            role.</p>
-    </div>
-
-    <h2>How the game works</h2>
-
-    <div class="section">
-        <div class="section-header">Communication</div>
-        <p>You can communicate with your partner using the chat feature during the game. The image below displays the
-        chat as it will be displayed during the experiment.</p>
-        <img src="{{ static 'images/instructions_chat.png' }}" alt="Chat" width="450">
-    </div>
-
-    <div class="section">
-        <div class="section-header">Making Offers</div>
-        <p>In the input fields, you can enter an amount both for you and the other player. These amounts can range
-            from 0 to {{ C.PIE_SIZE }} and the sum of the two amounts has to equal {{ C.PIE_SIZE }}.
-            Both amounts have to be non-negative integers. Once you have
-            entered an offer, click on "Send Offer" to send it to the other player. Once your offer is sent, you
-            will see it displayed on the right in the fields "Your current offer".</p>
-        <p>Even if you already sent an offer, you are free to make a new offer and send it. Doing so, it will replace
-        your previous offer.</p>
-        <img src="{{ static 'images/instructions_offer.png' }}" alt="Making an Offer">
-    </div>
-
-    <div class="section">
-        <div class="section-header">Responding to Offers</div>
-        <p>When you receive an offer from the other player, you can choose to accept it or ignore it. If you accept it,
-        it will end the game and the {{ C.PIE_SIZE }} ECU will be shared as it has been accepted.</p>
-        <img src="{{ static 'images/instructions_accept.png' }}" alt="Responding to an Offer" width="320">
-    </div>
-
-    <div class="section">
-        <div class="section-header">Canceling Offers</div>
-        <p>If you wish to retract an offer before the other player responds, click "Cancel Offer". If you do, your
-            previous offer will not be acceptable anymore from the other player. You will still be able to make new
-            offers.</p>
-        <img src="{{ static 'images/instructions_cancel.png' }}" alt="Canceling an Offer" width="400">
-    </div>
-
-    <div class="section">
-        <div class="section-header">Stopping Bargaining</div>
-        <p>If you prefer not to continue negotiating and accept the disagreement option, click "Stop Bargaining".
-            This will end the game with a predefined disagreement payoff. A pop-up window will be displayed and you
-            will have to confirm your decision to stop bargaining.</p>
-        <img src="{{ static 'images/instructions_stop.png' }}" alt="Stopping Bargaining" width="150">
-    </div>
-
-    <h2>If No Agreement Is Reached</h2>
-
-    {% if player.session.config.get('treatment') == 'bargain'
-    or player.session.config.get('treatment') == 'test' and player.round_number == 1
-    or player.session.config.get('treatment') == 'test' and player.round_number == 5 %}
-        <div class="section">
-            <div class="section-header">If No Agreement Is Reached</div>
-                <p>If no agreement is reached before the end of the negotiation time or if a player decides to end the
-                    negotiation without agreement, the ECU will be automatically allocated as follows: Player 1 will
-                    receive {{ C.DISAGREEMENT_PAYOFF_P1 }} ECU and Player 2 will receive {{ C.DISAGREEMENT_PAYOFF_P2 }}
-                    ECU.</p>
-        </div>
-    {% else %}
-        <div class="sectionbis">
-            <div class="section-header">If No Agreement Is Reached</div>
-                <p>If no agreement is reached before the end of the negotiation time or if a player decides to end the
-                negotiation without agreement, you will have to play the Disagreement option game to determine your
-                payoffs.</p>
-        </div>
-    {% endif %}
-
-    {% if player.session.config.get('treatment') == 'prisoner'
-        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 2
-        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 3
-        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 4
-        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 6
-        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 7
-        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 8 %}
-        <div class="sectionbis">
-            <div class="section-header">Disagreement option Instructions</div>
-            <p>In the Disagreement Game, you and the other player must independently decide between two choices. Your payoff depends on both your decision and the other player's decision:</p>
-            <ul>
-                <li>If both players play Choice 1, each earns {{ C.mutual_cooperation_payoff_PD }} ECU.</li>
-                <li>If one plays Choice 1 and the other plays Choice 2, the player choosing play Choice 2 earns {{ C.betray_payoff_PD }} ECU, and the
-                    other earns {{ C.betrayed_payoff_PD }} ECU.</li>
-                <li>If both players play Choice 2, Player 1 earns {{ C.mutual_betrayal_payoff_PD_p1 }} ECU, and Player 2
-                    earns {{ C.mutual_betrayal_payoff_PD_p2 }} ECU.</li>
-            </ul>
-            <p>To make a choice during the disagreement game, you just have to click on Choice 1 or Choice 2 in the table.</p>
-            <table class="table table-bordered text-center">
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>Other's Choice 1</th>
-                    <th>Other's Choice 2</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>Choice 1</td>
-                    <td><strong>{{ C.mutual_cooperation_payoff_PD }}</strong>, {{ C.mutual_cooperation_payoff_PD }}</td>
-                    <td><strong>{{ C.betrayed_payoff_PD }}</strong>, {{ C.betray_payoff_PD }}</td>
-                </tr>
-                <tr>
-                    <td>Choice 2</td>
-                    <td><strong>{{ C.betray_payoff_PD }}</strong>, {{ C.betrayed_payoff_PD }}</td>
-                    {% if player.id_in_group == 1 %}
-                        <td><strong>{{ C.mutual_betrayal_payoff_PD_p1 }}</strong>, {{ C.mutual_betrayal_payoff_PD_p2 }}</td>
-                    {% else %}
-                        <td><strong>{{ C.mutual_betrayal_payoff_PD_p2 }}</strong>, {{ C.mutual_betrayal_payoff_PD_p1 }}</td>
-                    {% endif %}
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-    {% elif player.session.config.get('treatment') == 'staghunt'
-        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 3
-        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 4
-        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 2
-        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 7
-        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 8
-        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 6 %}
-        <div class="sectionbis">
-            <div class="section-header">Disagreement option Instructions</div>
-            <p>In the Disagreement Game, you and the other player must independently decide between two choices. Your payoff depends on both your decision and the other player's decision:</p>
-            <ul>
-                <li>If both players play Choice 1, each earns {{ C.both_stag_payoff }} ECU.</li>
-                <li>If Player 1 plays Choice 1 and Player 2 plays Choice 2, Player 1 earns {{ C.stag_hare_payoff }} ECU and
-                    Player 2 earns {{ C.hare_stag_payoff_p2 }} ECU.</li>
-                <li>If Player 1 plays Choice 2 and Player 2 plays Choice 1, Player 1 earns {{ C.hare_stag_payoff_p1 }} ECU and
-                    Player 2 earns {{ C.stag_hare_payoff }} ECU.</li>
-                <li>If both players play Choice 2, Player 1 earns {{ C.both_hare_payoff_p1 }} ECU, and Player 2 earns
-                    {{ C.both_hare_payoff_p2 }} ECU.</li>
-            </ul>
-            <p>To make a choice during the disagreement game, you just have to click on Choice 1 or Choice 2 in the table.</p>
-            <table class="table table-bordered text-center">
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>Other's Choice 1</th>
-                    <th>Other's Choice 2</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>Choice 1</td>
-                    <td><strong>{{ C.both_stag_payoff }}</strong>, {{ C.both_stag_payoff }}</td>
-                    {% if player.id_in_group == 1 %}
-                        <td><strong>{{ C.stag_hare_payoff }}</strong>, {{ C.hare_stag_payoff_p2 }}</td>
-                    {% else %}
-                        <td><strong>{{ C.stag_hare_payoff }}</strong>, {{ C.hare_stag_payoff_p1 }}</td>
-                    {% endif %}
-                </tr>
-                <tr>
-                    <td>Choice 2</td>
-                    {% if player.id_in_group == 1 %}
-                        <td><strong>{{ C.hare_stag_payoff_p1 }}</strong>, {{ C.stag_hare_payoff }}</td>
-                    {% else %}
-                        <td><strong>{{ C.hare_stag_payoff_p2 }}</strong>, {{ C.stag_hare_payoff }}</td>
-                    {% endif %}
-                    {% if player.id_in_group == 1 %}
-                        <td><strong>{{ C.both_hare_payoff_p1 }}</strong>, {{ C.both_hare_payoff_p2 }}</td>
-                    {% else %}
-                        <td><strong>{{ C.both_hare_payoff_p2 }}</strong>, {{ C.both_hare_payoff_p1 }}</td>
-                    {% endif %}
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    {% elif player.session.config.get('treatment') == 'ultimatum'
-        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 4
-        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 2
-        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 3
-        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 8
-        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 6
-        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 7 %}
-        <div class="sectionbis">
-            <div class="section-header">Disagreement option Instructions</div>
-            <p>In the Disagreement Game, the Player 2 proposes a split of the {{ C.PIE_SIZE }} ECU between him and the
-                Player 1.</p>
-            <p>Then, the Player 1 receives the offer. He can either accept or reject it.</p>
-            <p></p>
-            <ul>
-                <li>If the Player 1 accepts the offer, the {{ C.PIE_SIZE }} ECU are allocated as proposed by the
-                    Player 2.</li>
-                <li>If the Player 1 rejects the offer, the Player 1 receives {{ C.reject_payoff_p1 }} ECU and the
-                    Player 2 receives {{ C.reject_payoff_p2 }} ECU.</li>
-            </ul>
-        </div>
-    {% endif %}
-
-    <h2>Payment</h2>
-
-    <div class="section">
-        <div class="section-header">Payoffs</div>
-        <p>At the end of the experiment, one round will be randomly chosen by the computer. The ECU you earned in the chosen
-            round will be converted in JPY at the rate of 1 ECU = {{ C.CONVERSION_RATE }} JPY.</p>
-        <p>Additionally, you will receive {{ player.participation_fee }} of participation fee for the experiment.</p>
-    </div>
-
-    {{ next_button }}
-</div>
 
 {{ endblock }}
