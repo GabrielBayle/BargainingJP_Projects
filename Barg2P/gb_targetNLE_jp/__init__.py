@@ -10,7 +10,7 @@ Target Number Line Estimate
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'gbtnle'
+    NAME_IN_URL = 'gbtnlejp'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 15
     DECISION_TIME = 10
