@@ -20,7 +20,7 @@ PLAYERS1, PLAYERS2, pairs = None, None, None
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'gb_live_bargaining'
+    NAME_IN_URL = 'gblbjp'
 
     #### BARGAINING
 

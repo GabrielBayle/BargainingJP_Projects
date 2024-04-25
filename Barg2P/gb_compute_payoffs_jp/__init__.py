@@ -8,7 +8,7 @@ doc = """
 PLAYERS1, PLAYERS2, pairs, swap = None, None, None, None
 
 class C(BaseConstants):
-    NAME_IN_URL = 'gb_compute_payoffs'
+    NAME_IN_URL = 'gbcpjp'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
 

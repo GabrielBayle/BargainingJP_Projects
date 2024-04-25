@@ -9,7 +9,7 @@ SVO - 6 matrices
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'gb_svo'
+    NAME_IN_URL = 'gbsvojp'
     PLAYERS_PER_GROUP = 2
     NUM_ROUNDS = 1
 
