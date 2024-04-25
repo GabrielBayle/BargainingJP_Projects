@@ -34,90 +34,91 @@
 <div class="instructions-container">
     <h1>Instructions</h1>
 
-    <h2>General instructions</h2>
-
     {% if player.session.config.get('treatment') == 'test' and player.round_number > 1 and player.round_number != 5 %}
     <div class="sectionbis">
         <div class="section-header">New rules</div>
-        <p>Please read carefully the red sections of the instructions. The gray sections remain similar to the
-            previous round.</p>
+        <p>The area within the red frame contains the new rules from round 2 onwards. The other parts remain unchanged.</p>
     </div>
     {% elif player.round_number == 5 %}
     <div class="sectionbis">
         <div class="section-header">New rules</div>
-        <p>For the following rounds, you will now change role. If you were Player 1, you will be Player 2 and if you were Player 2, you will be Player 1.
+        <p>For the following rounds, you will now change role. If you were Player 1, you will be Player 2 and if you
+            were Player 2, you will be Player 1.
             Please read carefully the red sections of the instructions. The gray sections remain similar to the
             previous round.</p>
     </div>
     {% endif %}
 
     <div class="section">
-        <div class="section-header">Welcome</div>
-        <p>Welcome to the Bargaining Experiment. In this game, you will be randomly paired with another participant to
-            negotiate a division of a sum of money. After each round, you will be paired with a new participant.</p>
+        <div class="section-header"></div>
+        <p>Thank you for participating in the experiment. In this experiment, you will be randomly paired with other
+            participants to negotiate the division of a certain amount of money over several rounds. After each round
+            of negotiation, you will be paired with a different participant for the next round.</p>
     </div>
 
     <div class="section">
-        <div class="section-header">Objective</div>
-        <p>Your goal is to reach an agreement on how to divide {{ C.PIE_SIZE }} Experimental Currency Units (ECU)
-            between the two of you.</p>
-        <p>If you do not, a disagreement option will be automatically implemented. This option is described in the
-            section "If No Agreement Is Reached".</p>
+        <div class="section-header">Your goal</div>
+        <p>Your goal is to reach an agreement on how to divide {{ C.PIE_SIZE }} experimental currency units (ECU)
+            between two people.</p>
+        <p>If no agreement is reached, you will automatically move to the 'disagreement' stage. Details of this stage
+            are described in the 'In Case of No Agreement' section.</p>
     </div>
 
     <div class="section">
         <div class="section-header">Time Limit</div>
-        <p>There is a time limit of {{ C.timer|to0 }} minutes for the negotiation. If an agreement is not reached within this time, the game will
-            end, and the disagreement option will be automatically implemented.</p>
+        <p>There is a {{ C.timer|to0 }}-minute time limit for the negotiation. If an agreement is not reached within
+            this time, the round will end, and you will automatically move to the 'disagreement' stage.</p>
     </div>
 
     <div class="section">
         <div class="section-header">Roles</div>
-        <p>You will be randomly assigned as either Player 1 or Player 2. The other participant will take the opposite
-            role.</p>
+        <p>Roles in Each Round: In each round, each pair of participants is randomly assigned so that one person is
+            Player 1 and the other is Player 2.</p>
     </div>
 
-    <h2>How the game works</h2>
+    <h2>How to proceed the bargaining at each round</h2>
 
     <div class="section">
-        <div class="section-header">Communication</div>
-        <p>You can communicate with your partner using the chat feature during the game. The image below displays the
-        chat as it will be displayed during the experiment.</p>
+        <div class="section-header">Chat Function</div>
+        <p>During negotiations in each round, you can use the chat function to communicate with your partner about the
+            negotiation. The image below shows what the chat will look like during the experiment. In the chat, you
+            must not enter your personal information or words that insult the other person.</p>
         <img src="{{ static 'gb_live_bargaining/images/instructions_chat.png' }}" alt="Chat" width="450">
     </div>
 
     <div class="section">
-        <div class="section-header">Making Offers</div>
-        <p>In the input fields, you can enter an amount both for you and the other player. These amounts can range
-            from 0 to {{ C.PIE_SIZE }} and the sum of the two amounts has to equal {{ C.PIE_SIZE }}.
-            Both amounts have to be non-negative integers. Once you have
-            entered an offer, click on "Send Offer" to send it to the other player. Once your offer is sent, you
-            will see it displayed on the right in the fields "Your current offer".</p>
-        <p>Even if you already sent an offer, you are free to make a new offer and send it. Doing so, it will replace
-        your previous offer.</p>
+        <div class="section-header">Sending an Offer</div>
+        <p>: In the input field, you can enter the distribution amounts of money (ECU) for you and the other player.
+            These amounts must range from 0 to {{ C.PIE_SIZE }}, and their total must be exactly {{ C.PIE_SIZE }}.
+            Both amounts must be non-negative integers. Once you have entered your offer, click 'Send Offer' to send
+            it to the other player. Once sent, your offer will be displayed on the right side of the image below as
+            'Your Current Offer'. </p>
+        <p>Even after you have sent an offer, you can overwrite it by creating and sending a new offer, which will
+            replace the previous one.</p>
         <img src="{{ static 'gb_live_bargaining/images/instructions_offer.png' }}" alt="Making an Offer">
     </div>
 
     <div class="section">
-        <div class="section-header">Responding to Offers</div>
-        <p>When you receive an offer from the other player, you can choose to accept it or ignore it. If you accept it,
-        it will end the game and the {{ C.PIE_SIZE }} ECU will be shared as it has been accepted.</p>
+        <div class="section-header">Responding to an Offer</div>
+        <p>If you receive an offer from another player, you can choose to accept it or ignore it. By clicking
+            'Accept', you accept the offer, the round (task) ends, and the {{ C.PIE_SIZE }} ECU are distributed
+            according to that offer.</p>
         <img src="{{ static 'gb_live_bargaining/images/instructions_accept.png' }}" alt="Responding to an Offer" width="320">
     </div>
 
     <div class="section">
-        <div class="section-header">Canceling Offers</div>
-        <p>If you wish to retract an offer before the other player responds, click "Cancel Offer". If you do, your
-            previous offer will not be acceptable anymore from the other player. You will still be able to make new
-            offers.</p>
+        <div class="section-header">Canceling an Offer</div>
+        <p>If you wish to withdraw your offer before the other player accepts it, please click 'Cancel Offer'. This
+            will prevent the other player from being able to accept your previous offer. You can still create a new
+            offer after cancelling.</p>
         <img src="{{ static 'gb_live_bargaining/images/instructions_cancel.png' }}" alt="Canceling an Offer" width="400">
     </div>
 
     <div class="section">
-        <div class="section-header">Stopping Bargaining</div>
-        <p>If you prefer not to continue negotiating and accept the disagreement option, click "Stop Bargaining".
-            This will end the game with a predefined disagreement payoff. A pop-up window will be displayed and you
-            will have to confirm your decision to stop bargaining.</p>
+        <div class="section-header">Stopping Negotiations</div>
+        <p>If you wish to stop negotiating and enter the disagreement stage, please click 'Stop Negotiation'. This will
+            terminate the negotiation, move to the disagreement stage, and the round will end after following the
+            instructions in that stage. A popup window will appear to confirm your decision to stop the negotiation.</p>
         <img src="{{ static 'gb_live_bargaining/images/instructions_stop.png' }}" alt="Stopping Bargaining" width="150">
     </div>
 
@@ -128,17 +129,18 @@
     or player.session.config.get('treatment') == 'test' and player.round_number == 5 %}
         <div class="section">
             <div class="section-header">If No Agreement Is Reached</div>
-                <p>If no agreement is reached before the end of the negotiation time or if a player decides to end the
-                    negotiation without agreement, the ECU will be automatically allocated as follows: Player 1 will
-                    receive {{ C.DISAGREEMENT_PAYOFF_P1 }} ECU and Player 2 will receive {{ C.DISAGREEMENT_PAYOFF_P2 }}
-                    ECU.</p>
+                <p>If the negotiation time ends before an agreement is reached or a player decides to end the
+                    negotiation without agreement, you will enter the stage of negotiation disagreement. In the first
+                    round, ECU is automatically allocated as follows: Player 1 receives  {{ C.DISAGREEMENT_PAYOFF_P1 }}
+                    , and Player 2 receives {{ C.DISAGREEMENT_PAYOFF_P2 }}ECU. The instructions in this stage vary from
+                    round to round.</p>
         </div>
     {% else %}
         <div class="sectionbis">
             <div class="section-header">If No Agreement Is Reached</div>
-                <p>If no agreement is reached before the end of the negotiation time or if a player decides to end the
-                negotiation without agreement, you will have to play the Disagreement option game to determine your
-                payoffs.</p>
+                <p>From Round 2 onwards, the disagreement stage of the negotiation will proceed as follows:
+                    In case of disagreement, Player 1 and Player 2 will independently choose either Option 1 or
+                    Option 2. During this stage, the use of chat is not permitted.</p>
         </div>
     {% endif %}
 
@@ -150,7 +152,7 @@
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 7
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 8 %}
         <div class="sectionbis">
-            <div class="section-header">Disagreement option Instructions</div>
+            <div class="section-header">Disagreement Stage Instructions</div>
             <p>In the Disagreement Game, you and the other player must independently decide between two choices. Your payoff depends on both your decision and the other player's decision:</p>
             <ul>
                 <li>If both players play Choice 1, each earns {{ C.mutual_cooperation_payoff_PD }} ECU.</li>
@@ -195,15 +197,15 @@
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 8
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 6 %}
         <div class="sectionbis">
-            <div class="section-header">Disagreement option Instructions</div>
-            <p>In the Disagreement Game, you and the other player must independently decide between two choices. Your payoff depends on both your decision and the other player's decision:</p>
+            <div class="section-header">Disagreement Stage Instructions</div>
+            <p>You and your opponent will play the following game. Each of the two players has two choices, Choice 1 and Choice 2.</p>
             <ul>
-                <li>If both players play Choice 1, each earns {{ C.both_stag_payoff }} ECU.</li>
-                <li>If Player 1 plays Choice 1 and Player 2 plays Choice 2, Player 1 earns {{ C.stag_hare_payoff }} ECU and
-                    Player 2 earns {{ C.hare_stag_payoff_p2 }} ECU.</li>
-                <li>If Player 1 plays Choice 2 and Player 2 plays Choice 1, Player 1 earns {{ C.hare_stag_payoff_p1 }} ECU and
-                    Player 2 earns {{ C.stag_hare_payoff }} ECU.</li>
-                <li>If both players play Choice 2, Player 1 earns {{ C.both_hare_payoff_p1 }} ECU, and Player 2 earns
+                <li>If both players choose Choice 1, each player earns {{ C.both_stag_payoff }} ECU.</li>
+                <li>If Player 1 chooses Choice 1 and Player 2 chooses Choice 2, Player 1 earns {{ C.stag_hare_payoff }}
+                    ECU, and Player 2 earns {{ C.hare_stag_payoff_p2 }} ECU.</li>
+                <li>If Player 1 chooses Choice 2 and Player 2 chooses Choice 1, Player 1 earns {{ C.hare_stag_payoff_p1 }}
+                    ECU, and Player 2 earns {{ C.stag_hare_payoff }} ECU.</li>
+                <li>If both players choose Choice 2, Player 1 earns {{ C.both_hare_payoff_p1 }} ECU, and Player 2 earns
                     {{ C.both_hare_payoff_p2 }} ECU.</li>
             </ul>
             <p>To make a choice during the disagreement game, you just have to click on Choice 1 or Choice 2 in the table.</p>
@@ -249,7 +251,7 @@
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 6
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 7 %}
         <div class="sectionbis">
-            <div class="section-header">Disagreement option Instructions</div>
+            <div class="section-header">Disagreement Stage Instructions</div>
             <p>In the Disagreement Game, the Player 2 proposes a split of the {{ C.PIE_SIZE }} ECU between him and the
                 Player 1.</p>
             <p>Then, the Player 1 receives the offer. He can either accept or reject it.</p>
@@ -266,10 +268,21 @@
     <h2>Payment</h2>
 
     <div class="section">
-        <div class="section-header">Payoffs</div>
-        <p>At the end of the experiment, one round will be randomly chosen by the computer. The ECU you earned in the chosen
-            round will be converted in JPY at the rate of 1 ECU = {{ C.CONVERSION_RATE|c }}.</p>
-        <p>Additionally, you will receive {{ player.participation_fee }} of participation fee for the experiment.</p>
+        <div class="section-header">Reward</div>
+        <p>In the experiment, you will repeat the above negotiations. You are free to use the chat function as well.
+            After the experiment ends, one round will be randomly selected by the computer from all the rounds, and
+            the ECU actually earned in that round will be converted to yen, which will serve as your reward. The
+            conversion rate is 1 ECU = {{ C.CONVERSION_RATE|c }} yens.</p>
+        <p>To this reward, an additional participation fee of {{ player.participation_fee }} yen for participating in
+            the experiment will be added, which will be your total amount received today.</p>
     </div>
+
+    {% if  player.round_number == 1 %}
+        <div class="section">
+        <div class="section-header"></div>
+        <p>If anyone has any questions so far, please raise your hand and let the experimenter know. If there are no
+            questions, click 'Next' and answer the quiz. You must answer all questions correctly.</p>
+    </div>
+    {% endif %}
 
 </div>

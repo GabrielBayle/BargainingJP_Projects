@@ -73,7 +73,7 @@
         {% for result in results %}
             <div class="mb-3">
                 <label>{{ result.question }}</label>
-                <p>正しい答え: <strong>{{ result.correct }}</strong></p>
+                <p>正解: <strong>{{ result.correct }}</strong></p>
                 <p {% if not result.is_correct %}class="text-danger"{% endif %}>
                     解説: {{ result.explanation }}
                 </p>

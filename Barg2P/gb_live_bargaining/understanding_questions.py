@@ -9,12 +9,12 @@ QUESTIONS = [
         "text": "What happens if the players do not reach an agreement within the allotted time?",
         "options": ["A) They receive no payoffs", "B) Another timer begins", "C) Their payoffs will be decided randomly", "D) They receive default disagreement payoffs"],
         "correct_answer": "D) They receive default disagreement payoffs",
-        "explanation": "If no agreement is reached within the time limit, default disagreement payoffs are automatically allocated."
+        "explanation": "Move to the disagreement stage, and the results will be as instructed there."
     },
     {
-        "text": "How is the role of each player determined?",
-        "options": ["A) Players choose their roles", "B) Roles are assigned based on performance", "C) Roles are randomly assigned", "D) Roles are based on previous round performance"],
-        "correct_answer": "C) Roles are randomly assigned",
+        "text": "How are the roles of players determined in each round?",
+        "options": ["A) Players choose their roles in each round", "B) Roles are randomly assigned at the start of the experiment and do not change each round", "C) Roles are assigned at the start of each round", "D) Roles are assigned based on the outcomes of the previous round"],
+        "correct_answer": "C) Roles are assigned at the start of each round",
         "explanation": "Each player is randomly assigned as either Player 1 or Player 2 at the beginning of the game."
     },
     {
@@ -24,10 +24,10 @@ QUESTIONS = [
         "explanation": "Players are free to revise and make new offers as many times as they want during the negotiation."
     },
     {
-        "text": "What happens if one player chooses to stop bargaining?",
-        "options": ["A) The round immediately ends with no payoffs", "B) The other player makes the final decision", "C) The game continues until the time limit", "D) Default disagreement payoffs are allocated"],
-        "correct_answer": "D) Default disagreement payoffs are allocated",
-        "explanation": "If a player chooses to stop bargaining, the round ends and default disagreement payoffs are allocated."
+        "text": "What happens if one player chooses to stop the negotiation?",
+        "options": ["A) The round ends immediately, and there is no reward for that round", "B) The other player makes the final decision on whether to stop or not", "C) The stop is ignored, and negotiations continue until the time limit", "D) Moves to a disagreement stage"],
+        "correct_answer": "D) Moves to a disagreement stage",
+        "explanation": "If a player chooses to stop the negotiation, the negotiation ends and moves to a disagreement stage. After following the instructions in that stage, the round concludes."
     },
     {
         "text": "Are the decisions and offers made by players anonymous?",
@@ -36,14 +36,14 @@ QUESTIONS = [
         "explanation": "All decisions and offers made during the game are anonymous to ensure fair and unbiased negotiations."
     },
     {
-        "text": "What happens if the sum of the amounts proposed by both players does not equal the total pie size?",
-        "options": ["A) The offer is automatically accepted", "B) The offer is automatically rejected", "C) The players are penalized", "D) The game continues until a valid offer is made"],
-        "correct_answer": "D) The game continues until a valid offer is made",
-        "explanation": "Offers where the combined total does not equal the total pie size are considered invalid, and players must make a valid offer."
+        "text": "What happens if the total amount offered by each player does not equal 1000?",
+        "options": ["A) The offer is automatically accepted", "B) ) The negotiation for that round ends", "C) The player who made the offer is penalized", "D) Negotiations continue until a proposal totaling 1000 is made"],
+        "correct_answer": "D) Negotiations continue until a proposal totaling 1000 is made",
+        "explanation": "Proposals that do not total 1000 are considered invalid, and players must make valid proposals and continue negotiating."
     },
     {
         "text": "Can players communicate with each other during the bargaining process?",
-        "options": ["A) No, communication is not allowed", "B) Yes, but only before the bargaining phase", "C) Yes, through a chat feature during the bargaining phase"],
-        "correct_answer": "C) Yes, through a chat feature during the bargaining phase",
+        "options": ["A) No, communication is not allowed", "B) Yes, but only before the bargaining phase", "C) Yes, it is only possible through the chat function during the negotiation stage"],
+        "correct_answer": "C) Yes, it is only possible through the chat function during the negotiation stage",
         "explanation": "During the bargaining phase, you have access to a chat feature and are free to use it as much as you need."
     }]

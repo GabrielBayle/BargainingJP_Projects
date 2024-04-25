@@ -32,14 +32,13 @@
 </style>
 
 <div class="instructions-container">
-    <h1>指示</h1>
+    <h1>実験の説明</h1>
 
-    <h2>一般的な指示</h2>
 
     {% if player.session.config.get('treatment') == 'test' and player.round_number > 1 and player.round_number != 5 %}
     <div class="sectionbis">
         <div class="section-header">新しいルール</div>
-        <p>指示の赤いセクションを注意深くお読みください。灰色のセクションは前のラウンドと同様です。</p>
+        <p>赤い色つきの枠内が第2ラウンド以降の新しいルールです。他の部分は変わりません。</p>
     </div>
     {% elif player.round_number == 5 %}
     <div class="sectionbis">
@@ -50,76 +49,86 @@
     {% endif %}
 
     <div class="section">
-        <div class="section-header">ようこそ</div>
-        <p>交渉実験へようこそ。このゲームでは、別の参加者とランダムにペアになり、ある金額を分割するための交渉を行います。各ラウンドの後、新しい参加者とペアになります。</p>
+        <div class="section-header"></div>
+        <p>実験へ参加ありがとうございます。この実験では、他の参加者とランダムにペアになり、ある、金額を2人で分けるための交渉を何ラウンドか行いま
+            す。各ラウンドの交渉終了後、次のラウンドでは他の参加者とペアになります。</p>
     </div>
 
     <div class="section">
-        <div class="section-header">目的</div>
-        <p>あなたの目標は、{{ C.PIE_SIZE }}実験通貨単位(ECU)を二人でどのように分割するかについて合意に達することです。</p>
-        <p>そうでない場合、不一致のオプションが自動的に実施されます。このオプションは「合意に達しない場合」のセクションに記載されています。</p>
+        <div class="section-header">実験の目標</div>
+        <p>あなたの目標は {{ C.PIE_SIZE }}実験通貨単位(ECU)を二人でどのように分けるかの合意に達することです。</p>
+        <p>不合意ステージ、「不合意」ステージに自動的に移動します。その内容の詳細は「不合意ステージ」のセクションで説明されます。</p>
     </div>
 
     <div class="section">
         <div class="section-header">時間制限</div>
-        <p>交渉には{{ C.timer|to0 }}分の時間制限があります。この時間内に合意に達しない場合、ゲームは終了し、不一致のオプションが自動的に実施されます。</p>
+        <p>交渉には{{ C.timer|to0 }}分の時間制限があります。この時間内に不合意ステージ、そのラウンドは終了し、「不合意」ステージに自動的
+            に移動します。</p>
     </div>
 
     <div class="section">
-        <div class="section-header">役割</div>
-        <p>プレイヤー1またはプレイヤー2としてランダムに割り当てられます。他の参加者は逆の役割をとります。</p>
+        <div class="section-header">各ラウンドでの役割</div>
+        <p>各ラウンドで、各参加者のペアは一人がプレイヤー1、他方がプレイヤー2としてランダムに割り当てられます。</p>
     </div>
 
-    <h2>ゲームの進め方</h2>
+    <h2>各ラウンドでの交渉の進め方</h2>
 
     <div class="section">
-        <div class="section-header">コミュニケーション</div>
-        <p>ゲーム中、チャット機能を使用してパートナーとコミュニケーションをとることができます。下の画像は、実験中に表示されるチャットの様子です。</p>
+        <div class="section-header">チャット機能</div>
+        <p>各ラウンドでの交渉中、チャット機能を使用してパートナーと交渉に関するコミュニケーションをとることができます。下の画像は、実験中に表示
+            されるチャットの様子です。チャットでは、自分の個人情報や、相手を侮辱するような言葉を入力してはいけません。</p>
         <img src="{{ static 'gb_live_bargaining/images/instructions_chat.png' }}" alt="チャット" width="450">
     </div>
 
     <div class="section">
-        <div class="section-header">オファーの提示</div>
-        <p>入力フィールドには、あなたと他のプレイヤーのための金額を入力できます。これらの金額は0から{{ C.PIE_SIZE }}の範囲で、二つの金額の合計は{{ C.PIE_SIZE }}でなければなりません。
-            両方の金額は非負の整数でなければなりません。オファーを入力したら、「オファーを送信」をクリックして他のプレイヤーに送信してください。オファーが送信されると、
-            「あなたの現在のオファー」として右側のフィールドに表示されます。</p>
-        <p>既にオファーを送信していても、新しいオファーを作成して送信することができます。そうすると、以前のオファーは置き換えられます。</p>
+        <div class="section-header">オファーの送信</div>
+        <p>入力欄に、あなたと相手プレイヤーの配分金額（ECU）を入力できます。これらの金額は0から{{ C.PIE_SIZE }}の範囲で、二つの金額の合計
+            は{{ C.PIE_SIZE }}でなければなりません。 両方の金額は非負の整数でなければなりません。オファーを入力したら、「オファーを送信」
+            をクリックして他のプレイヤーに送信してください。オファーが送信されると、 「あなたの現在のオファー」として下の図の右側のように表示
+            されます。</p>
+        <p>既にオファーを送信した後でも、新しいオファーを上書きして作成し、送信することができます。そうすると、以前のオファーは置き換えられ
+            ます。</p>
         <img src="{{ static 'gb_live_bargaining/images/instructions_offer.png' }}" alt="オファーの提示">
     </div>
 
     <div class="section">
         <div class="section-header">オファーへの対応</div>
-        <p>他のプレイヤーからオファーを受け取った場合、それを受け入れるか無視するかを選ぶことができます。それを受け入れると、ゲームは終了し、{{ C.PIE_SIZE }} ECUが受け入れられたとおりに分配されます。</p>
+        <p>他のプレイヤーからオファーを受け取った場合、それを受け入れるかどうか選ぶことができます。無視しても構いません。「承認」をクリックして
+            、オファーを受け入れると、そのラウンド(タスク)は終了し、{{ C.PIE_SIZE }} ECUがそのオファーのとおりに分配されます。</p>
         <img src="{{ static 'gb_live_bargaining/images/instructions_accept.png' }}" alt="オファーへの対応" width="320">
     </div>
 
     <div class="section">
         <div class="section-header">オファーのキャンセル</div>
-        <p>他のプレイヤーが応答する前にオファーを撤回したい場合は、「オファーをキャンセル」をクリックしてください。そうすると、以前のオファーは他のプレイヤーによって受け入れることができなくなります。新しいオファーを作成することは引き続き可能です。</p>
+        <p>他のプレイヤーが承認する前に自分のオファーを撤回したい場合は、「オファーをキャンセル」をクリックしてください。そうすると、以前のオフ
+            ァーを他のプレイヤーが承認することができなくなります。新しいオファーを作成することは引き続き可能です。</p>
         <img src="{{ static 'gb_live_bargaining/images/instructions_cancel.png' }}" alt="オファーのキャンセル" width="400">
     </div>
 
     <div class="section">
         <div class="section-header">交渉の停止</div>
-        <p>交渉を続けずに不一致のオプションを受け入れたい場合は、「交渉を停止」をクリックしてください。
-            これにより、事前に定義された不一致の支払いでゲームが終了します。ポップアップウィンドウが表示され、交渉を停止する決定を確認する必要があります。</p>
+        <p>交渉を続けずに、不合意ステージに入りたい場合は、「交渉中止」をクリックしてください。 これにより、交渉は打ち切られ、不合意ステージに
+            移動し、ステージでの指示に従った後、そのラウンドが終了します。ポップアップウィンドウが表示され、交渉停止の決定を確認する必要があり
+            ます。</p>
         <img src="{{ static 'gb_live_bargaining/images/instructions_stop.png' }}" alt="交渉の停止" width="150">
     </div>
 
-    <h2>合意に達しない場合</h2>
+    <h2>不合意ステージ</h2>
 
     {% if player.session.config.get('treatment') == 'bargain'
     or player.session.config.get('treatment') == 'test' and player.round_number == 1
     or player.session.config.get('treatment') == 'test' and player.round_number == 5 %}
         <div class="section">
-            <div class="section-header">合意に達しない場合</div>
-                <p>交渉時間の終了前またはプレイヤーが合意なしで交渉を終了することを決定した場合、ECUは以下のように自動的に割り当てられます：プレイヤー1は{{ C.DISAGREEMENT_PAYOFF_P1 }} ECUを受け取り、プレイヤー2は{{ C.DISAGREEMENT_PAYOFF_P2 }}
-                    ECUを受け取ります。</p>
+            <div class="section-header">不合意ステージ</div>
+                <p>交渉時間の終了前またはプレイヤーが合意なしで交渉を終了することを決定した場合、交渉不一致のステージにはいります。第１ラウン
+                    ドでは、ECUは以下のように自動的に割り当てられます：プレイヤー1は{{ C.DISAGREEMENT_PAYOFF_P1 }} ECUを受け取り、プ
+                    レイヤー2は{{ C.DISAGREEMENT_PAYOFF_P2 }}ECUを受け取る。このステージでの指示はラウンドごとに変わります。</p>
         </div>
     {% else %}
         <div class="sectionbis">
-            <div class="section-header">合意に達しない場合</div>
-                <p>交渉時間の終了前またはプレイヤーが合意なしで交渉を終了することを決定した場合、不一致オプションゲームを行って支払いを決定する必要があります。</p>
+            <div class="section-header">不合意ステージ</div>
+                <p>ラウンド2以降の交渉の不合意ステージは下記のようになります。 不合意の場合、プレイヤー１とプレイヤー2は独立に選択1か
+                    選択2を取ります。このステージではチャットを使うことはできません。</p>
         </div>
     {% endif %}
 
@@ -242,12 +251,22 @@
         </div>
     {% endif %}
 
-    <h2>支払い</h2>
+    <h2>報酬</h2>
 
     <div class="section">
-        <div class="section-header">報酬</div>
-        <p>実験の終わりに、コンピューターによってランダムに選ばれた1ラウンドで獲得したECUがJPYに変換されます。変換レートは1 ECU = {{ C.CONVERSION_RATE|c }}です。</p>
-        <p>さらに、実験への参加料として{{ player.participation_fee }}を受け取ります。</p>
+        <div class="section-header"></div>
+        <p>実験では、上記の交渉を繰り返します。チャット機能も自由に使って構いません。実験終了後、全てのラウンドの中からコンピューターによってラ
+            ンダムに1ラウンドが選ばれ、そこで実際に獲得したECUが円に変換され、皆さんへの謝礼となります。変換レートは1 ECU =
+            {{ C.CONVERSION_RATE|c }}です。</p>
+        <p>上記の謝礼に、実験への参加謝礼{{ player.participation_fee }}を加えたものが、本日の最終受取額になります。</p>
     </div>
+
+    {% if  player.round_number == 1 %}
+        <div class="section">
+        <div class="section-header"></div>
+        <p>ここまでで、何か質問がある人は挙手して実験者に知らせてください。質問がなければ「次へ」をクリックして、クイズに答えてください。全問正
+            解する必要があります。</p>
+    </div>
+    {% endif %}
 
 </div>

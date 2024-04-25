@@ -92,27 +92,27 @@
 </style>
 
 <div class="top-block">
-    <h1>実験: 交渉 ({{ subsession.round_number }} ラウンド目 / 全 {{ C.NUM_ROUNDS }} ラウンド) <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">指示</button></h1>
+    <h1>第 ({{ subsession.round_number }} ラウンド / 全 {{ C.NUM_ROUNDS }} ラウンド) <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">指示</button></h1>
 </div>
 
 <div class="main-content">
     <div class="left-block">
     <div class="section">
-        <h4>指示</h4>
+        <h4>このラウンドの交渉</h4>
         <p>
-            あなたは部屋の中の参加者と無作為にマッチングされます。共に <span class="highlight">{{ C.PIE_SIZE }}</span> ECUをどのように分割するかを決定しなければなりません。ページの上部に表示されるタイマーの終了前に合意に達しない場合、以下の不一致オプションが実装されます。
+            あなたは、 <span class="highlight">{{ player.type }}</span> でペアの相手は
+            {{ if player.type == "Player 1"  }} Player 2. {{ else }} Player 1. {{ endif }}
+            このラウンドでは、あなたと相手で{{ C.PIE_SIZE}}ECUをどのように分けるかを決定しなければなりません。上部の制限時間内に合意に達し
+            *ない場合、下に表示された不合意ステージに移ります。
         </p>
-        <p>
-            あなたは<span class="highlight">{{ player.type }}</span>です。他の参加者は{{ if player.type == "Player 1"  }}プレイヤー2{{ else }}プレイヤー1{{ endif }}です。
-        </p>
-        <button id="stop-bargaining-btn" onclick="stopBargaining()">交渉停止</button>
+        <button id="stop-bargaining-btn" onclick="stopBargaining()">交渉中止</button>
     </div>
 
     <div class="section">
-        <h4>合意に至らない場合</h4>
+        <h4>不合意ステージ</h4>
         {% if player.session.config.get('treatment') == 'bargain' or player.session.config.get('treatment') == 'test' and player.round_number == 1 %}
             <p>
-                合意に達しない場合、割り当ては自動的に行われます。プレイヤー1は<span class="highlight">{{ C.DISAGREEMENT_PAYOFF_P1 }}</span> ECUを受け取り、プレイヤー2は<span class="highlight">{{ C.DISAGREEMENT_PAYOFF_P2 }}</span> ECUを受け取ります。
+                合意に達しない場合、プレイヤー1は<span class="highlight">{{ C.DISAGREEMENT_PAYOFF_P1 }}</span>ECUを受け取り、プレイヤー2は<span class="highlight">{{ C.DISAGREEMENT_PAYOFF_P2 }}</span> ECUを受け取ります。
             </p>
         {% elif player.session.config.get('treatment') == 'prisoner'
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 2
@@ -122,7 +122,7 @@
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 7
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 8 %}
             <p>
-                合意に至らない場合、あなたは不一致ゲームを行い、支払いを決定する必要があります。可能な支払いは以下の表に表示されます：
+                合意に達しない場合、プレイヤー1とプレイヤー2は下記のゲームで、独立に選択をおこなわなければなりません。
             </p>
             <table class="table table-bordered text-center">
                 <thead>
@@ -157,7 +157,7 @@
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 8
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 6 %}
             <p>
-                合意に至らない場合、あなたは不一致ゲームを行い、支払いを決定する必要があります。可能な支払いは以下の表に表示されます：
+                合意に達しない場合、プレイヤー1とプレイヤー2は下記のゲームで、独立に選択をおこなわなければなりません。
             </p>
             <table class="table table-bordered text-center">
                 <thead>
@@ -200,7 +200,7 @@
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 6
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 7 %}
             <p>
-                合意に達しない場合、不一致ゲームを行って支払いを決定する必要があります。
+                合意に達しない場合、プレイヤー1とプレイヤー2は下記のゲームで、独立に選択をおこなわなければなりません。
             </p>
             <p>不一致ゲームでは、プレイヤー2が{{ C.PIE_SIZE }} ECUの分割を提案します。</p>
             <p>その後、プレイヤー1がオファーを受け取ります。彼はそれを受け入れるか拒否するか選べます。</p>
