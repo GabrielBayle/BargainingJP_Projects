@@ -33,11 +33,11 @@ class C(BaseConstants):
     NUM_ROUNDS = 8
     CONVERSION_RATE = 1
     PIE_SIZE = 1000
-    BARGAINING_TIME = 300
+    BARGAINING_TIME = 3000
     DISAGREEMENT_PAYOFF_P1 = 100
     DISAGREEMENT_PAYOFF_P2 = 400
     timer = BARGAINING_TIME / 60
-    timer_result = 20
+    timer_result = 2000
 
     # Treatments
     BG = "bargain"
@@ -232,6 +232,11 @@ class Player(BasePlayer):
         else:
             return []
 
+def chat_nickname(player):
+    return 'プレイヤー{}'.format(player.id_in_group)
+
+def chat_nickname_me(player):
+    return 'プレイヤー{} (私)'.format(player.id_in_group)
 
 def calculate_faults(player):
     player.understanding_faults = sum([getattr(player, f'understanding_faults{i}') for i in range(1, 8)])
@@ -320,6 +325,7 @@ class InstructionsWaitMonitor(Page):
 
 
 class Bargain2(Page):
+    timer_text = '交渉の残り時間：'
 
     def get(self):
         self.player.bargain_start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -329,7 +335,10 @@ class Bargain2(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
-        return dict(other_type=player.get_others_in_group()[0].type)
+        return dict(other_type=player.get_others_in_group()[0].type,
+                    nickname=chat_nickname(player),
+                    nickname_i_see_for_myself=chat_nickname_me(player)
+                    )
 
     @staticmethod
     def js_vars(player: Player):
@@ -452,6 +461,7 @@ class BLWaitForGroup(WaitPage):
 
 
 class Results(Page):
+    timer_text = '交渉の残り時間：'
     @staticmethod
     def vars_for_template(player: Player):
         if player.accepted_shares:
@@ -524,6 +534,7 @@ class FinalResultsPage(Page):
 
 
 class FinalResultsPage_save(Page):
+    timer_text = '交渉の残り時間：'
 
     @staticmethod
     def is_displayed(player: Player):

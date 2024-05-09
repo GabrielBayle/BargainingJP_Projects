@@ -34,9 +34,9 @@
                 or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 3
                 or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 4  %}
                 {% if player.stopped_by_player_id != 0 %}
-                    <p>プレイヤー<span class="highlight">{{ player.stopped_by_player_id }}</span>が交渉を停止することを決定しました。不一致ゲームをプレイして報酬を決定する必要があります。</p>
+                    <p>プレイヤー<span class="highlight">{{ player.stopped_by_player_id }}</span>が交渉を停止することを決定しました。不合意ステージに移ります。</p>
                 {% elif player.timeout_occurred %}
-                    <p>合意に達する前に交渉時間が終了しました。不一致ゲームをプレイして報酬を決定する必要があります。</p>
+                    <p>合意に達する前に交渉時間が終了しました。不合意ステージに移ります。</p>
                 {% else %}
                     <p>合意に達しました。</p>
                     <p>プレイヤー1は<span class="highlight">{{ player.player1_share }}</span> ECUを、
@@ -47,9 +47,9 @@
                 or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 4
                 or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 2  %}
                 {% if player.stopped_by_player_id != 0 %}
-                    <p>プレイヤー<span class="highlight">{{ player.stopped_by_player_id }}</span>が交渉を停止することを決定しました。不一致ゲームをプレイして報酬を決定する必要があります。</p>
+                    <p>プレイヤー<span class="highlight">{{ player.stopped_by_player_id }}</span>が交渉を停止することを決定しました。不合意ステージに移ります。</p>
                 {% elif player.timeout_occurred %}
-                    <p>合意に達する前に交渉時間が終了しました。不一致ゲームをプレイして報酬を決定する必要があります。</p>
+                    <p>合意に達する前に交渉時間が終了しました。不合意ステージに移ります。</p>
                 {% else %}
                     <p>合意に達しました。</p>
                     <p>プレイヤー1は<span class="highlight">{{ player.player1_share }}</span> ECUを、
@@ -60,9 +60,9 @@
                 or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 2
                 or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 3  %}
                 {% if player.stopped_by_player_id != 0 %}
-                    <p>プレイヤー<span class="highlight">{{ player.stopped_by_player_id }}</span>が交渉を停止することを決定しました。不一致ゲームをプレイして報酬を決定する必要があります。</p>
+                    <p>プレイヤー<span class="highlight">{{ player.stopped_by_player_id }}</span>が交渉を停止することを決定しました。不合意ステージに移ります。</p>
                 {% elif player.timeout_occurred %}
-                    <p>合意に達する前に交渉時間が終了しました。不一致ゲームをプレイして報酬を決定する必要があります。</p>
+                    <p>合意に達する前に交渉時間が終了しました。不合意ステージに移ります。</p>
                 {% else %}
                     <p>合意に達しました。</p>
                     <p>プレイヤー1は<span class="highlight">{{ player.player1_share }}</span> ECUを、

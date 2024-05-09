@@ -58,10 +58,9 @@
 
     <div class="section">
         <div class="section-header">Your goal</div>
-        <p>Your goal is to reach an agreement on how to divide {{ C.PIE_SIZE }} experimental currency units (ECU)
-            between two people.</p>
-        <p>If no agreement is reached, you will automatically move to the 'disagreement' stage. Details of this stage
-            are described in the 'In Case of No Agreement' section.</p>
+        <p>Your goal is to reach an agreement on how to divide 1000 experimental currency units (ECU) between two
+            people. If no agreement is reached, you will automatically move to the 'disagreement' stage. Details of
+            this stage are described in the 'In Case of No Agreement' section.</p>
     </div>
 
     <div class="section">
@@ -128,7 +127,7 @@
     or player.session.config.get('treatment') == 'test' and player.round_number == 1
     or player.session.config.get('treatment') == 'test' and player.round_number == 5 %}
         <div class="section">
-            <div class="section-header">If No Agreement Is Reached</div>
+            <div class="section-header"></div>
                 <p>If the negotiation time ends before an agreement is reached or a player decides to end the
                     negotiation without agreement, you will enter the stage of negotiation disagreement. In the first
                     round, ECU is automatically allocated as follows: Player 1 receives  {{ C.DISAGREEMENT_PAYOFF_P1 }}
@@ -137,7 +136,7 @@
         </div>
     {% else %}
         <div class="sectionbis">
-            <div class="section-header">If No Agreement Is Reached</div>
+            <div class="section-header"></div>
                 <p>From Round 2 onwards, the disagreement stage of the negotiation will proceed as follows:
                     In case of disagreement, Player 1 and Player 2 will independently choose either Option 1 or
                     Option 2. During this stage, the use of chat is not permitted.</p>

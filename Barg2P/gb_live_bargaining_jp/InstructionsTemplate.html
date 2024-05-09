@@ -38,32 +38,29 @@
     {% if player.session.config.get('treatment') == 'test' and player.round_number > 1 and player.round_number != 5 %}
     <div class="sectionbis">
         <div class="section-header">新しいルール</div>
-        <p>赤い色つきの枠内が第2ラウンド以降の新しいルールです。他の部分は変わりません。</p>
+        <p>第2ラウンド以降、実験のルールが少しずつ変わります。赤い色付き部分が、そのラウンドの新しいルールです。他の説明部分は変わりません。</p>
     </div>
     {% elif player.round_number == 5 %}
     <div class="sectionbis">
         <div class="section-header">新しいルール</div>
-        <p>次のラウンドからは、役割が変わります。プレイヤー1だった場合はプレイヤー2になり、プレイヤー2だった場合はプレイヤー1になります。
-            指示の赤いセクションを注意深くお読みください。灰色のセクションは前のラウンドと同様です。</p>
+        <p>次のラウンドからは、役割が変わります。プレイヤー1だった場合はプレイヤー2になり、プレイヤー2だった場合はプレイヤー1になります。指示の赤いセクションを注意深くお読みください。灰色のセクションは前のラウンドと同様です。</p>
     </div>
     {% endif %}
 
     <div class="section">
         <div class="section-header"></div>
-        <p>実験へ参加ありがとうございます。この実験では、他の参加者とランダムにペアになり、ある、金額を2人で分けるための交渉を何ラウンドか行いま
-            す。各ラウンドの交渉終了後、次のラウンドでは他の参加者とペアになります。</p>
+        <p>実験へのご参加ありがとうございます。この実験では、他の参加者とランダムにペアになり、ある、金額を2人で分けるための交渉を何ラウンドか行います。各ラウンドの交渉終了後、次のラウンドでは他の参加者とペアになります。</p>
     </div>
 
     <div class="section">
         <div class="section-header">実験の目標</div>
-        <p>あなたの目標は {{ C.PIE_SIZE }}実験通貨単位(ECU)を二人でどのように分けるかの合意に達することです。</p>
-        <p>不合意ステージ、「不合意」ステージに自動的に移動します。その内容の詳細は「不合意ステージ」のセクションで説明されます。</p>
+        <p>あなたの目標は{{ C.PIE_SIZE }}実験通貨単位(ECU)を二人でどのように分けるかの合意に達することです。合意に達しない場合、「不合意」ステージに自動的に移動します。その内容の詳細は「合意に達しない場合」のセクションで説明されます。</p>
     </div>
 
     <div class="section">
         <div class="section-header">時間制限</div>
-        <p>交渉には{{ C.timer|to0 }}分の時間制限があります。この時間内に不合意ステージ、そのラウンドは終了し、「不合意」ステージに自動的
-            に移動します。</p>
+        <p>交渉には{{ C.timer|to0 }}分の時間制限があります。この時間内に合意に達しない場合、そのラウンドは終了し、「不合意」ステージに自動
+            的に移動します。</p>
     </div>
 
     <div class="section">
@@ -75,17 +72,13 @@
 
     <div class="section">
         <div class="section-header">チャット機能</div>
-        <p>各ラウンドでの交渉中、チャット機能を使用してパートナーと交渉に関するコミュニケーションをとることができます。下の画像は、実験中に表示
-            されるチャットの様子です。チャットでは、自分の個人情報や、相手を侮辱するような言葉を入力してはいけません。</p>
+        <p>各ラウンドでの交渉中、チャット機能を使用してパートナーと交渉に関するコミュニケーションをとることができます。下の画像は、実験中に表示されるチャットの様子です。チャットでは、自分の個人情報や、相手を侮辱するような言葉を入力してはいけません。</p>
         <img src="{{ static 'gb_live_bargaining/images/instructions_chat.png' }}" alt="チャット" width="450">
     </div>
 
     <div class="section">
         <div class="section-header">オファーの送信</div>
-        <p>入力欄に、あなたと相手プレイヤーの配分金額（ECU）を入力できます。これらの金額は0から{{ C.PIE_SIZE }}の範囲で、二つの金額の合計
-            は{{ C.PIE_SIZE }}でなければなりません。 両方の金額は非負の整数でなければなりません。オファーを入力したら、「オファーを送信」
-            をクリックして他のプレイヤーに送信してください。オファーが送信されると、 「あなたの現在のオファー」として下の図の右側のように表示
-            されます。</p>
+        <p>から{{ C.PIE_SIZE }}の範囲の0以上の整数で、二つの金額の合計は{{ C.PIE_SIZE }}でなければなりません。オファーを入力したら、「オファーを送信」をクリックして他のプレイヤーに送信してください。オファーが送信されると、「あなたの現在のオファー」として下の図の右側のように表示されます。</p>
         <p>既にオファーを送信した後でも、新しいオファーを上書きして作成し、送信することができます。そうすると、以前のオファーは置き換えられ
             ます。</p>
         <img src="{{ static 'gb_live_bargaining/images/instructions_offer.png' }}" alt="オファーの提示">
@@ -93,23 +86,19 @@
 
     <div class="section">
         <div class="section-header">オファーへの対応</div>
-        <p>他のプレイヤーからオファーを受け取った場合、それを受け入れるかどうか選ぶことができます。無視しても構いません。「承認」をクリックして
-            、オファーを受け入れると、そのラウンド(タスク)は終了し、{{ C.PIE_SIZE }} ECUがそのオファーのとおりに分配されます。</p>
+        <p>他のプレイヤーからオファーを受け取った場合、それを受け入れるかどうか選ぶことができます。無視しても構いません。「承認」をクリックして、オファーを受け入れると、そのラウンド(タスク)は終了し、{{ C.PIE_SIZE }} ECUがそのオファーのとおりに分配されます。</p>
         <img src="{{ static 'gb_live_bargaining/images/instructions_accept.png' }}" alt="オファーへの対応" width="320">
     </div>
 
     <div class="section">
         <div class="section-header">オファーのキャンセル</div>
-        <p>他のプレイヤーが承認する前に自分のオファーを撤回したい場合は、「オファーをキャンセル」をクリックしてください。そうすると、以前のオフ
-            ァーを他のプレイヤーが承認することができなくなります。新しいオファーを作成することは引き続き可能です。</p>
+        <p>他のプレイヤーが承認する前に自分のオファーを撤回したい場合は、「オファーをキャンセル」をクリックしてください。そうすると、以前のオファーを他のプレイヤーが承認することができなくなります。新しいオファーを作成することは引き続き可能です。</p>
         <img src="{{ static 'gb_live_bargaining/images/instructions_cancel.png' }}" alt="オファーのキャンセル" width="400">
     </div>
 
     <div class="section">
         <div class="section-header">交渉の停止</div>
-        <p>交渉を続けずに、不合意ステージに入りたい場合は、「交渉中止」をクリックしてください。 これにより、交渉は打ち切られ、不合意ステージに
-            移動し、ステージでの指示に従った後、そのラウンドが終了します。ポップアップウィンドウが表示され、交渉停止の決定を確認する必要があり
-            ます。</p>
+        <p>交渉を続けずに、不合意ステージに入りたい場合は、「交渉中止」をクリックしてください。 これにより、交渉は打ち切られ、不合意ステージに移動し、ステージでの指示に従った後、そのラウンドが終了します。ポップアップウィンドウが表示され、交渉停止の決定を確認する必要があります。</p>
         <img src="{{ static 'gb_live_bargaining/images/instructions_stop.png' }}" alt="交渉の停止" width="150">
     </div>
 
@@ -119,16 +108,13 @@
     or player.session.config.get('treatment') == 'test' and player.round_number == 1
     or player.session.config.get('treatment') == 'test' and player.round_number == 5 %}
         <div class="section">
-            <div class="section-header">不合意ステージ</div>
-                <p>交渉時間の終了前またはプレイヤーが合意なしで交渉を終了することを決定した場合、交渉不一致のステージにはいります。第１ラウン
-                    ドでは、ECUは以下のように自動的に割り当てられます：プレイヤー1は{{ C.DISAGREEMENT_PAYOFF_P1 }} ECUを受け取り、プ
-                    レイヤー2は{{ C.DISAGREEMENT_PAYOFF_P2 }}ECUを受け取る。このステージでの指示はラウンドごとに変わります。</p>
+            <div class="section-header"></div>
+                <p>交渉時間の終了前またはプレイヤーが合意なしで交渉を終了することを決定した場合、交渉不一致のステージにはいります。第１ラウンドでは、ECUは以下のように自動的に割り当てられます：プレイヤー1は{{ C.DISAGREEMENT_PAYOFF_P1 }}ECUを受け取り、プ レイヤー2は{{ C.DISAGREEMENT_PAYOFF_P2 }}ECUを受け取ります。このステージでの指示はラウンドごとに変わります。</p>
         </div>
     {% else %}
         <div class="sectionbis">
-            <div class="section-header">不合意ステージ</div>
-                <p>ラウンド2以降の交渉の不合意ステージは下記のようになります。 不合意の場合、プレイヤー１とプレイヤー2は独立に選択1か
-                    選択2を取ります。このステージではチャットを使うことはできません。</p>
+            <div class="section-header"></div>
+                <p>ラウンド2以降の交渉の不合意ステージは次のようになります。 不合意の場合、プレイヤー１とプレイヤー2は独立に選択1か選択2を取ります。このステージではチャットを使うことはできません。</p>
         </div>
     {% endif %}
 
@@ -140,22 +126,20 @@
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 7
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 8 %}
         <div class="sectionbis">
-            <div class="section-header">不一致オプションの指示</div>
-            <p>不一致ゲームでは、あなたと他のプレイヤーは二つの選択肢の中から独立して決定を下す必要があります。あなたの支払いは、あなたの決定と他のプレイヤーの決定の両方に依存します：</p>
+            <div class="section-header"></div>
+            <p>この不合意ステージでは、あなたと相手は、以下の表の二つの選択肢のうちの一つを独立して選ぶ必要があります。あなたへの報酬は、あなたの決定と他のプレイヤーの決定の両方に依存します：</p>
             <ul>
                 <li>両方のプレイヤーが選択肢1を選んだ場合、それぞれ{{ C.mutual_cooperation_payoff_PD }} ECUを獲得します。</li>
-                <li>一方が選択肢1を選び、もう一方が選択肢2を選んだ場合、選択肢2を選んだプレイヤーは{{ C.betray_payoff_PD }} ECUを獲得し、
-                    他方は{{ C.betrayed_payoff_PD }} ECUを獲得します。</li>
-                <li>両方のプレイヤーが選択肢2を選んだ場合、プレイヤー1は{{ C.mutual_betrayal_payoff_PD_p1 }} ECUを獲得し、プレイヤー2は
-                    {{ C.mutual_betrayal_payoff_PD_p2 }} ECUを獲得します。</li>
+                <li>一方が選択肢1を選び、もう一方が選択肢2を選んだ場合、選択肢2を選んだプレイヤーは{{ C.betray_payoff_PD }} ECUを獲得し、他方は{{ C.betrayed_payoff_PD }} ECUを獲得します。</li>
+                <li>両方のプレイヤーが選択肢2を選んだ場合、プレイヤー1は{{ C.mutual_betrayal_payoff_PD_p1 }} ECUを獲得し、プレイヤー2は{{ C.mutual_betrayal_payoff_PD_p2 }} ECUを獲得します。</li>
             </ul>
-            <p>不一致ゲーム中に選択を行うには、表の選択肢1または選択肢2をクリックするだけです。</p>
+            <p>不合意ステージで選択を行うには、表の選択1または選択2をクリックするだけです。</p>
             <table class="table table-bordered text-center">
                 <thead>
                 <tr>
                     <th></th>
-                    <th>他者の選択1</th>
-                    <th>他者の選択2</th>
+                    <th>相手の選択1</th>
+                    <th>相手の選択2</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -185,24 +169,21 @@
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 8
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 6 %}
         <div class="sectionbis">
-            <div class="section-header">不一致オプションの指示</div>
-            <p>不一致ゲームでは、あなたと他のプレイヤーは二つの選択肢の中から独立して決定を下す必要があります。あなたの支払いは、あなたの決定と他のプレイヤーの決定の両方に依存します：</p>
+            <div class="section-header"></div>
+            <p>この不合意ステージでは、あなたと相手は、以下の表の二つの選択肢のうちの一つを独立して選ぶ必要があります。あなたへの報酬は、あなたの決定と他のプレイヤーの決定の両方に依存します：</p>
             <ul>
                 <li>両方のプレイヤーが選択肢1を選んだ場合、それぞれ{{ C.both_stag_payoff }} ECUを獲得します。</li>
-                <li>プレイヤー1が選択肢1を選び、プレイヤー2が選択肢2を選んだ場合、プレイヤー1は{{ C.stag_hare_payoff }} ECUを獲得し、
-                    プレイヤー2は{{ C.hare_stag_payoff_p2 }} ECUを獲得します。</li>
-                <li>プレイヤー1が選択肢2を選び、プレイヤー2が選択肢1を選んだ場合、プレイヤー1は{{ C.hare_stag_payoff_p1 }} ECUを獲得し、
-                    プレイヤー2は{{ C.stag_hare_payoff }} ECUを獲得します。</li>
-                <li>両方のプレイヤーが選択肢2を選んだ場合、プレイヤー1は{{ C.both_hare_payoff_p1 }} ECUを獲得し、プレイヤー2は
-                    {{ C.both_hare_payoff_p2 }} ECUを獲得します。</li>
+                <li>プレイヤー1が選択肢1を選び、プレイヤー2が選択肢2を選んだ場合、プレイヤー1は{{ C.stag_hare_payoff }} ECUを獲得し、プレイヤー2は{{ C.hare_stag_payoff_p2 }} ECUを獲得します。</li>
+                <li>プレイヤー1が選択肢2を選び、プレイヤー2が選択肢1を選んだ場合、プレイヤー1は{{ C.hare_stag_payoff_p1 }} ECUを獲得し、プレイヤー2は{{ C.stag_hare_payoff }} ECUを獲得します。</li>
+                <li>両方のプレイヤーが選択肢2を選んだ場合、プレイヤー1は{{ C.both_hare_payoff_p1 }} ECUを獲得し、プレイヤー2は{{ C.both_hare_payoff_p2 }} ECUを獲得します。</li>
             </ul>
-            <p>不一致ゲーム中に選択を行うには、表の選択肢1または選択肢2をクリックするだけです。</p>
+            <p>不合意ステージで選択を行うには、表の選択1または選択2をクリックするだけです。</p>
             <table class="table table-bordered text-center">
                 <thead>
                 <tr>
                     <th></th>
-                    <th>他者の選択1</th>
-                    <th>他者の選択2</th>
+                    <th>相手の選択1</th>
+                    <th>相手の選択2</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -239,14 +220,13 @@
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 6
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 7 %}
         <div class="sectionbis">
-            <div class="section-header">不一致オプションの指示</div>
-            <p>不一致ゲームでは、プレイヤー2が{{ C.PIE_SIZE }} ECUの分割を提案します。</p>
+            <div class="section-header"></div>
+            <p>この不合意ステージでは、プレイヤー2が{{ C.PIE_SIZE }} ECUの分割を提案します。</p>
             <p>その後、プレイヤー1がオファーを受け取ります。彼はそれを受け入れるか拒否するか選べます。</p>
             <p></p>
             <ul>
                 <li>プレイヤー1がオファーを受け入れた場合、{{ C.PIE_SIZE }} ECUはプレイヤー2によって提案された通りに割り当てられます。</li>
-                <li>プレイヤー1がオファーを拒否した場合、プレイヤー1は{{ C.reject_payoff_p1 }} ECUを受け取り、
-                    プレイヤー2は{{ C.reject_payoff_p2 }} ECUを受け取ります。</li>
+                <li>プレイヤー1がオファーを拒否した場合、プレイヤー1は{{ C.reject_payoff_p1 }} ECUを受け取り、プレイヤー2は{{ C.reject_payoff_p2 }} ECUを受け取ります。</li>
             </ul>
         </div>
     {% endif %}
@@ -255,17 +235,14 @@
 
     <div class="section">
         <div class="section-header"></div>
-        <p>実験では、上記の交渉を繰り返します。チャット機能も自由に使って構いません。実験終了後、全てのラウンドの中からコンピューターによってラ
-            ンダムに1ラウンドが選ばれ、そこで実際に獲得したECUが円に変換され、皆さんへの謝礼となります。変換レートは1 ECU =
-            {{ C.CONVERSION_RATE|c }}です。</p>
+        <p>実験では、上記の交渉を繰り返します。チャット機能も自由に使って構いません。実験終了後、全てのラウンドの中からコンピューターによってランダムに1ラウンドが選ばれ、そこで実際に獲得したECUが円に変換され、皆さんへの謝礼となります。変換レートは1 ECU = {{ C.CONVERSION_RATE|c }}です。</p>
         <p>上記の謝礼に、実験への参加謝礼{{ player.participation_fee }}を加えたものが、本日の最終受取額になります。</p>
     </div>
 
     {% if  player.round_number == 1 %}
         <div class="section">
         <div class="section-header"></div>
-        <p>ここまでで、何か質問がある人は挙手して実験者に知らせてください。質問がなければ「次へ」をクリックして、クイズに答えてください。全問正
-            解する必要があります。</p>
+        <p>ここまでで、何か質問がある人は挙手して実験者に知らせてください。質問がなければ「次へ」をクリックして、クイズに答えてください。全問正解する必要があります。</p>
     </div>
     {% endif %}
 

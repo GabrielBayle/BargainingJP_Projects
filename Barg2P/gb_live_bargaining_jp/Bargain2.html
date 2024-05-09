@@ -92,19 +92,22 @@
 </style>
 
 <div class="top-block">
-    <h1>第 ({{ subsession.round_number }} ラウンド / 全 {{ C.NUM_ROUNDS }} ラウンド) <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">指示</button></h1>
+    <h1>第 ({{ subsession.round_number }} ラウンド / 全 {{ C.NUM_ROUNDS }} ラウンド) <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">「実験説明書の再確認」</button></h1>
 </div>
 
 <div class="main-content">
     <div class="left-block">
     <div class="section">
         <h4>このラウンドの交渉</h4>
+        {{ if player.round_number == 1 or player.round_number == 5 }}
         <p>
-            あなたは、 <span class="highlight">{{ player.type }}</span> でペアの相手は
-            {{ if player.type == "Player 1"  }} Player 2. {{ else }} Player 1. {{ endif }}
-            このラウンドでは、あなたと相手で{{ C.PIE_SIZE}}ECUをどのように分けるかを決定しなければなりません。上部の制限時間内に合意に達し
-            *ない場合、下に表示された不合意ステージに移ります。
+            あなたは、<span class="highlight">{{ if player.type == "Player 1" }}プレイヤー1です。{{ else }}プレイヤー2です。{{ endif }}</span>ペアの相手はプレイヤー{{ if player.type == "Player 1"  }}2. {{ else }}1. {{ endif }}このラウンドでは、あなたと相手で{{ C.PIE_SIZE}}ECUをどのように分けるかを決定しなければなりません。上部の制限時間内に合意に達しない場合、下に表示された不合意ステージに移ります。
         </p>
+        {{ else }}
+        <p>
+            あなたは、<span class="highlight">{{ if player.type == "Player 1" }}プレイヤー1です。{{ else }}プレイヤー2です。{{ endif }}</span>ペアの相手はプレイヤー{{ if player.type == "Player 1"  }}2. {{ else }}1. {{ endif }}このラウンドでは、あなたと相手で{{ C.PIE_SIZE}}ECUをどのように分けるかを決定しなければなりません。しかしながら、それは、下の表で、あなたと相手がともに、選択１をとったとき、それぞれが{{ C.mutual_cooperation_payoff_PD }}ECUを得るので、その合計である{{ C.PIE_SIZE }}ECUを2人で分けることができるからです。制限時間内に合意に達しない場合、下に表示された不合意ステージに移ります。
+        </p>
+        {{ endif }}
         <button id="stop-bargaining-btn" onclick="stopBargaining()">交渉中止</button>
     </div>
 
@@ -128,8 +131,8 @@
                 <thead>
                 <tr>
                     <th></th>
-                    <th>他者の選択1</th>
-                    <th>他者の選択2</th>
+                    <th>相手の選択1</th>
+                    <th>相手の選択2</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -163,8 +166,8 @@
                 <thead>
                 <tr>
                     <th></th>
-                    <th>他者の選択1</th>
-                    <th>他者の選択2</th>
+                    <th>相手の選択1</th>
+                    <th>相手の選択2</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -277,7 +280,7 @@
 
         <div class="chat section">
             <h4>チャット</h4>
-            {{ chat nickname=player.type }}
+            {{ chat nickname=nickname }}
         </div>
     </div>
 </div>
@@ -306,7 +309,7 @@
         || offerPlayer1 < 0 || offerPlayer2 < 0
         || offerPlayer1 !== parseFloat(myOfferPlayer1.value) || offerPlayer2 !== parseFloat(myOfferPlayer2.value)
         || (offerPlayer1 + offerPlayer2) !== pieSize) {
-            offerError.textContent = "無効なオファーです。両方のフィールドが埋められ、合計が" + pieSize + "ポイントであり、両方のフィールドが非負の整数であることを確認してください。";
+            offerError.textContent = "無効なオファーです。入力欄の数字は、両方とも0以上の整数で、その合計が" + pieSize + "になるとうに入力してください。";
             offerError.style.display = 'block';
             return;
         } else {
