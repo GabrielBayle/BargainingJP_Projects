@@ -52,10 +52,25 @@
         <p>実験へのご参加ありがとうございます。この実験では、他の参加者とランダムにペアになり、ある、金額を2人で分けるための交渉を何ラウンドか行います。各ラウンドの交渉終了後、次のラウンドでは他の参加者とペアになります。</p>
     </div>
 
+    {{ if player.round_number == 1 or player.round_number == 5
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 4
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 2
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 3
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 8
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 6
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 7 }}
     <div class="section">
         <div class="section-header">実験の目標</div>
         <p>あなたの目標は{{ C.PIE_SIZE }}実験通貨単位(ECU)を二人でどのように分けるかの合意に達することです。合意に達しない場合、「不合意」ステージに自動的に移動します。その内容の詳細は「合意に達しない場合」のセクションで説明されます。</p>
     </div>
+    {{ else }}
+    <div class="sectionbis">
+        <div class="section-header">実験の目標</div>
+        <p>
+            あなたは、<span class="highlight">{{ if player.type == "Player 1" }}プレイヤー1です。{{ else }}プレイヤー2です。{{ endif }}</span>ペアの相手はプレイヤー{{ if player.type == "Player 1"  }}2. {{ else }}1. {{ endif }}このラウンドでは、あなたと相手で{{ C.PIE_SIZE}}ECUをどのように分けるかを決定しなければなりません。しかしながら、それは、下の表で、あなたと相手がともに、選択１をとったとき、それぞれが{{ C.mutual_cooperation_payoff_PD }}ECUを得るので、その合計である{{ C.PIE_SIZE }}ECUを2人で分けることができるからです。制限時間内に合意に達しない場合、下に表示された不合意ステージに移ります。
+        </p>
+    </div>
+    {{ endif }}
 
     <div class="section">
         <div class="section-header">時間制限</div>
