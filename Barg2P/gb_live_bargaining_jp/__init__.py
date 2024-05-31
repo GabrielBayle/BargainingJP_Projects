@@ -86,11 +86,16 @@ def get_pairs(subsession: Subsession):
 def creating_session(subsession: Subsession):
     selected_treatment = subsession.session.config.get('treatment', 'default_treatment')
     selected_order = subsession.session.config.get('order', 'default_order')
+    session_paid_round = random.randint(1, C.NUM_ROUNDS)
 
     global pairs
 
     if subsession.round_number == 1:
         pairs = get_pairs(subsession)
+
+    if subsession.round_number == 8:
+        for player in subsession.get_players():
+            player.paid_round = session_paid_round
 
     for player in subsession.get_players():
         if player.role == C.PLAYER1_ROLE:
@@ -503,8 +508,6 @@ class FinalResultsPage(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
-        player.paid_round = random.randint(1, C.NUM_ROUNDS)
-
         selected_round_player = player.in_round(player.paid_round)
         player.main_task_payoff = int(selected_round_player.payoff)
 
@@ -542,8 +545,6 @@ class FinalResultsPage_save(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
-        player.paid_round = random.randint(1, C.NUM_ROUNDS)
-
         selected_round_player = player.in_round(player.paid_round)
         player.main_task_payoff = int(selected_round_player.payoff)
 
