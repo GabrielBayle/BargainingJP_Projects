@@ -32,7 +32,10 @@
             {% if player.session.config.get('treatment') == 'prisoner'
                 or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 2
                 or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 3
-                or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 4  %}
+                or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 4
+                or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 6
+                or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 7
+                or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 8 %}
                 {% if player.stopped_by_player_id != 0 %}
                     <p>交渉が中止されました。不合意ステージに移ります。</p>
                 {% elif player.timeout_occurred %}
@@ -45,7 +48,10 @@
             {% elif player.session.config.get('treatment') == 'staghunt'
                 or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 3
                 or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 4
-                or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 2  %}
+                or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 2
+                or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 7
+                or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 8
+                or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 6  %}
                 {% if player.stopped_by_player_id != 0 %}
                     <p>交渉が中止されました。不合意ステージに移ります。</p>
                 {% elif player.timeout_occurred %}
@@ -58,7 +64,10 @@
             {% elif player.session.config.get('treatment') == 'ultimatum'
                 or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 4
                 or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 2
-                or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 3  %}
+                or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 3
+                or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 8
+                or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 6
+                or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 7  %}
                 {% if player.stopped_by_player_id != 0 %}
                 <p>交渉が中止されました。不合意ステージに移ります。</p>
                 {% elif player.timeout_occurred %}
