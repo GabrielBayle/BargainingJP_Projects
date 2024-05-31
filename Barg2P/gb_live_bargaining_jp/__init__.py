@@ -415,7 +415,7 @@ class Bargain2(Page):
     def error_message(player: Player, values):
         group = player.group
         if not group.is_finished:
-            return "Game not finished yet"
+            return " "
 
     @staticmethod
     def is_displayed(player: Player):
@@ -689,8 +689,8 @@ class PDResultsPage(Page):
         other_player = player.get_others_in_group()[0]
         return {
             'other_payoff': other_player.payoff,
-            'other_decision_display': "Choice 1" if other_player.PD_decision else "Choice 2",
-            'player_decision_display': "Choice 1" if player.PD_decision else "Choice 2",
+            'other_decision_display': "選択1" if other_player.PD_decision else "選択2",
+            'player_decision_display': "選択1" if player.PD_decision else "選択2",
         }
 
 
@@ -804,8 +804,8 @@ class SHResultsPage(Page):
         other_player = player.get_others_in_group()[0]
         return {
             'other_payoff': other_player.payoff,
-            'other_decision_display': "Choice 1" if other_player.SH_decision else "Choice 2",
-            'player_decision_display': "Choice 1" if player.SH_decision else "Choice 2",
+            'other_decision_display': "選択1" if other_player.SH_decision else "選択2",
+            'player_decision_display': "選択1" if player.SH_decision else "選択2",
         }
 
 
@@ -971,7 +971,7 @@ class UGResultsPage(Page):
 
         return {
             'proposer_offer': proposer.UG_proposer_decision,
-            'responder_decision': 'Accepted' if responder.UG_responder_decision else 'Rejected',
+            'responder_decision': '承認する' if responder.UG_responder_decision else '拒否する',
             'proposer_payoff': proposer.payoff,
             'responder_payoff': responder.payoff,
         }

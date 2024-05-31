@@ -92,19 +92,22 @@
 </style>
 
 <div class="top-block">
-    <h1>不一致ゲーム：応答 (ラウンド {{ subsession.round_number }} / {{ C.NUM_ROUNDS }})</h1>
+    <h1>不合意ステージ</h1>
 </div>
 
 <div class="main-content">
     <div class="left-block">
         <div class="section">
-            <h4>指示</h4>
             <p>
-                プレイヤー2が<span class="highlight">{{ C.PIE_SIZE }}</span> ECUの分割を提案しました。この提案を受け入れるか、または拒否することができます。
+                あなたは、<span class="highlight">{{ if player.type == "Player 1" }}プレイヤー1</span>です。{{ else }}プレイヤー2</span>です。{{endif}}
+                プレイヤー2が{{ C.PIE_SIZE }}ECUの分配額を提案しました。この提案を承認するか、または拒否するかを選択してください。
             </p>
-            <p>
-                提案を受け入れた場合、ECUは提案された通りに分割されます。提案を拒否した場合、プレイヤー1として<span class="highlight">{{ C.DISAGREEMENT_PAYOFF_P1 }}</span> ECUを受け取り、もう一人のプレイヤーはプレイヤー2として<span class="highlight">{{ C.DISAGREEMENT_PAYOFF_P2 }}</span> ECUを受け取ります。
-            </p>
+            <p></p>
+            <ul>
+                <li>プレイヤー1が提案を承認した場合、{{ C.PIE_SIZE }}ECUはプレイヤー2によって提案された通りに分配されます。</li>
+                <p></p>
+                <li>プレイヤー1が提案を拒否した場合、プレイヤー1は{{ C.reject_payoff_p1 }}ECUを受け取り、プレイヤー2は{{ C.reject_payoff_p2 }}ECUを受け取ります。</li>
+            </ul>
         </div>
     </div>
 
@@ -113,19 +116,19 @@
             <div class="response-table section">
                 <table class="table">
                     <tr>
-                        <td>プレイヤー2からの提案：</td>
+                        <td>あなたの受け取り額：</td>
                         <td><span class="highlight">{{ proposed_amount }}</span> ECU</td>
                     </tr>
                     <tr>
                         <td colspan="2">
                             <input type="radio" name="UG_responder_decision" value="True" id="accept">
-                            <label for="accept">受け入れる</label><br>
+                            <label for="accept">承認する</label><br>
                             <input type="radio" name="UG_responder_decision" value="False" id="reject">
                             <label for="reject">拒否する</label>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2"><button type="submit" class="btn btn-primary">決定を提出</button></td>
+                        <td colspan="2"><button type="submit" class="btn btn-primary">送信</button></td>
                     </tr>
                 </table>
             </div>

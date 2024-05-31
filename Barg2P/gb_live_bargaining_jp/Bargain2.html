@@ -92,30 +92,19 @@
 </style>
 
 <div class="top-block">
-    <h1>第 ({{ subsession.round_number }} ラウンド / 全 {{ C.NUM_ROUNDS }} ラウンド) <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">「実験説明書の再確認」</button></h1>
+    <h1>第 {{ subsession.round_number }} ラウンド / 全 {{ C.NUM_ROUNDS }} ラウンド　<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_content">実験説明書の再確認ボタン</button></h1>
 </div>
 
 <div class="main-content">
     <div class="left-block">
-    <div class="section">
-        <h4>このラウンドの交渉</h4>
-        {{ if player.round_number == 1 or player.round_number == 5 }}
-        <p>
-            あなたは、<span class="highlight">{{ if player.type == "Player 1" }}プレイヤー1です。{{ else }}プレイヤー2です。{{ endif }}</span>ペアの相手はプレイヤー{{ if player.type == "Player 1"  }}2. {{ else }}1. {{ endif }}このラウンドでは、あなたと相手で{{ C.PIE_SIZE}}ECUをどのように分けるかを決定しなければなりません。上部の制限時間内に合意に達しない場合、下に表示された不合意ステージに移ります。
-        </p>
-        {{ else }}
-        <p>
-            あなたは、<span class="highlight">{{ if player.type == "Player 1" }}プレイヤー1です。{{ else }}プレイヤー2です。{{ endif }}</span>ペアの相手はプレイヤー{{ if player.type == "Player 1"  }}2. {{ else }}1. {{ endif }}このラウンドでは、あなたと相手で{{ C.PIE_SIZE}}ECUをどのように分けるかを決定しなければなりません。しかしながら、それは、下の表で、あなたと相手がともに、選択１をとったとき、それぞれが{{ C.mutual_cooperation_payoff_PD }}ECUを得るので、その合計である{{ C.PIE_SIZE }}ECUを2人で分けることができるからです。制限時間内に合意に達しない場合、下に表示された不合意ステージに移ります。
-        </p>
-        {{ endif }}
-        <button id="stop-bargaining-btn" onclick="stopBargaining()">交渉中止</button>
-    </div>
 
     <div class="section">
         <h4>不合意ステージ</h4>
-        {% if player.session.config.get('treatment') == 'bargain' or player.session.config.get('treatment') == 'test' and player.round_number == 1 %}
+        {% if player.session.config.get('treatment') == 'bargain' or player.session.config.get('treatment') == 'test' and player.round_number == 1 or player.round_number == 5 %}
             <p>
-                合意に達しない場合、プレイヤー1は<span class="highlight">{{ C.DISAGREEMENT_PAYOFF_P1 }}</span>ECUを受け取り、プレイヤー2は<span class="highlight">{{ C.DISAGREEMENT_PAYOFF_P2 }}</span> ECUを受け取ります。
+                このラウンドで不合意ステージに移ると、ECUは以下のように自動的に分配されます：<p></p>
+                {{ if player.type == "Player 1" }}<span class="highlight">プレイヤー1</span>{{else}}プレイヤー1{{endif}}は{{ C.DISAGREEMENT_PAYOFF_P1 }}ECUを受け取り、
+                {{ if player.type == "Player 2" }}<span class="highlight">プレイヤー2</span>{{else}}プレイヤー2{{endif}}は{{ C.DISAGREEMENT_PAYOFF_P2 }}ECUを受け取ります。
             </p>
         {% elif player.session.config.get('treatment') == 'prisoner'
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 2
@@ -125,24 +114,27 @@
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 7
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 8 %}
             <p>
-                合意に達しない場合、プレイヤー1とプレイヤー2は下記のゲームで、独立に選択をおこなわなければなりません。
+                このラウンドの不合意ステージでは、あなた (<span class="highlight">{{ if player.type == "Player 1" }}プレイヤー1{{ else }}プレイヤー2{{ endif }}</span>)
+                と相手は、以下の表の二つの選択のうちの一つを、独立して選ぶ必要があります。
             </p>
+
             <table class="table table-bordered text-center">
                 <thead>
                 <tr>
-                    <th></th>
-                    <th>相手の選択1</th>
-                    <th>相手の選択2</th>
+                    <td><span class="highlight">{{ if player.type == "Player 1" }}プレイヤー1{{ else }}プレイヤー2{{ endif }}</span>＼　<br>
+                        {{ if player.type == "Player 2" }}プレイヤー1{{ else }}プレイヤー2{{ endif }}</td>
+                    <td>相手の選択1</td>
+                    <td>相手の選択2</td>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td>選択1</td>
+                    <td><strong>自分の選択1</strong></td>
                     <td><strong>{{ C.mutual_cooperation_payoff_PD }}</strong>, {{ C.mutual_cooperation_payoff_PD }}</td>
                     <td><strong>{{ C.betrayed_payoff_PD }}</strong>, {{ C.betray_payoff_PD }}</td>
                 </tr>
-                <tr>
-                    <td>選択2</td>
+                 <tr>
+                    <td><strong>自分の選択2</strong></td>
                     <td><strong>{{ C.betray_payoff_PD }}</strong>, {{ C.betrayed_payoff_PD }}</td>
                     {% if player.id_in_group == 1 %}
                         <td><strong>{{ C.mutual_betrayal_payoff_PD_p1 }}</strong>, {{ C.mutual_betrayal_payoff_PD_p2 }}</td>
@@ -160,19 +152,21 @@
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 8
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 6 %}
             <p>
-                合意に達しない場合、プレイヤー1とプレイヤー2は下記のゲームで、独立に選択をおこなわなければなりません。
+                このラウンドの不合意ステージでは、あなた (<span class="highlight">{{ if player.type == "Player 1" }}プレイヤー1{{ else }}プレイヤー2{{ endif }}</span>)
+                と相手は、以下の表の二つの選択のうちの一つを、独立して選ぶ必要があります。
             </p>
             <table class="table table-bordered text-center">
                 <thead>
                 <tr>
-                    <th></th>
-                    <th>相手の選択1</th>
-                    <th>相手の選択2</th>
+                    <td><span class="highlight">{{ if player.type == "Player 1" }}プレイヤー1{{ else }}プレイヤー2{{ endif }}</span>＼　<br>
+                        {{ if player.type == "Player 2" }}プレイヤー1{{ else }}プレイヤー2{{ endif }}</td>
+                    <td>相手の選択1</td>
+                    <td>相手の選択2</td>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td>選択1</td>
+                    <td><strong>自分の選択1</strong></td>
                     <td><strong>{{ C.both_stag_payoff }}</strong>, {{ C.both_stag_payoff }}</td>
                     {% if player.id_in_group == 1 %}
                         <td><strong>{{ C.stag_hare_payoff }}</strong>, {{ C.hare_stag_payoff_p2 }}</td>
@@ -181,7 +175,7 @@
                     {% endif %}
                 </tr>
                 <tr>
-                    <td>選択2</td>
+                    <td><strong>自分の選択2</strong></td>
                     {% if player.id_in_group == 1 %}
                         <td><strong>{{ C.hare_stag_payoff_p1 }}</strong>, {{ C.stag_hare_payoff }}</td>
                     {% else %}
@@ -202,19 +196,53 @@
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 8
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 6
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 7 %}
-            <p>
-                合意に達しない場合、プレイヤー1とプレイヤー2は下記のゲームで、独立に選択をおこなわなければなりません。
-            </p>
-            <p>不一致ゲームでは、プレイヤー2が{{ C.PIE_SIZE }} ECUの分割を提案します。</p>
-            <p>その後、プレイヤー1がオファーを受け取ります。彼はそれを受け入れるか拒否するか選べます。</p>
+        <p>このラウンドの不合意ステージでは、プレイヤー2が{{ C.PIE_SIZE }}ECUの分配案を提案します。</p>
+        <p>その後、プレイヤー1がその提案を受け取り、承認するか、または拒否するかを選択します。</p>
+        <p></p>
+        <ul>
+            <li>プレイヤー1が提案を承認した場合、{{ C.PIE_SIZE }}ECUはプレイヤー2によって提案された通りに割り当てられます。</li>
             <p></p>
-            <ul>
-                <li>プレイヤー1がオファーを受け入れた場合、{{ C.PIE_SIZE }} ECUはプレイヤー2によって提案された通りに割り当てられます。</li>
-                <li>プレイヤー1がオファーを拒否した場合、プレイヤー1は{{ C.reject_payoff_p1 }} ECUを受け取り、プレイヤー2は{{ C.reject_payoff_p2 }} ECUを受け取ります。</li>
-            </ul>
+            <li>プレイヤー1が提案を拒否した場合、プレイヤー1は{{ C.reject_payoff_p1 }}ECUを受け取り、プレイヤー2は{{ C.reject_payoff_p2 }}ECUを受け取ります。</li>
+        </ul>
+        <u>不合意ステージでは、チャットを使うことはできません。</u>
 
         {% endif %}
     </div>
+
+    <div class="section">
+        <h4>このラウンドの交渉</h4>
+        {{ if player.round_number == 1 or player.round_number == 5 }}
+        <p>
+            あなたは、<span class="highlight">{{ if player.type == "Player 1" }}プレイヤー1</span>です。{{ else }}プレイヤー2</span>です。{{ endif }}</span>ペアの相手はプレイヤー{{ if player.type == "Player 1"  }}2です。 {{ else }}1です。{{ endif }}
+            このラウンドの交渉では、あなたと相手で、{{ C.PIE_SIZE}}ECUをどのように分けるかを決定してください。<p></p>
+            上部の交渉時間が終了するか、プレイヤーが交渉の中止を選択した場合、上に表示された不合意ステージに移ります。
+        </p>
+        {{ elif player.session.config.get('treatment') == 'ultimatum'
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 4
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 2
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 3
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 8
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 6
+        or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 7 }}
+        <p>
+            あなたは、<span class="highlight">{{ if player.type == "Player 1" }}プレイヤー1</span>です。{{ else }}プレイヤー2</span>です。{{ endif }}</span>
+            このラウンドの交渉では、あなたと相手で、{{ C.PIE_SIZE}}ECUをどのように分けるかを決定してください。<u>チャットを利用しても構いません。</u><p></p>
+            上部の交渉時間が終了するか、プレイヤーが交渉の中止を選択した場合、上に表示された不合意ステージに移ります。
+        </p>
+
+        {{ else }}
+        <p>
+            あなたは、<span class="highlight">{{ if player.type == "Player 1" }}プレイヤー1</span>です。{{ else }}プレイヤー2</span>です。{{ endif }}</span>
+            ペアの相手はプレイヤー{{ if player.type == "Player 1"  }}2です。 {{ else }}1です。{{ endif }}<p></p>
+            このラウンドの交渉では、あなたと相手で、{{ C.PIE_SIZE}}ECUをどのように分けるかを決定してください。
+            しかしながら、それは、不合意ステージの表で、あなたと相手がともに、選択1をとったとき、それぞれが{{ C.mutual_cooperation_payoff_PD }}ECUを得るので、その合計である{{ C.PIE_SIZE }}ECUを2人で自由に分けることができるからです。<p></p>
+            上部の交渉時間が終了するか、プレイヤーが交渉の中止を選択した場合、上に表示された不合意ステージに移ります。
+        </p>
+        {{ endif }}
+        <button id="stop-bargaining-btn" onclick="stopBargaining()">交渉中止</button>
+    </div>
+
+
 </div>
 
 
@@ -271,7 +299,7 @@
                     <tr>
                         <td></td>
                         <td>
-                            <button type="button" id="btn-accept" onclick="sendAccept(this)" style="background-color: #4CBB17; color: black; padding: 5px 10px; cursor: pointer; display: none;">受け入れる</button>
+                            <button type="button" id="btn-accept" onclick="sendAccept(this)" style="background-color: #4CBB17; color: black; padding: 5px 10px; cursor: pointer; display: none;">承認</button>
                         </td>
                     </tr>
                     </tbody>
@@ -309,7 +337,7 @@
         || offerPlayer1 < 0 || offerPlayer2 < 0
         || offerPlayer1 !== parseFloat(myOfferPlayer1.value) || offerPlayer2 !== parseFloat(myOfferPlayer2.value)
         || (offerPlayer1 + offerPlayer2) !== pieSize) {
-            offerError.textContent = "無効なオファーです。入力欄の数字は、両方とも0以上の整数で、その合計が" + pieSize + "になるとうに入力してください。";
+            offerError.textContent = "無効なオファーです。入力欄の数字は、両方とも0以上の整数で、その合計が" + pieSize + "になるように入力してください。";
             offerError.style.display = 'block';
             return;
         } else {
@@ -327,7 +355,7 @@
 
     function sendAccept() {
         // Confirmation dialog
-        let isConfirmed = confirm("このオファーを受け入れますか？");
+        let isConfirmed = confirm("このオファーを承認しますか？");
         if (isConfirmed) {
             // Proceed with the acceptance logic if confirmed
             liveSend({
@@ -351,7 +379,7 @@
     }
 
     function stopBargaining() {
-        let isConfirmed2 = confirm("交渉を停止してもよろしいですか？これは合意に達していないと認め、不一致オプションを選択することを意味します。");
+        let isConfirmed2 = confirm("交渉を中止してもよろしいですか？「OK」 ボタンを押すと、不合意ステージに移動します。");
         if (isConfirmed2) {
             liveSend({
                 'type': 'stop_bargaining',

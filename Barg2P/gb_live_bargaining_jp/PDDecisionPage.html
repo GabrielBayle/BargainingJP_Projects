@@ -55,40 +55,46 @@
         border-radius: 4px;
         margin-top: 10px;
     }
+    .highlight {
+        color: #007bff;
+        font-weight: bold;
+    }
 </style>
 
     <div class="instructions">
-        <h2>不一致ステージ説明 {{ subsession.round_number }} / {{ C.NUM_ROUNDS }}）</h2>
+        <h2>不合意ステージ</h2>
         <p>
-            このステージでは、あなたと相手は、以下の表の二つの選択肢のうちの一つを独立して選ぶ必要があります。あなたへの報酬は、あなたの決定と他のプレイヤーの決定の両方に依存します：
+            あなた (<span class="highlight">{{ if player.type == "Player 1" }}プレイヤー1{{ else }}プレイヤー2{{ endif }}</span>)
+            と相手は、以下の表の二つの選択のうちの一つを、独立して選ぶ必要があります。
+            あなたの獲得額は、あなたの決定と相手の決定の両方に依存します：
         </p>
         <ul>
-            <li>両方のプレイヤーが選択1をプレイした場合、それぞれ{{ coop_coop_payoff }} ECUを獲得します。</li>
-            <li>一方が選択1を、もう一方が選択2をプレイした場合、選択2を選んだプレイヤーは
-                {{ defect_coop_payoff_p1 }} ECUを獲得し、選択1を選んだプレイヤーは {{ defect_coop_payoff_p2 }}
-                ECUを獲得します。</li>
-            <li>両方のプレイヤーが選択2をプレイした場合、プレイヤー1は {{ defect_defect_payoff_p1 }} ECUを獲得し、プレイヤー2は
-                {{ defect_defect_payoff_p2 }} ECUを獲得します。</li>
+            <li>両方のプレイヤーが選択1をプレイした場合、それぞれ{{ coop_coop_payoff }}ECUを獲得します。</li>
+            <li>一方が選択1を、もう一方が選択2をプレイした場合、選択2を選んだプレイヤーは{{ defect_coop_payoff_p1 }}ECUを獲得し、選択1を選んだプレイヤーは{{ defect_coop_payoff_p2 }}ECUを獲得します。</li>
+            <li>両方のプレイヤーが選択2を選んだ場合、
+                {{ if player.type == "Player 1" }}<span class="highlight">プレイヤー1</span> (あなた) {{ else }}プレイヤー1{{ endif }}は{{ C.mutual_betrayal_payoff_PD_p1 }}ECUを獲得し、
+                {{ if player.type == "Player 2" }}<span class="highlight">プレイヤー2</span> (あなた) {{ else }}プレイヤー2{{ endif }}は{{ C.mutual_betrayal_payoff_PD_p2 }}ECUを獲得します。</li>
         </ul>
-        <p>以下の表で「選択1」または「選択2」をクリックしてあなたの決定を選択してください：</p>
+        <p>以下の表で「自分の選択1」または「自分の選択2」ボタンをクリックして、あなたの決定を選択してください。</p>
     </div>
     <div class="decision-table">
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th></th>
-                <th>相手の選択1</th>
-                <th>相手の選択2</th>
+                <td><span class="highlight">{{ if player.type == "Player 1" }}プレイヤー1{{ else }}プレイヤー2{{ endif }}</span>＼
+                    {{ if player.type == "Player 2" }}プレイヤー1{{ else }}プレイヤー2{{ endif }}</td>
+                <td>相手の選択1</td>
+                <td>相手の選択2</td>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td onclick="set_decision(true)" class="clickable-cell">選択1</td>
+                <td onclick="set_decision(true)" class="clickable-cell"><strong>「自分の選択1」</strong></td>
                 <td><strong>{{ coop_coop_payoff }}</strong>, {{ coop_coop_payoff }}</td>
                 <td><strong>{{ coop_defect_payoff_p1 }}</strong>, {{ coop_defect_payoff_p2 }}</td>
             </tr>
             <tr>
-                <td onclick="set_decision(false)" class="clickable-cell">選択2</td>
+                <td onclick="set_decision(false)" class="clickable-cell"><strong>「自分の選択2」</strong></td>
                 <td><strong>{{ defect_coop_payoff_p1 }}</strong>, {{ defect_coop_payoff_p2 }}</td>
                 {% if player_id == 1 %}
                     <td><strong>{{ defect_defect_payoff_p1 }}</strong>, {{ defect_defect_payoff_p2 }}</td>

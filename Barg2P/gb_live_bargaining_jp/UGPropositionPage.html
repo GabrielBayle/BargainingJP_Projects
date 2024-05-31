@@ -92,19 +92,22 @@
 </style>
 
 <div class="top-block">
-    <h1>不一致ゲーム：提案 (ラウンド {{ subsession.round_number }} / {{ C.NUM_ROUNDS }})</h1>
+    <h1>不合意ステージ</h1>
 </div>
 
 <div class="main-content">
     <div class="left-block">
         <div class="section">
-            <h4>指示</h4>
             <p>
-                あなたともう一人の参加者の間で分割する<span class="highlight">{{ C.PIE_SIZE }}</span> ECUがあります。提供したいECUの量を決めてください。
+                あなたは、<span class="highlight">{{ if player.type == "Player 1" }}プレイヤー1</span>です。{{ else }}プレイヤー2</span>です。{{endif}}
+                {{ C.PIE_SIZE }}ECUのうち、相手に分配する額を入力し、提案してください。
             </p>
-            <p>
-                もう一人の参加者があなたの提案を受け入れた場合、ECUは提案した通りに分割されます。提案が拒否された場合、プレイヤー1としてのもう一人の参加者は<span class="highlight">{{ C.DISAGREEMENT_PAYOFF_P1 }}</span> ECUを受け取り、あなたはプレイヤー2として<span class="highlight">{{ C.DISAGREEMENT_PAYOFF_P2 }}</span> ECUを受け取ります。
-            </p>
+            <p></p>
+            <ul>
+                <li>プレイヤー1が提案を承認した場合、{{ C.PIE_SIZE }}ECUはプレイヤー2によって提案された通りに分配されます。</li>
+                <p></p>
+                <li>プレイヤー1が提案を拒否した場合、プレイヤー1は{{ C.reject_payoff_p1 }}ECUを受け取り、プレイヤー2は{{ C.reject_payoff_p2 }}ECUを受け取ります。</li>
+            </ul>
         </div>
     </div>
 
@@ -113,11 +116,11 @@
             <div class="offer-table section">
                 <table class="table">
                     <tr><div id="offer-error" style="color: red; display: none;"></div>
-                        <td>プレイヤー1へのあなたの提案 (ECU):</td>
+                        <td>相手への分配額 (ECU):</td>
                         <td><input type="number" name="UG_proposer_decision" id="UG_prop" class="input-field"></td>
                     </tr>
                     <tr>
-                        <td colspan="2"><button type="button" onclick="sendOffer()" class="btn btn-primary">提案を送信</button></td>
+                        <td colspan="2"><button type="button" onclick="sendOffer()" class="btn btn-primary">送信</button></td>
                     </tr>
                 </table>
             </div>
@@ -137,7 +140,7 @@
         || offerPlayer < 0
         || offerPlayer !== parseFloat(UG_proposer_decision.value)
         || offerPlayer > pieSize) {
-            offerError.textContent = "無効な提案です。フィールドが1000未満の非負の整数であることを確認してください。";
+            offerError.textContent = "無効な提案です。0以上1000以下の整数を入力してください。";
             offerError.style.display = 'block';
         } else {
             offerError.style.display = 'none';

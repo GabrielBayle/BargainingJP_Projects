@@ -39,7 +39,7 @@
     <div style="text-align: center">
     <h1>実験の説明</h1>
     </div>
-
+    
     {{ if player.session.config.get('treatment') == 'test' and player.round_number == 2 }}
     <div class="sectionbis">
         <div class="section-header">新しいルール</div>
@@ -71,7 +71,7 @@
     {{endif}}
 
 
-    {{ if player.session.config.get('treatment') == 'bargain' or
+    {{ if player.session.config.get('treatment') == 'bargain' or 
     player.session.config.get('treatment') == 'test' and player.round_number > 1 }}
     <h2>不合意ステージ</h2>
     <div class="section">
@@ -206,14 +206,13 @@
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 7 %}
         <div class="sectionbis">
             <div class="section-header"></div>
-            <p>このラウンドの不合意ステージでは、プレイヤー2が{{ C.PIE_SIZE }}ECUの分配額を提案します。</p>
-            <p>その後、プレイヤー1がその提案を受け取り、承認するか、または拒否するかを選択します。</p>
+            <p>このラウンドの不合意ステージでは、プレイヤー2が{{ C.PIE_SIZE }}ECUの分配案をオファーします。</p>
+            <p>その後、プレイヤー1がそのオファーを受け取り、承認するか、または拒否するかを選択します。</p>
             <p></p>
             <ul>
-                <li>プレイヤー1が提案を承認した場合、{{ C.PIE_SIZE }}ECUはプレイヤー2によって提案された通りに分配されます。</li>
-                <li>プレイヤー1が提案を拒否した場合、プレイヤー1は{{ C.reject_payoff_p1 }}ECUを受け取り、プレイヤー2は{{ C.reject_payoff_p2 }}ECUを受け取ります。</li>
+                <li>プレイヤー1がオファーを承認した場合、{{ C.PIE_SIZE }}ECUはプレイヤー2によって提案された通りに分配されます。</li>
+                <li>プレイヤー1がオファーを拒否した場合、プレイヤー1は{{ C.reject_payoff_p1 }}ECUを受け取り、プレイヤー2は{{ C.reject_payoff_p2 }}ECUを受け取ります。</li>
             </ul>
-            不合意ステージでは、チャットを使うことはできません。
         </div>
     {% endif %}
 
@@ -240,13 +239,13 @@
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 7 }}
     <div class="sectionbis">
         <p><u>このラウンドの交渉では</u>、あなたの目標は、1000ECUを二人でどのように分けるかについて、相手と合意に達することです。
-            これは、不合意ステージにおいて、プレイヤー2のいかなる提案もプレイヤー1が承認すると、合計が1000ECUになるからです。
+            これは、不合意ステージにおいて、プレイヤー2のいかなるオファーもプレイヤー1が承認すると、合計が1000ECUになるからです。
             この1000ECUの分け方について相手と交渉します。
 
             交渉においては、<u>チャットを利用しても構いません。</u>
         </p>
     </div>
-
+    
     {{ else }}
     <div class="sectionbis">
         <p>
@@ -323,7 +322,7 @@
         <img src="{{ static 'gb_live_bargaining_jp_img/images/instructions_stop.png' }}" alt="交渉の停止" width="100">
     </div>
 
-
+    
 
 
     <h2>報酬</h2>
@@ -333,13 +332,5 @@
         <p>実験では、上記の交渉を繰り返します。チャット機能も自由に使って構いません。実験終了後、全てのラウンドの中からコンピューターによってランダムに1ラウンドが選ばれ、そこで実際に獲得したECUが円に変換され、皆さんへの謝礼となります。変換レートは1ECU = 1円です。</p>
         <p>上記の謝礼に、実験への参加謝礼500円を加えたものが、本日の最終受取額になります。</p>
     </div>
-
-    {% if  player.round_number == 1 %}
-        <div class="section">
-        <div class="section-header"></div>
-        <p>ここまでで、何か質問がある人は挙手して実験者に知らせてください。
-            質問がなければ「次へ」ボタンをクリックして、クイズに答えてください。全問正解する必要があります。</p>
-    </div>
-    {% endif %}
 
 </div>

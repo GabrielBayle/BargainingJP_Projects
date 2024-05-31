@@ -27,19 +27,19 @@
 </style>
 
 <div class="results-container">
-    <div class="results-header">ゲーム結果</div>
+    <div class="results-header">不合意ステージの結果</div>
     <div class="results-info">
-        <p>提案者（プレイヤー2）の提案：
-            <span class="highlight">{{ proposer_offer }}</span> ECU。
+        <p>{{ if player.type == "Player 1" }}<span class="highlight">プレイヤー1{{ else }}プレイヤー1{{ endif }}</span>の提案：
+            <span class="highlight">{{ proposer_offer }}</span> <span class="highlight">ECU</span>
         </p>
-        <p>応答者（プレイヤー1）の決定：
-            <span class="highlight">{{ responder_decision }}</span>。
+        <p>{{ if player.type == "Player 2" }}<span class="highlight">プレイヤー2{{ else }}プレイヤー2{{ endif }}</span>の選択：
+            <span class="highlight">{{ responder_decision }}</span>
         </p>
-        <p>プレイヤー1の報酬は：
-            <span class="highlight">{{ responder_payoff }}</span> ECUです。
+        <p>{{ if player.type == "Player 1" }}<span class="highlight">プレイヤー1{{ else }}プレイヤー1{{ endif }}</span>の報酬：
+            <span class="highlight">{{ responder_payoff }}</span>
         </p>
-        <p>プレイヤー2の報酬は：
-            <span class="highlight">{{ proposer_payoff }}</span> ECUです。
+        <p>{{ if player.type == "Player 2" }}<span class="highlight">プレイヤー2{{ else }}プレイヤー2{{ endif }}</span>の報酬：
+            <span class="highlight">{{ proposer_payoff }}</span>
         </p>
     </div>
     <button class="btn btn-primary btn-lg" type="submit">次へ</button>
