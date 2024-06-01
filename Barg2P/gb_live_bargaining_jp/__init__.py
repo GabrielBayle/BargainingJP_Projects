@@ -97,12 +97,6 @@ def creating_session(subsession: Subsession):
         for player in subsession.get_players():
             player.paid_round = session_paid_round
 
-    for player in subsession.get_players():
-        if player.role == C.PLAYER1_ROLE:
-            player.type = "Player 1"
-        else:
-            player.type = "Player 2"
-
     subsession.set_group_matrix(next(pairs))
 
     for group in subsession.get_groups():
@@ -111,6 +105,13 @@ def creating_session(subsession: Subsession):
             player.treatment = selected_treatment
             player.treatment_order = selected_order
             player.round = subsession.round_number
+
+    if subsession.round_number < 4:
+        for player in subsession.get_players():
+            if player.id_in_group == 1:
+                player.type = "Player 1"
+            else:
+                player.type = "Player 2"
 
     if subsession.round_number > 4:
         for player in subsession.get_players():
@@ -411,11 +412,11 @@ class Bargain2(Page):
 
         return {0: dict(proposals=proposals)}
 
-    @staticmethod
-    def error_message(player: Player, values):
-        group = player.group
-        if not group.is_finished:
-            return " "
+    # @staticmethod
+    # def error_message(player: Player, values):
+    #     group = player.group
+    #     if not group.is_finished:
+    #         return " TEST ERROR MESSAGE "
 
     @staticmethod
     def is_displayed(player: Player):
@@ -985,6 +986,7 @@ page_sequence = [Introduction, Instructions, UnderstandingTestPage, Understandin
                  SHDecisionPage, SHWaitForGroup, SHResultsPage,
                  UGPropositionPage, UGPropositionWaitPage, UGResponsePage, UGResponseWaitPage, UGWaitForGroup,
                  UGResultsPage,
+                 WaitForAllGroup,
 
                  FinalWaitForAll,
                  # FinalResultsPage,
