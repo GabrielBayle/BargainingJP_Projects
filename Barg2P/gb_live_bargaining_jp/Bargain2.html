@@ -196,13 +196,13 @@
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and player.round_number == 8
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and player.round_number == 6
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 7 %}
-        <p>このラウンドの不合意ステージでは、プレイヤー2が{{ C.PIE_SIZE }}ECUの分配案を提案します。</p>
-        <p>その後、プレイヤー1がその提案を受け取り、承認するか、または拒否するかを選択します。</p>
+        <p>このラウンドの不合意ステージでは、プレイヤー1が{{ C.PIE_SIZE }}ECUの分配案を提案します。</p>
+        <p>その後、プレイヤー2がその提案を受け取り、承認するか、または拒否するかを選択します。</p>
         <p></p>
         <ul>
-            <li>プレイヤー1が提案を承認した場合、{{ C.PIE_SIZE }}ECUはプレイヤー2によって提案された通りに割り当てられます。</li>
+            <li>プレイヤー2が提案を承認した場合、{{ C.PIE_SIZE }}ECUはプレイヤー1によって提案された通りに割り当てられます。</li>
             <p></p>
-            <li>プレイヤー1が提案を拒否した場合、プレイヤー1は{{ C.reject_payoff_p1 }}ECUを受け取り、プレイヤー2は{{ C.reject_payoff_p2 }}ECUを受け取ります。</li>
+            <li>プレイヤー2が提案を拒否した場合、プレイヤー1は{{ C.reject_payoff_p1 }}ECUを受け取り、プレイヤー2は{{ C.reject_payoff_p2 }}ECUを受け取ります。</li>
         </ul>
         <u>不合意ステージでは、チャットを使うことはできません。</u>
 
