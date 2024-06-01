@@ -820,7 +820,7 @@ class UGPropositionPage(Page):
     @staticmethod
     def is_displayed(player: Player):
         group = player.group
-        return (player.type == "Player 2" and \
+        return (player.type == "Player 1" and \
                 ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and (
                             player.round_number == 4 or player.round_number == 8)) or
                  (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and (
@@ -843,7 +843,7 @@ class UGPropositionWaitPage(WaitPage):
     @staticmethod
     def is_displayed(player: Player):
         group = player.group
-        return (player.type == "Player 1" and \
+        return (player.type == "Player 2" and \
                 ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and (
                             player.round_number == 4 or player.round_number == 8)) or
                  (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and (
@@ -861,7 +861,7 @@ class UGResponsePage(Page):
     @staticmethod
     def is_displayed(player: Player):
         group = player.group
-        return (player.type == "Player 1" and \
+        return (player.type == "Player 2" and \
                 ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and (
                             player.round_number == 4 or player.round_number == 8)) or
                  (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and (
@@ -874,7 +874,7 @@ class UGResponsePage(Page):
     @staticmethod
     def vars_for_template(player: Player):
         group = player.group
-        proposer = group.get_player_by_id(2)
+        proposer = group.get_player_by_id(1)
         return {
             'proposed_amount': proposer.UG_proposer_decision,
             'reject_payoff_p1': C.reject_payoff_p1,
@@ -886,7 +886,7 @@ class UGResponseWaitPage(WaitPage):
     @staticmethod
     def is_displayed(player: Player):
         group = player.group
-        return (player.type == "Player 2" and \
+        return (player.type == "Player 1" and \
                 ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and (
                             player.round_number == 4 or player.round_number == 8)) or
                  (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and (
@@ -920,9 +920,9 @@ class UGWaitForGroup(WaitPage):
         player1 = group.get_player_by_id(1)
         player2 = group.get_player_by_id(2)
 
-        if player1.UG_responder_decision:
-            player1.payoff = player2.UG_proposer_decision
-            player2.payoff = C.PIE_SIZE - player2.UG_proposer_decision
+        if player2.UG_responder_decision:
+            player2.payoff = player1.UG_proposer_decision
+            player1.payoff = C.PIE_SIZE - player1.UG_proposer_decision
         else:
             player1.payoff = C.DISAGREEMENT_PAYOFF_P1
             player2.payoff = C.DISAGREEMENT_PAYOFF_P2
@@ -967,8 +967,8 @@ class UGResultsPage(Page):
     @staticmethod
     def vars_for_template(player: Player):
         group = player.group
-        proposer = group.get_player_by_id(2)
-        responder = group.get_player_by_id(1)
+        proposer = group.get_player_by_id(1)
+        responder = group.get_player_by_id(2)
 
         return {
             'proposer_offer': proposer.UG_proposer_decision,

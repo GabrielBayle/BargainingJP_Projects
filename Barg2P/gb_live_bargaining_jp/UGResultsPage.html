@@ -36,10 +36,10 @@
             <span class="highlight">{{ responder_decision }}</span>
         </p>
         <p>{{ if player.type == "Player 1" }}<span class="highlight">プレイヤー1{{ else }}プレイヤー1{{ endif }}</span>の報酬：
-            <span class="highlight">{{ responder_payoff }}</span>
+            <span class="highlight">{{ proposer_payoff }}</span>
         </p>
         <p>{{ if player.type == "Player 2" }}<span class="highlight">プレイヤー2{{ else }}プレイヤー2{{ endif }}</span>の報酬：
-            <span class="highlight">{{ proposer_payoff }}</span>
+            <span class="highlight">{{ responder_payoff }}</span>
         </p>
     </div>
     <button class="btn btn-primary btn-lg" type="submit">次へ</button>

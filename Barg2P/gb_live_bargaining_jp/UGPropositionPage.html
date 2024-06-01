@@ -99,14 +99,14 @@
     <div class="left-block">
         <div class="section">
             <p>
-                あなたは、<span class="highlight">{{ if player.type == "Player 1" }}プレイヤー1</span>です。{{ else }}プレイヤー2</span>です。{{endif}}
+                あなたは、<span class="highlight">プレイヤー1</span>です。
                 {{ C.PIE_SIZE }}ECUのうち、相手に分配する額を入力し、提案してください。
             </p>
             <p></p>
             <ul>
-                <li>プレイヤー1が提案を承認した場合、{{ C.PIE_SIZE }}ECUはプレイヤー2によって提案された通りに分配されます。</li>
+                <li>プレイヤー2が提案を承認した場合、{{ C.PIE_SIZE }}ECUはプレイヤー1によって提案された通りに分配されます。</li>
                 <p></p>
-                <li>プレイヤー1が提案を拒否した場合、プレイヤー1は{{ C.reject_payoff_p1 }}ECUを受け取り、プレイヤー2は{{ C.reject_payoff_p2 }}ECUを受け取ります。</li>
+                <li>プレイヤー2が提案を拒否した場合、プレイヤー1は{{ C.reject_payoff_p1 }}ECUを受け取り、プレイヤー2は{{ C.reject_payoff_p2 }}ECUを受け取ります。</li>
             </ul>
         </div>
     </div>
