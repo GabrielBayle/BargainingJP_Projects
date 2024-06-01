@@ -102,10 +102,8 @@
                 あなたは、<span class="highlight">{{ if player.type == "Player 1" }}プレイヤー1</span>です。{{ else }}プレイヤー2</span>です。{{endif}}
                 プレイヤー2が{{ C.PIE_SIZE }}ECUの分配額を提案しました。この提案を承認するか、または拒否するかを選択してください。
             </p>
-            <p></p>
             <ul>
                 <li>プレイヤー1が提案を承認した場合、{{ C.PIE_SIZE }}ECUはプレイヤー2によって提案された通りに分配されます。</li>
-                <p></p>
                 <li>プレイヤー1が提案を拒否した場合、プレイヤー1は{{ C.reject_payoff_p1 }}ECUを受け取り、プレイヤー2は{{ C.reject_payoff_p2 }}ECUを受け取ります。</li>
             </ul>
         </div>
@@ -128,7 +126,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2"><button type="submit" class="btn btn-primary">送信</button></td>
+                        <td colspan="2"><button type="submit" class="btn btn-primary" id="submit-btn" style="display: none;">送信</button></td>
                     </tr>
                 </table>
             </div>
@@ -136,4 +134,19 @@
     </div>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const submitButton = document.getElementById('submit-btn');
+        const options = document.querySelectorAll('[name="UG_responder_decision"]');
+
+        function updateButtonVisibility() {
+            const isAnyOptionChecked = Array.from(options).some(radio => radio.checked);
+            submitButton.style.display = isAnyOptionChecked ? 'block' : 'none';
+        }
+
+        options.forEach(option => {
+            option.addEventListener('change', updateButtonVisibility);
+        });
+    });
+</script>
 {% endblock %}
