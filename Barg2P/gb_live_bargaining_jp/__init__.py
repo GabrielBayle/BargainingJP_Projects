@@ -106,7 +106,7 @@ def creating_session(subsession: Subsession):
             player.treatment_order = selected_order
             player.round = subsession.round_number
 
-    if subsession.round_number < 4:
+    if subsession.round_number <= 4:
         for player in subsession.get_players():
             if player.id_in_group == 1:
                 player.type = "Player 1"
