@@ -115,32 +115,31 @@
         </table>
     </div>
 
-<button class="btn btn-primary btn-lg" type="submit">次へ</button>
+<button class="btn btn-primary btn-lg" type="submit" id="next-btn" style="display:none;">次へ</button>
+
 
 <input type="hidden" name="SH_decision" id="SH_decision" value="">
 
 {{ block scripts }}
 <script>
-    const btn_next = document.querySelector(".otree-btn-next");
+    const btnNext = document.getElementById('next-btn');  // Corrected to get the button by its ID
     const tdec = document.querySelector("table tbody");
 
     function set_decision(decision) {
-        document.querySelector("input[name=SH_decision]").value = decision;
+        document.getElementById("SH_decision").value = decision;  // Set decision value in hidden input
         let rows = tdec.rows;
         for (let i = 0; i < rows.length; i++) {
-            if ((decision && i === 0) || (!decision && i === 1)) {
-                rows[i].classList.add("bg-info");
-            } else {
-                rows[i].classList.remove("bg-info");
-            }
+            rows[i].classList.remove("bg-info");  // Remove highlight from all rows first
         }
-        btn_next.disabled = false;
+        rows[decision ? 0 : 1].classList.add("bg-info");  // Add highlight to the selected row based on decision
+        btnNext.style.display = 'block';  // Show the "Next" button
     }
 
     window.onload = function () {
-        btn_next.disabled = true;
+        btnNext.style.display = 'none';  // Ensure button is hidden when the page loads
     }
 </script>
+
 {{ endblock }}
 
 {{ endblock }}
