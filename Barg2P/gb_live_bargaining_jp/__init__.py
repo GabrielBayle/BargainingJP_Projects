@@ -819,7 +819,6 @@ class UGPropositionPage(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        group = player.group
         return (player.type == "Player 1" and \
                 ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and (
                             player.round_number == 4 or player.round_number == 8)) or
@@ -833,7 +832,6 @@ class UGPropositionPage(Page):
     @staticmethod
     def vars_for_template(player: Player):
         return {
-            'player_id': player.id_in_group,
             'reject_payoff_p1': C.reject_payoff_p1,
             'reject_payoff_p2': C.reject_payoff_p2,
         }
@@ -842,7 +840,6 @@ class UGPropositionPage(Page):
 class UGPropositionWaitPage(WaitPage):
     @staticmethod
     def is_displayed(player: Player):
-        group = player.group
         return (player.type == "Player 2" and \
                 ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and (
                             player.round_number == 4 or player.round_number == 8)) or
@@ -860,7 +857,6 @@ class UGResponsePage(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        group = player.group
         return (player.type == "Player 2" and \
                 ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and (
                             player.round_number == 4 or player.round_number == 8)) or
@@ -885,7 +881,6 @@ class UGResponsePage(Page):
 class UGResponseWaitPage(WaitPage):
     @staticmethod
     def is_displayed(player: Player):
-        group = player.group
         return (player.type == "Player 1" and \
                 ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and (
                             player.round_number == 4 or player.round_number == 8)) or
@@ -900,7 +895,6 @@ class UGResponseWaitPage(WaitPage):
 class UGWaitForGroup(WaitPage):
     @staticmethod
     def is_displayed(player: Player):
-        group = player.group
         return ((player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 1 and (
                     player.round_number == 4 or player.round_number == 8)) or
                 (player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 2 and (
