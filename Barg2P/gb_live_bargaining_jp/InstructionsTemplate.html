@@ -206,12 +206,12 @@
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 7 %}
         <div class="sectionbis">
             <div class="section-header"></div>
-            <p>このラウンドの不合意ステージでは、プレイヤー2が{{ C.PIE_SIZE }}ECUの分配額を提案します。</p>
-            <p>その後、プレイヤー1がその提案を受け取り、承認するか、または拒否するかを選択します。</p>
+            <p>このラウンドの不合意ステージでは、プレイヤー1が{{ C.PIE_SIZE }}ECUの分配額を提案します。</p>
+            <p>その後、プレイヤー2がその提案を受け取り、承認するか、または拒否するかを選択します。</p>
             <p></p>
             <ul>
-                <li>プレイヤー1が提案を承認した場合、{{ C.PIE_SIZE }}ECUはプレイヤー2によって提案された通りに分配されます。</li>
-                <li>プレイヤー1が提案を拒否した場合、プレイヤー1は{{ C.reject_payoff_p1 }}ECUを受け取り、プレイヤー2は{{ C.reject_payoff_p2 }}ECUを受け取ります。</li>
+                <li>プレイヤー2が提案を承認した場合、{{ C.PIE_SIZE }}ECUはプレイヤー1によって提案された通りに分配されます。</li>
+                <li>プレイヤー2が提案を拒否した場合、プレイヤー1は{{ C.reject_payoff_p1 }}ECUを受け取り、プレイヤー2は{{ C.reject_payoff_p2 }}ECUを受け取ります。</li>
             </ul>
             不合意ステージでは、チャットを使うことはできません。
         </div>
@@ -240,7 +240,7 @@
         or player.session.config.get('treatment') == C.TEST and player.session.config.get('order') == 3 and player.round_number == 7 }}
     <div class="sectionbis">
         <p><u>このラウンドの交渉では</u>、あなたの目標は、1000ECUを二人でどのように分けるかについて、相手と合意に達することです。
-            これは、不合意ステージにおいて、プレイヤー2のいかなる提案もプレイヤー1が承認すると、合計が1000ECUになるからです。
+            これは、不合意ステージにおいて、プレイヤー1のいかなる提案もプレイヤー2が承認すると、合計が1000ECUになるからです。
             この1000ECUの分け方について相手と交渉します。
 
             交渉においては、<u>チャットを利用しても構いません。</u>
