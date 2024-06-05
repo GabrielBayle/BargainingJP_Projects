@@ -836,6 +836,10 @@ class UGPropositionPage(Page):
             'reject_payoff_p2': C.reject_payoff_p2,
         }
 
+    def before_next_page(player, timeout_happened):
+        if timeout_happened:
+            player.UG_proposer_decision = 0
+
 
 class UGPropositionWaitPage(WaitPage):
     @staticmethod
