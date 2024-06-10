@@ -33,11 +33,11 @@ class C(BaseConstants):
     NUM_ROUNDS = 8
     CONVERSION_RATE = 1
     PIE_SIZE = 1000
-    BARGAINING_TIME = 3000
+    BARGAINING_TIME = 300
     DISAGREEMENT_PAYOFF_P1 = 100
     DISAGREEMENT_PAYOFF_P2 = 400
     timer = BARGAINING_TIME / 60
-    timer_result = 2000
+    timer_result = 20
 
     # Treatments
     BG = "bargain"
