@@ -29,15 +29,15 @@ class Player(BasePlayer):
 def compute_final_payoff(player: Player):
     paid_round = player.participant.vars['bargain_paid_round']
     nle_paid_round = player.participant.vars["gb_targetNLE"]["nle_paid_round"]
-    svo_paid_table = player.participant.vars["gb_svo"]["svo_paid_table"]
-    svo_decider = player.participant.vars["gb_svo"]["svo_decider"]
+    # svo_paid_table = player.participant.vars["gb_svo"]["svo_paid_table"]
+    # svo_decider = player.participant.vars["gb_svo"]["svo_decider"]
     part1 = player.participant.vars["bargain_payoff"]
     part2 = player.participant.vars["gb_targetNLE"]["payoff"]
-    part3 = player.participant.vars["gb_svo"]["payoff"]
+    # part3 = player.participant.vars["gb_svo"]["payoff"]
 
     player.payoff = player.participant.vars["bargain_payoff"]
     player.payoff += player.participant.vars["gb_targetNLE"]["payoff"]
-    player.payoff += player.participant.vars["gb_svo"]["payoff"]
+    # player.payoff += player.participant.vars["gb_svo"]["payoff"]
 
     participation_fee = player.session.config.get('participation_fee', 0)
     player.payoff += participation_fee
@@ -46,11 +46,11 @@ def compute_final_payoff(player: Player):
 
     player.participant.vars["paid_round"] = paid_round
     player.participant.vars["nle_paid_round"] = nle_paid_round
-    player.participant.vars["svo_paid_table"] = svo_paid_table
-    player.participant.vars["svo_decider"] = svo_decider
+    # player.participant.vars["svo_paid_table"] = svo_paid_table
+    # player.participant.vars["svo_decider"] = svo_decider
     player.participant.vars["part1"] = part1
     player.participant.vars["part2"] = part2
-    player.participant.vars["part3"] = part3
+    # player.participant.vars["part3"] = part3
     player.participant.vars["participation_fee"] = participation_fee
 
 
